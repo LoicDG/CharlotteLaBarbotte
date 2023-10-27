@@ -7,7 +7,7 @@ import java.util.HashMap;
 public class Input {
     private static HashMap<KeyCode, Boolean> touches = new HashMap<>();
 
-    public static boolean isPressed(KeyCode code, boolean isPressed) {
+    public static boolean isPressed(KeyCode code) {
         return touches.getOrDefault(code, false);
     }
 

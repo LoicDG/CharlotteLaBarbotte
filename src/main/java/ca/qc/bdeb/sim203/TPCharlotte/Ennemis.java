@@ -6,6 +6,8 @@ import javafx.scene.image.Image;
 import java.util.ArrayList;
 import java.util.Random;
 
+
+//Pas sûr de ce que t'essaie de faire ici, tu me textera pis on essaiera de figure out
 public class Ennemis {
 
 
