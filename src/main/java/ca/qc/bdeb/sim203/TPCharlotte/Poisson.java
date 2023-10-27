@@ -17,6 +17,10 @@ public class Poisson {
         poisson.setImage(imagePoisson);
     }
 
+    protected Image getImagePoisson() {
+        return imagePoisson;
+    }
+
     public void update(double deltaTime) {
         updatePhysique(deltaTime);
         boolean left = Input.isPressed(KeyCode.LEFT);
