@@ -1,5 +1,6 @@
 package ca.qc.bdeb.sim203.TPCharlotte;
 
+import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -131,8 +132,30 @@ public class Main extends Application {
         scene.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ESCAPE) {
                 stage.setScene(originale);
+            } else {
+                Input.setKeyPressed(event.getCode(), true);
             }
         });
+        scene.setOnKeyReleased(event -> {
+            Input.setKeyPressed(event.getCode(), false);
+        });
+        AnimationTimer timer = new AnimationTimer() {
+            private long lastTime = System.nanoTime();
+
+            @Override
+            public void handle(long now) {
+                if (lastTime == 0) {
+                    lastTime = now;
+                    return;
+                }
+                double deltaTime = (now - lastTime) * 1e-9;
+                context.clearRect(0, 0, WIDTH, HEIGHT);
+                charlotte.update(deltaTime);
+                charlotte.draw(context);
+                lastTime = now;
+            }
+        };
+        timer.start();
         return scene;
 
     }
