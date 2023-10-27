@@ -6,8 +6,6 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.HBox;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
@@ -25,7 +23,7 @@ public class Main extends Application {
     }
 
     @Override
-    public void start(Stage stage) throws Exception {
+    public void start(Stage stage) {
         stage.setTitle("Charlotte la Barbotte");
         stage.getIcons().add(new Image("code/charlotte.png"));
         stage.setResizable(false);  //Pourquoi setResizable false?
@@ -90,19 +88,17 @@ public class Main extends Application {
         collabos.setAlignment(Pos.CENTER);
 
         //Description du travail
-        var sources = new Text("Travail remis à Nicolas Hurtubise et Georges Côté. Graphismes adaptés de " +
-                "https://game-icons.net/ et de\n" +
-                "https://openclipart.org/. Développé dans le cadre du cours 420-203-RE - Développement de programmes \n" +
-                "dans un environnement graphique, au Collège de Bois-de-Boulogne.");
+        var sources = new Text("""
+                Travail remis à Nicolas Hurtubise et Georges Côté. Graphismes adaptés de https://game-icons.net/ et de
+                https://openclipart.org/. Développé dans le cadre du cours 420-203-RE - Développement de programmes\s
+                dans un environnement graphique, au Collège de Bois-de-Boulogne.""");
 
         var boutonRetour = new Button("Retour");
         root.getChildren().addAll(titre, imageEnnemi, collabos, sources, boutonRetour);
         root.setAlignment(Pos.CENTER);
         root.setSpacing(10);
         //region Événementiel
-        boutonRetour.setOnAction(event -> {
-            stage.setScene(originale);
-        });
+        boutonRetour.setOnAction(event -> stage.setScene(originale));
         scene.setOnKeyPressed(event -> {
             if(event.getCode() == KeyCode.ESCAPE){
                 stage.setScene(originale);
