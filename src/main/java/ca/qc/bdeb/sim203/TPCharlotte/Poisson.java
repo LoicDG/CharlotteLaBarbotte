@@ -26,22 +26,11 @@ public class Poisson {
         updatePhysique(deltaTime);
     }
 
-    private void updatePhysique(double deltaTime) {
+    protected void updatePhysique(double deltaTime) {
         x += deltaTime * vx;
         y += deltaTime * vy;
         vx += deltaTime * ax;
         vy += deltaTime * ay;
-        if (vx >= 300) {
-            vx = 300;
-        } else if (vx <= -300) {
-            vx = -300;
-        }
-        if (vy <= -300) {
-            vy = -300;
-        } else if (vy >= 300) {
-            vy = 300;
-        }
-
     }
 
     public void draw(GraphicsContext context) {

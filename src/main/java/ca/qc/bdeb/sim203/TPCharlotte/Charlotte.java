@@ -27,4 +27,19 @@ public class Charlotte extends Poisson {
             ax = -100;
         }
     }
+
+    @Override
+    protected void updatePhysique(double deltaTime) {
+        super.updatePhysique(deltaTime);
+        if (vx >= 300) {
+            vx = 300;
+        } else if (vx <= -300) {
+            vx = -300;
+        }
+        if (vy <= -300) {
+            vy = -300;
+        } else if (vy >= 300) {
+            vy = 300;
+        }
+    }
 }
