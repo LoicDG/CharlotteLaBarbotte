@@ -17,6 +17,7 @@ public class Hippocampes extends Projectiles{
     @Override
     protected void updatePhysique(double deltaTime) {
         posX += deltaTime * vitesseX;
+        posY = amplitudeSinus*Math.sin((2*Math.PI));//how tf esk jvais faire t??? La formule est pas finie btw
 
     }
 }

@@ -22,9 +22,7 @@ public class Charlotte extends Poisson {
     public void update(double deltaTime) {
         super.update(deltaTime);
 
-        // Check if the space bar is pressed
         boolean espaceEstAppuyeMaintenant = Input.isPressed(KeyCode.SPACE);
-
         boolean left = Input.isPressed(KeyCode.LEFT);
         boolean right = Input.isPressed(KeyCode.RIGHT);
         boolean up = Input.isPressed(KeyCode.UP);
@@ -53,9 +51,11 @@ public class Charlotte extends Poisson {
     @Override
     public void draw(GraphicsContext context) {
         super.draw(context);
+
         for (Projectiles projectile : projectilesTires) {
             projectile.dessiner(context);
         }
+
     }
 
     @Override
@@ -71,11 +71,8 @@ public class Charlotte extends Poisson {
         } else if (vy >= 300) {
             vy = 300;
         }
-        // Update the position of all active projectiles
+
         for (Projectiles projectile : projectilesTires) {
-            if (projectile.estSortiEcran()){
-                projectilesTires.remove(projectile);
-            }
             projectile.updatePhysique(deltaTime);
         }
 
