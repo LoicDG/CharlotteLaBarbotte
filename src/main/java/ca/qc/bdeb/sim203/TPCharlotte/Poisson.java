@@ -8,8 +8,8 @@ import javafx.scene.input.KeyCode;
 public class Poisson {
     private Image imagePoisson;
     private ImageView poisson = new ImageView();
-    private double vx, vy, ax, ay;
-    private double x, y;
+    protected double vx, vy, ax, ay;
+    protected double x, y;
 
     public Poisson(Image imagePoisson, double x, double y) {
         this.imagePoisson = imagePoisson;
@@ -24,21 +24,6 @@ public class Poisson {
 
     public void update(double deltaTime) {
         updatePhysique(deltaTime);
-        boolean left = Input.isPressed(KeyCode.LEFT);
-        boolean right = Input.isPressed(KeyCode.RIGHT);
-        boolean up = Input.isPressed(KeyCode.UP);
-        boolean down = Input.isPressed(KeyCode.DOWN);
-        if (left) {
-            ax = -1000;
-        } else if (right) {
-            ax = 1000;
-        } else if (up) {
-            ay = -1000;
-        } else if (down) {
-            ay = 1000;
-        } else if (!left && !right) {
-            ax = -100;
-        }
     }
 
     private void updatePhysique(double deltaTime) {
