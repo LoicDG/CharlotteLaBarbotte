@@ -1,14 +1,14 @@
-package ca.qc.bdeb.sim203.TPCharlotte;
+package ca.qc.bdeb.sim203.TPCharlotte.Projectiles;
 
+import ca.qc.bdeb.sim203.TPCharlotte.Main;
+import ca.qc.bdeb.sim203.TPCharlotte.Poissons.Ennemis;
 import javafx.scene.image.Image;
 
 import java.util.ArrayList;
 
 public class BoiteDeSardine extends Projectiles{
-    private final static double LARGEUR_ECRAN = 900;
-    private final static double HAUTEUR_ECRAN = 590;
     private final static double K = 1000;
-    ArrayList<Ennemis> listeEnnemis = new ArrayList<>();
+    ArrayList<Ennemis> listeEnnemis;
     double forceEnX;//acceleration en y
     double forceEnY;//acceleration en x
     public BoiteDeSardine(double posX, double posY, ArrayList<Ennemis> listeEnnemis) {
@@ -22,16 +22,16 @@ public class BoiteDeSardine extends Projectiles{
     }
 
     @Override
-    protected void updatePhysique(double deltaTime) {
+    public void updatePhysique(double deltaTime) {
         forceEnX = 0;
         forceEnY = 0;
         for (Ennemis ennemi : listeEnnemis){
-           double distance = Math.sqrt(Math.pow(posX-ennemi.x,2)+Math.pow(posY-ennemi.y,2));
+            double distance = Math.sqrt(Math.pow(posX - ennemi.getX(), 2) + Math.pow(posY - ennemi.getY(), 2));
             if (distance < 0.01){
                 distance = 0.01;
             }
-            double deltaX = posX-ennemi.x;
-            double deltaY = posY-ennemi.y;
+            double deltaX = posX - ennemi.getX();
+            double deltaY = posY - ennemi.getY();
             double proportionX = deltaX/distance;
             double proportionY = deltaY/distance;
             double forceElectrique = (K*-100*200)/Math.pow(distance,2);
@@ -57,16 +57,16 @@ public class BoiteDeSardine extends Projectiles{
         validerLimite(deltaTime);
     }
     protected void validerLimite(double deltaTime) {
-        if (vitesseX > 0 && posX + largeur >= LARGEUR_ECRAN) {
-            posX = LARGEUR_ECRAN - largeur;
+        if (vitesseX > 0 && posX + largeur >= Main.WIDTH) {
+            posX = Main.WIDTH - largeur;
             vitesseX *= -1;
         } else if (vitesseX < 0 && posX <= 0) {
             posX = 0;
             vitesseX *= -1;
         }
 
-        if (vitesseY > 0 && posY + hauteur >= HAUTEUR_ECRAN) {
-            posY = HAUTEUR_ECRAN - hauteur;
+        if (vitesseY > 0 && posY + hauteur >= Main.HEIGHT) {
+            posY = Main.WIDTH - hauteur;
             vitesseY *= -1;
         } else if (vitesseY < 0 && posY <= 0) {
             posY = 0;

@@ -1,4 +1,4 @@
-package ca.qc.bdeb.sim203.TPCharlotte;
+package ca.qc.bdeb.sim203.TPCharlotte.Poissons;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -20,13 +20,16 @@ public class Ennemis extends Poisson {
         hitboxEnnemi.setImage(imagePoisson);
         hitboxEnnemi.setPreserveRatio(true);
         hitboxEnnemi.setFitHeight(random.nextDouble(50, 121));
-        vx = -(100 * Math.pow(Niveau.getNbNiveau(), 0.33) + 200);
         ax = -500;
         ay = random.nextDouble(-100, 101);
     }
 
     public ImageView getImageEnnemi() {
         return hitboxEnnemi;
+    }
+
+    public void setVx(double vx) {
+        this.vx = vx;
     }
 
     public static void creerImageEnnemis() {
@@ -41,13 +44,5 @@ public class Ennemis extends Poisson {
         Random r = new Random();
         int randomIndex = r.nextInt(poissonsEnnemis.size());
         return poissonsEnnemis.get(randomIndex);
-    }
-
-    @Override
-    public void draw(GraphicsContext context) {
-        if (x + imagePoisson.getWidth() > 0) {
-            context.drawImage(imagePoisson, x, y);
-        }
-
     }
 }

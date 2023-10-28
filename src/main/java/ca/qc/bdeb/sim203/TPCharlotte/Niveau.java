@@ -1,5 +1,6 @@
 package ca.qc.bdeb.sim203.TPCharlotte;
 
+import ca.qc.bdeb.sim203.TPCharlotte.Poissons.Ennemis;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -11,21 +12,24 @@ import java.util.Random;
 public class Niveau {
     private Background bg;
     private static int nbNiveau = 0;
+    private int numNiveau;
     private static ArrayList<Image> images = new ArrayList<>();
     private ArrayList<Ennemis> poissons = new ArrayList<>();
     private double tempsCreationNiveau;
     private double tempsExec;
+    private boolean isOver = false;
 
     public Niveau() {
         var rnd = new Random();
         bg = new Background(new BackgroundFill(Color.hsb(rnd.nextDouble(190, 271), 0.84,
                 1.0), null, null));
         nbNiveau++;
+        numNiveau = nbNiveau;
         tempsCreationNiveau = System.currentTimeMillis();
     }
 
-    public static int getNbNiveau() {
-        return nbNiveau;
+    public int getNumNiveau() {
+        return numNiveau;
     }
 
     public static void creerImages() {
@@ -56,6 +60,7 @@ public class Niveau {
         int nbPoissons = random.nextInt(1, 6);
         for (int i = 0; i < nbPoissons; i++) {
             poissons.add(new Ennemis(Main.WIDTH, random.nextDouble(Main.HEIGHT * 0.2, Main.HEIGHT * 0.81)));
+            poissons.get(i).setVx(-(100 * Math.pow(numNiveau, 0.33) + 200));
         }
     }
 
@@ -66,5 +71,9 @@ public class Niveau {
                 i--;
             }
         }
+    }
+
+    public boolean isOver() {
+        return isOver;
     }
 }

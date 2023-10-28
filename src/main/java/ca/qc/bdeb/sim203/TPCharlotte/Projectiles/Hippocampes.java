@@ -1,4 +1,4 @@
-package ca.qc.bdeb.sim203.TPCharlotte;
+package ca.qc.bdeb.sim203.TPCharlotte.Projectiles;
 
 import javafx.scene.image.Image;
 
@@ -28,7 +28,7 @@ public class Hippocampes extends Projectiles{
     }
 
     @Override
-    protected void updatePhysique(double deltaTime) {
+    public void updatePhysique(double deltaTime) {
         posX += deltaTime * vitesseX;
         double t = System.currentTimeMillis()-tempsDeLaCreation;
         posY = amplitudeSinus*Math.sin((2*Math.PI*t)/periode)+posYinitial;

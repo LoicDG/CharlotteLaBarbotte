@@ -1,5 +1,7 @@
 package ca.qc.bdeb.sim203.TPCharlotte;
 
+import ca.qc.bdeb.sim203.TPCharlotte.Poissons.Charlotte;
+import ca.qc.bdeb.sim203.TPCharlotte.Poissons.Ennemis;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -76,11 +78,9 @@ public class Main extends Application {
                 charlotte.update(deltaTime);
                 charlotte.draw(context);
                 double tempsPassee = (System.currentTimeMillis() - niveau.getTempsCreationNiveau()) / 1000;
-                if (tempsPassee % (0.75 + 1 * Math.sqrt(Niveau.getNbNiveau())) <= 0.02 &&
+                if (tempsPassee % (0.75 + 1 * Math.sqrt(niveau.getNumNiveau())) <= 0.02 &&
                         (System.currentTimeMillis() - niveau.getTempsExec()) / 1000 > 0.5) {
                     niveau.spawnEnnemis();
-                    System.out.println("yes");
-                    System.out.println(tempsPassee);
                 }
                 if (!niveau.getPoissons().isEmpty()) {
                     for (int i = 0; i < niveau.getPoissons().size(); i++) {
@@ -170,11 +170,14 @@ public class Main extends Application {
             if (event.getCode() == KeyCode.ESCAPE) {
                 timer.stop();
                 stage.setScene(originale);
+            } else if (event.getCode() == KeyCode.D && Input.isPressed(KeyCode.D)) {
+                Input.setKeyPressed(KeyCode.D, false);
             } else {
                 Input.setKeyPressed(event.getCode(), true);
             }
         });
         scene.setOnKeyReleased(event -> {
+            if (event.getCode() == KeyCode.D) return;
             Input.setKeyPressed(event.getCode(), false);
         });
         return scene;

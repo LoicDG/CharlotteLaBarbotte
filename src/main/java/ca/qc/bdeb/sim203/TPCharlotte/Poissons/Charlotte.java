@@ -1,8 +1,13 @@
-package ca.qc.bdeb.sim203.TPCharlotte;
+package ca.qc.bdeb.sim203.TPCharlotte.Poissons;
 
+import ca.qc.bdeb.sim203.TPCharlotte.*;
+import ca.qc.bdeb.sim203.TPCharlotte.Projectiles.EtoileDeMer;
+import ca.qc.bdeb.sim203.TPCharlotte.Projectiles.Hippocampes;
+import ca.qc.bdeb.sim203.TPCharlotte.Projectiles.Projectiles;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
+import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +31,14 @@ public class Charlotte extends Poisson {
 
     }
 
+    public void setX(double newX) {
+        x = newX;
+    }
+
+    public void setY(double newY) {
+        y = newY;
+    }
+
     @Override
     public void update(double deltaTime) {
         super.update(deltaTime);
@@ -39,7 +52,7 @@ public class Charlotte extends Poisson {
         double deceleration = -500;
 
         // Adjust velocity based on input
-        if (left) { //TODO: Extract method because code is copié collé and copié collé is nono
+        if (left) { //TODO: Extract multiple method because code is copié collé and copié collé is nono. also a LOT of code, not rly readable
             ax = -1000;
         } else if (right) {
             ax = 1000;
@@ -112,8 +125,13 @@ public class Charlotte extends Poisson {
     public void draw(GraphicsContext context) {
         super.draw(context);
 
-        for (Projectiles projectile : projectilesTires) {
-            projectile.dessiner(context);
+        for (var projectile : projectilesTires) {
+            projectile.draw(context);
+            if (Input.isPressed(KeyCode.D)) {
+                context.setStroke(Color.WHITE);
+                context.strokeRect(projectile.getPosX(), projectile.getPosY(),
+                        projectile.getImageProjectile().getWidth(), projectile.getImageProjectile().getHeight());
+            }
         }
 
     }

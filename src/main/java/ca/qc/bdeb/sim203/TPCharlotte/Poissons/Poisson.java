@@ -1,8 +1,11 @@
-package ca.qc.bdeb.sim203.TPCharlotte;
+package ca.qc.bdeb.sim203.TPCharlotte.Poissons;
 
+import ca.qc.bdeb.sim203.TPCharlotte.Input;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.paint.Color;
 
 public class Poisson {
     protected Image imagePoisson;
@@ -22,12 +25,16 @@ public class Poisson {
         this.y = y;
     }
 
-    protected Image getImagePoisson() {
+    public Image getImagePoisson() {
         return imagePoisson;
     }
 
     public double getX() {
         return x;
+    }
+
+    public double getY() {
+        return y;
     }
 
     public void update(double deltaTime) {
@@ -44,19 +51,9 @@ public class Poisson {
 
     public void draw(GraphicsContext context) {
         context.drawImage(imagePoisson, x, y);
-        if (x < 0) {
-            context.clearRect(x, y, imagePoisson.getWidth(), imagePoisson.getHeight());
-            context.drawImage(imagePoisson, 0, y);
-        } else if (x + imagePoisson.getWidth() > Main.WIDTH) {
-            context.clearRect(x, y, imagePoisson.getWidth(), imagePoisson.getHeight());
-            context.drawImage(imagePoisson, Main.WIDTH - imagePoisson.getWidth(), y);
-        }
-        if (y < 0) {
-            context.clearRect(x, y, imagePoisson.getWidth(), imagePoisson.getHeight());
-            context.drawImage(imagePoisson, x, 0);
-        } else if (y + +imagePoisson.getHeight() > Main.HEIGHT) {
-            context.clearRect(x, y, imagePoisson.getWidth(), imagePoisson.getHeight());
-            context.drawImage(imagePoisson, x, Main.HEIGHT - imagePoisson.getHeight());
+        if (Input.isPressed(KeyCode.D)) {
+            context.setStroke(Color.WHITE);
+            context.strokeRect(x, y, imagePoisson.getWidth(), imagePoisson.getHeight());
         }
     }
 }
