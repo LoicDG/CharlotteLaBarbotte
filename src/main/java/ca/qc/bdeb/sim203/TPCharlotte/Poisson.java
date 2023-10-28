@@ -26,6 +26,10 @@ public class Poisson {
         return imagePoisson;
     }
 
+    public double getX() {
+        return x;
+    }
+
     public void update(double deltaTime) {
         updatePhysique(deltaTime);
 
