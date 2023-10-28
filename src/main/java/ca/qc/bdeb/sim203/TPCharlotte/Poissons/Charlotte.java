@@ -38,7 +38,6 @@ public class Charlotte extends Poisson {
     @Override
     public void update(double deltaTime) {
         super.update(deltaTime);
-        boolean espaceEstAppuyeMaintenant = Input.isPressed(KeyCode.SPACE);
 
         if (Input.isPressed(KeyCode.D)) {
             if (Input.isPressed(KeyCode.Q)) {
@@ -50,14 +49,13 @@ public class Charlotte extends Poisson {
 
         long tempsMaintenant = System.currentTimeMillis();
         if (Input.isPressed(KeyCode.SPACE) && tempsMaintenant - tempsDuDernierTir >= FREQUENCE_TIRS) {
-            Projectiles newProjectile;
-            switch (choixProjectile){
+            switch (choixProjectile) {
                 case 1 -> {
-                    newProjectile = new EtoileDeMer(x,y);projectilesTires.add(newProjectile);
+                    projectilesTires.add(new EtoileDeMer(x, y));
                 }
                 case 2 -> {
-                    for (int i = 0; i < 3; i++){
-                        newProjectile = new Hippocampes(x,y);projectilesTires.add(newProjectile);
+                    for (int i = 0; i < 3; i++) {
+                        projectilesTires.add(new Hippocampes(x, y));
                     }
                 }
             }
@@ -85,10 +83,10 @@ public class Charlotte extends Poisson {
         boolean up = Input.isPressed(KeyCode.UP);
         boolean down = Input.isPressed(KeyCode.DOWN);
         // Adjust velocity based on input
-        ax = adjustAcceleration(ax, vx, right, left);
+        ax = adjustAcceleration(vx, right, left);
         vx = adjustSpeed(vx);
 
-        ay = adjustAcceleration(ay, vy, down, up);
+        ay = adjustAcceleration(vy, down, up);
         vy = adjustSpeed(vy);
 
         // Update Charlotte's position
@@ -115,8 +113,9 @@ public class Charlotte extends Poisson {
         return v;
     }
 
-    private double adjustAcceleration(double a, double v, boolean plus, boolean moins) {
+    private double adjustAcceleration(double v, boolean plus, boolean moins) {
         double deceleration = -500;
+        double a;
         if (moins) {
             a = -1000;
         } else if (plus) {
