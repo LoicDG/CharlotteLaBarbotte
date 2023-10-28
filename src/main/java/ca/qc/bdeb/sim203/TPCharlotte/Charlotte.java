@@ -4,13 +4,8 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 
-
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.sun.java.accessibility.util.AWTEventMonitor.addKeyListener;
 
 public class Charlotte extends Poisson {
     //Appuyer sur la touche P permet de changer les projectiles
@@ -35,36 +30,56 @@ public class Charlotte extends Poisson {
     public void update(double deltaTime) {
         super.update(deltaTime);
 
-        boolean espaceEstAppuyeMaintenant = Input.isPressed(KeyCode.SPACE);
         boolean left = Input.isPressed(KeyCode.LEFT);
         boolean right = Input.isPressed(KeyCode.RIGHT);
         boolean up = Input.isPressed(KeyCode.UP);
         boolean down = Input.isPressed(KeyCode.DOWN);
         boolean p = Input.isPressed(KeyCode.P);
+        boolean espaceEstAppuyeMaintenant = Input.isPressed(KeyCode.SPACE);
+        double deceleration = -500;
 
-        if (left) {
+        // Adjust velocity based on input
+        if (left) { //TODO: Extract method because code is copié collé and copié collé is nono
             ax = -1000;
         } else if (right) {
             ax = 1000;
-        } else if (up) {
+        } else {
+            ax = deceleration * vx / Math.abs(vx);
+            if (vx == 0) ax = 0;// Stop moving horizontally
+        }
+        if (vx < -300) vx = -300;
+        if (vx > 300) vx = 300;
+
+        if (up) {
             ay = -1000;
         } else if (down) {
             ay = 1000;
+        } else {
+            ay = deceleration * vy / Math.abs(vy);
+            if (vy == 0) ay = 0;// Stop moving vertically
         }
-        if (!left && !right) {
-            if (vx < 0) {
-                ax = 100;
-            } else {
-                ax = -100;
-            }
+        if (vy < -300) vy = -300;
+        if (vy > 300) vy = 300;
+
+
+
+        // Update Charlotte's position
+        x += vx * deltaTime;
+        y += vy * deltaTime;
+
+        // Ensure Charlotte stays within the screen boundaries
+        if (x < 0) {
+            x = 0;
+        } else if (x > Main.WIDTH - imagePoisson.getWidth()) {
+            x = Main.WIDTH - imagePoisson.getWidth();
         }
-        if (!up && !down) {
-            if (vy < 0) {
-                ay = 100;
-            } else {
-                ay = -100;
-            }
+
+        if (y < 0) {
+            y = 0;
+        } else if (y > Main.HEIGHT - imagePoisson.getHeight()) {
+            y = Main.HEIGHT - imagePoisson.getHeight();
         }
+
         if (p && !pEstAppuye){
             if (choixProjectile == 1) {
                 choixProjectile = 2;
