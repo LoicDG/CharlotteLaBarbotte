@@ -13,12 +13,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Charlotte extends Poisson {
-    //Appuyer sur la touche P permet de changer les projectiles
-    //c pr le debug mode, pcq ca m'aide a tester les projectiles
     private int choixProjectile;
     private List<Projectiles> projectilesTires;
     private boolean espaceEstAppuye = false;
-    private boolean pEstAppuye = false;
     private long tempsDuDernierTir;
     private static final long FREQUENCE_TIRS = 500; // 0.5 seconds in milliseconds
 
@@ -28,7 +25,6 @@ public class Charlotte extends Poisson {
         projectilesTires = new ArrayList<>();
         tempsDuDernierTir = 0;
         choixProjectile = 1;
-
     }
 
     public void setX(double newX) {
@@ -42,20 +38,18 @@ public class Charlotte extends Poisson {
     @Override
     public void update(double deltaTime) {
         super.update(deltaTime);
-        boolean p = Input.isPressed(KeyCode.P);
         boolean espaceEstAppuyeMaintenant = Input.isPressed(KeyCode.SPACE);
 
-        if (p && !pEstAppuye){
-            if (choixProjectile == 1) {
-                choixProjectile = 2;
-            } else if (choixProjectile == 2) {
+        if (Input.isPressed(KeyCode.D)) {
+            if (Input.isPressed(KeyCode.Q)) {
                 choixProjectile = 1;
+            } else if (Input.isPressed(KeyCode.W)) {
+                choixProjectile = 2;
             }
-        } pEstAppuye = p;
-
+        }
 
         long tempsMaintenant = System.currentTimeMillis();
-        if (espaceEstAppuye & !espaceEstAppuyeMaintenant&& tempsMaintenant - tempsDuDernierTir >= FREQUENCE_TIRS) {
+        if (Input.isPressed(KeyCode.SPACE) && tempsMaintenant - tempsDuDernierTir >= FREQUENCE_TIRS) {
             Projectiles newProjectile;
             switch (choixProjectile){
                 case 1 -> {
@@ -66,17 +60,14 @@ public class Charlotte extends Poisson {
                         newProjectile = new Hippocampes(x,y);projectilesTires.add(newProjectile);
                     }
                 }
-
             }
             tempsDuDernierTir = tempsMaintenant;
         }
-        espaceEstAppuye = espaceEstAppuyeMaintenant;
     }
 
     @Override
     public void draw(GraphicsContext context) {
         super.draw(context);
-
         for (var projectile : projectilesTires) {
             projectile.draw(context);
             if (Input.isPressed(KeyCode.D)) {
