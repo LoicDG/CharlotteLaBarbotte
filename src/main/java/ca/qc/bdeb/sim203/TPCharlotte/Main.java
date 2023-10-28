@@ -80,6 +80,11 @@ public class Main extends Application {
                 charlotte.draw(context);
                 healthBar.update();
                 healthBar.draw(context);
+                if (Input.isPressed(KeyCode.D)) {
+                    context.fillText("NB poissons: " + niveau.getPoissons().size(), 10, 50);
+                    context.fillText("NB projectiles: " + charlotte.getProjectilesTires().size(), 10, 65);
+                    context.fillText("Position Charlotte: ", 10, 80);
+                }
                 double tempsPassee = (System.currentTimeMillis() - niveau.getTempsCreationNiveau()) / 1000;
                 if (tempsPassee % (0.75 + 1 * Math.sqrt(niveau.getNumNiveau())) <= 0.02 &&
                         (System.currentTimeMillis() - niveau.getTempsExec()) / 1000 > 0.5) {

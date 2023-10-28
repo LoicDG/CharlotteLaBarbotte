@@ -36,6 +36,5 @@ public class HealthBar {
         context.strokeRect(x, y, w, h);
         context.fillRect(x, y, pvRestants, h);
         context.drawImage(currentProjectile, x + w + 15, y - 5);
-
     }
 }

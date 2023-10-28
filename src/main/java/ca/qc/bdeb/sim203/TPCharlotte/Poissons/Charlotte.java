@@ -31,6 +31,10 @@ public class Charlotte extends Poisson {
         return choixProjectile;
     }
 
+    public List<Projectiles> getProjectilesTires() {
+        return projectilesTires;
+    }
+
     public int getPv() {
         return pv;
     }
