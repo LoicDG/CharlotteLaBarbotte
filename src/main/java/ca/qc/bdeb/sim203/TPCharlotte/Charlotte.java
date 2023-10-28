@@ -30,37 +30,48 @@ public class Charlotte extends Poisson {
     public void update(double deltaTime) {
         super.update(deltaTime);
 
-        boolean espaceEstAppuyeMaintenant = Input.isPressed(KeyCode.SPACE);
         boolean left = Input.isPressed(KeyCode.LEFT);
         boolean right = Input.isPressed(KeyCode.RIGHT);
         boolean up = Input.isPressed(KeyCode.UP);
         boolean down = Input.isPressed(KeyCode.DOWN);
         boolean p = Input.isPressed(KeyCode.P);
-        //test
+        boolean espaceEstAppuyeMaintenant = Input.isPressed(KeyCode.SPACE);
 
+        // Adjust velocity based on input
         if (left) {
-            ax = -1000;
+            vx = -300;
         } else if (right) {
-            ax = 1000;
-        } else if (up) {
-            ay = -1000;
+            vx = 300;
+        } else {
+            vx = 0;  // Stop moving horizontally
+        }
+
+        if (up) {
+            vy = -300;
         } else if (down) {
-            ay = 1000;
+            vy = 300;
+        } else {
+            vy = 0;  // Stop moving vertically
         }
-        if (!left && !right) {
-            if (vx < 0) {
-                ax = 100;
-            } else {
-                ax = -100;
-            }
+
+        // Update Charlotte's position
+        x += vx * deltaTime;
+        y += vy * deltaTime;
+
+        // Ensure Charlotte stays within the screen boundaries
+        if (x < 0) {
+            x = 0;
+        } else if (x > Main.WIDTH - imagePoisson.getWidth()) {
+            x = Main.WIDTH - imagePoisson.getWidth();
         }
-        if (!up && !down) {
-            if (vy < 0) {
-                ay = 100;
-            } else {
-                ay = -100;
-            }
+
+        if (y < 0) {
+            y = 0;
+        } else if (y > Main.HEIGHT - imagePoisson.getHeight()) {
+            y = Main.HEIGHT - imagePoisson.getHeight();
         }
+        // Rest of your code for projectiles, shooting, etc.
+
         if (p && !pEstAppuye){
             if (choixProjectile == 1) {
                 choixProjectile = 2;
