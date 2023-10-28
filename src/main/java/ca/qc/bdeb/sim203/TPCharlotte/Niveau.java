@@ -10,12 +10,18 @@ import java.util.Random;
 
 public class Niveau {
     private Background bg;
+    private static int nbNiveau = 0;
     private static ArrayList<Image> images = new ArrayList<>();
 
     public Niveau() {
         var rnd = new Random();
         bg = new Background(new BackgroundFill(Color.hsb(rnd.nextDouble(190, 271), 0.84,
                 1.0), null, null));
+        nbNiveau++;
+    }
+
+    public static int getNbNiveau() {
+        return nbNiveau;
     }
 
     public static void creerImages() {

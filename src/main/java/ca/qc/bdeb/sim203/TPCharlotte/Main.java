@@ -32,6 +32,7 @@ public class Main extends Application {
         stage.getIcons().add(new Image("code/charlotte.png"));
         stage.setResizable(false);
         Niveau.creerImages();
+        Ennemis.creerImageEnnemis();
 
         //region Scène 1, La page titre
         var rootTitre = new VBox();
@@ -63,9 +64,8 @@ public class Main extends Application {
         //region Événementiel
         infos.setOnAction(event -> {
             //change l'image à chaque fois
-            var poisson = new Image("code/poisson" + rnd.nextInt(1, 6) + ".png");
             var image = (ImageView) sceneInfos.getRoot().getChildrenUnmodifiable().get(1);
-            image.setImage(poisson);
+            image.setImage(new Image(Ennemis.getUrlImage()));
             stage.setScene(sceneInfos);
         });
         jouer.setOnAction(event -> {

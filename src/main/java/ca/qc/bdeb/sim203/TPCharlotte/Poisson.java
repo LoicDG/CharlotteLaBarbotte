@@ -17,6 +17,11 @@ public class Poisson {
         poisson.setImage(imagePoisson);
     }
 
+    public Poisson(double x, double y) {
+        this.x = x;
+        this.y = y;
+    }
+
     protected Image getImagePoisson() {
         return imagePoisson;
     }
