@@ -38,20 +38,26 @@ public class Charlotte extends Poisson {
         boolean espaceEstAppuyeMaintenant = Input.isPressed(KeyCode.SPACE);
 
         // Adjust velocity based on input
-        if (left) {
-            vx = -300;
+        if (left) { //TODO: Extract method because code is copié collé and copié collé is nono
+            ax = -1000;
+            if (vx < -300) vx = -300;
         } else if (right) {
-            vx = 300;
+            ax = 1000;
+            if (vx > 300) vx = 300;
         } else {
-            vx = 0;  // Stop moving horizontally
+            ax = -300 * vx / Math.abs(vx);
+            if (vx == 0) ax = 0;// Stop moving horizontally
         }
 
         if (up) {
-            vy = -300;
+            ay = -1000;
+            if (vy < -300) vy = -300;
         } else if (down) {
-            vy = 300;
+            ay = 1000;
+            if (vy > 300) vy = 300;
         } else {
-            vy = 0;  // Stop moving vertically
+            ay = -300 * vy / Math.abs(vy);
+            if (vy == 0) ay = 0;// Stop moving vertically
         }
 
         // Update Charlotte's position
@@ -70,7 +76,6 @@ public class Charlotte extends Poisson {
         } else if (y > Main.HEIGHT - imagePoisson.getHeight()) {
             y = Main.HEIGHT - imagePoisson.getHeight();
         }
-        // Rest of your code for projectiles, shooting, etc.
 
         if (p && !pEstAppuye){
             if (choixProjectile == 1) {
