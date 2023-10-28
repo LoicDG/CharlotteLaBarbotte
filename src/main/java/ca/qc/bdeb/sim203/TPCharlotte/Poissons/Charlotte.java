@@ -42,56 +42,8 @@ public class Charlotte extends Poisson {
     @Override
     public void update(double deltaTime) {
         super.update(deltaTime);
-
-        boolean left = Input.isPressed(KeyCode.LEFT);
-        boolean right = Input.isPressed(KeyCode.RIGHT);
-        boolean up = Input.isPressed(KeyCode.UP);
-        boolean down = Input.isPressed(KeyCode.DOWN);
         boolean p = Input.isPressed(KeyCode.P);
         boolean espaceEstAppuyeMaintenant = Input.isPressed(KeyCode.SPACE);
-        double deceleration = -500;
-
-        // Adjust velocity based on input
-        if (left) { //TODO: Extract multiple method because code is copié collé and copié collé is nono. also a LOT of code, not rly readable
-            ax = -1000;
-        } else if (right) {
-            ax = 1000;
-        } else {
-            ax = deceleration * vx / Math.abs(vx);
-            if (vx == 0) ax = 0;// Stop moving horizontally
-        }
-        if (vx < -300) vx = -300;
-        if (vx > 300) vx = 300;
-
-        if (up) {
-            ay = -1000;
-        } else if (down) {
-            ay = 1000;
-        } else {
-            ay = deceleration * vy / Math.abs(vy);
-            if (vy == 0) ay = 0;// Stop moving vertically
-        }
-        if (vy < -300) vy = -300;
-        if (vy > 300) vy = 300;
-
-
-
-        // Update Charlotte's position
-        x += vx * deltaTime;
-        y += vy * deltaTime;
-
-        // Ensure Charlotte stays within the screen boundaries
-        if (x < 0) {
-            x = 0;
-        } else if (x > Main.WIDTH - imagePoisson.getWidth()) {
-            x = Main.WIDTH - imagePoisson.getWidth();
-        }
-
-        if (y < 0) {
-            y = 0;
-        } else if (y > Main.HEIGHT - imagePoisson.getHeight()) {
-            y = Main.HEIGHT - imagePoisson.getHeight();
-        }
 
         if (p && !pEstAppuye){
             if (choixProjectile == 1) {
@@ -136,12 +88,61 @@ public class Charlotte extends Poisson {
 
     }
 
+    private void checkLimites(double deltaTime) {
+        boolean left = Input.isPressed(KeyCode.LEFT);
+        boolean right = Input.isPressed(KeyCode.RIGHT);
+        boolean up = Input.isPressed(KeyCode.UP);
+        boolean down = Input.isPressed(KeyCode.DOWN);
+        double deceleration = -500;
+        // Adjust velocity based on input
+        if (left) { //TODO: Extract multiple method because code is copié collé and copié collé is nono. also a LOT of code, not rly readable
+            ax = -1000;
+        } else if (right) {
+            ax = 1000;
+        } else {
+            ax = deceleration * vx / Math.abs(vx);
+            if (vx == 0) ax = 0;// Stop moving horizontally
+        }
+        if (vx < -300) vx = -300;
+        if (vx > 300) vx = 300;
+
+        if (up) {
+            ay = -1000;
+        } else if (down) {
+            ay = 1000;
+        } else {
+            ay = deceleration * vy / Math.abs(vy);
+            if (vy == 0) ay = 0;// Stop moving vertically
+        }
+        if (vy < -300) vy = -300;
+        if (vy > 300) vy = 300;
+
+
+        // Update Charlotte's position
+        x += vx * deltaTime;
+        y += vy * deltaTime;
+
+        // Ensure Charlotte stays within the screen boundaries
+        if (x < 0) {
+            x = 0;
+        } else if (x > Main.WIDTH - imagePoisson.getWidth()) {
+            x = Main.WIDTH - imagePoisson.getWidth();
+        }
+
+        if (y < 0) {
+            y = 0;
+        } else if (y > Main.HEIGHT - imagePoisson.getHeight()) {
+            y = Main.HEIGHT - imagePoisson.getHeight();
+        }
+    }
+
     @Override
     protected void updatePhysique(double deltaTime) {
         super.updatePhysique(deltaTime);
         checkVitesseMax();
+        checkLimites(deltaTime);
         for (int i = projectilesTires.size() - 1; i >= 0; i--) {
-            Projectiles projectile = projectilesTires.get(i);
+            var projectile = projectilesTires.get(i);
             if (projectile.estSortiEcran()) {
                 projectilesTires.remove(i);
             } else {
