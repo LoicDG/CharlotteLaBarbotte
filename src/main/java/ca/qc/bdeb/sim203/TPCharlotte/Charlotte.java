@@ -4,6 +4,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +28,6 @@ public class Charlotte extends Poisson {
         boolean right = Input.isPressed(KeyCode.RIGHT);
         boolean up = Input.isPressed(KeyCode.UP);
         boolean down = Input.isPressed(KeyCode.DOWN);
-
         if (left) {
             ax = -1000;
         } else if (right) {
@@ -36,8 +36,20 @@ public class Charlotte extends Poisson {
             ay = -1000;
         } else if (down) {
             ay = 1000;
-        } else if (!left && !right) {
-            ax = -100;
+        }
+        if (!left && !right) {
+            if (vx < 0) {
+                ax = 100;
+            } else {
+                ax = -100;
+            }
+        }
+        if (!up && !down) {
+            if (vy < 0) {
+                ay = 100;
+            } else {
+                ay = -100;
+            }
         }
 
 
@@ -61,20 +73,26 @@ public class Charlotte extends Poisson {
     @Override
     protected void updatePhysique(double deltaTime) {
         super.updatePhysique(deltaTime);
-        if (vx >= 300) {
-            vx = 300;
-        } else if (vx <= -300) {
-            vx = -300;
-        }
-        if (vy <= -300) {
-            vy = -300;
-        } else if (vy >= 300) {
-            vy = 300;
-        }
-
+        checkVitesseMax();
         for (Projectiles projectile : projectilesTires) {
             projectile.updatePhysique(deltaTime);
         }
+    }
 
+    private void checkVitesseMax() {
+        if (vx >= 300) {
+            vx = 300;
+            ax = 0;
+        } else if (vx <= -300) {
+            vx = -300;
+            ax = 0;
+        }
+        if (vy <= -300) {
+            vy = -300;
+            ay = 0;
+        } else if (vy >= 300) {
+            vy = 300;
+            ay = 0;
+        }
     }
 }

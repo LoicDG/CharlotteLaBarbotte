@@ -102,7 +102,7 @@ public class Main extends Application {
         //Description du travail
         var sources = new Text("""
                 Travail remis à Nicolas Hurtubise et Georges Côté. Graphismes adaptés de https://game-icons.net/ et de
-                https://openclipart.org/. Développé dans le cadre du cours 420-203-RE - Développement de programmes\s
+                https://openclipart.org/. Dgitéveloppé dans le cadre du cours 420-203-RE - Développement de programmes\s
                 dans un environnement graphique, au Collège de Bois-de-Boulogne.""");
 
         var boutonRetour = new Button("Retour");
