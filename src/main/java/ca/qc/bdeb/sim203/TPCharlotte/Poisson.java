@@ -3,7 +3,6 @@ package ca.qc.bdeb.sim203.TPCharlotte;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
 
 public class Poisson {
     private Image imagePoisson;
@@ -33,7 +32,21 @@ public class Poisson {
         vy += deltaTime * ay;
     }
 
-    public void draw(GraphicsContext context) {
+    public void draw(GraphicsContext context) { //TODO: doesnt work if touches both at the same time, and also it sticks for like 2 sec for some reason
         context.drawImage(imagePoisson, x, y);
+        if (x < 0) {
+            context.clearRect(x, y, imagePoisson.getWidth(), imagePoisson.getHeight());
+            context.drawImage(imagePoisson, 0, y);
+        } else if (x + imagePoisson.getWidth() > Main.WIDTH) {
+            context.clearRect(x, y, imagePoisson.getWidth(), imagePoisson.getHeight());
+            context.drawImage(imagePoisson, Main.WIDTH - imagePoisson.getWidth(), y);
+        }
+        if (y < 0) {
+            context.clearRect(x, y, imagePoisson.getWidth(), imagePoisson.getHeight());
+            context.drawImage(imagePoisson, x, 0);
+        } else if (y + +imagePoisson.getHeight() > Main.HEIGHT) {
+            context.clearRect(x, y, imagePoisson.getWidth(), imagePoisson.getHeight());
+            context.drawImage(imagePoisson, x, Main.HEIGHT - imagePoisson.getHeight());
+        }
     }
 }
