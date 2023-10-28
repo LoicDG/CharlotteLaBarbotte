@@ -5,7 +5,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class Poisson {
-    private Image imagePoisson;
+    protected Image imagePoisson;
     private ImageView poisson = new ImageView();
     protected double vx, vy, ax, ay;
     protected double x, y;

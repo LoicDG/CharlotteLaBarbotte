@@ -4,13 +4,8 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 
-
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.sun.java.accessibility.util.AWTEventMonitor.addKeyListener;
 
 public class Charlotte extends Poisson {
     //Appuyer sur la touche P permet de changer les projectiles
@@ -41,6 +36,7 @@ public class Charlotte extends Poisson {
         boolean up = Input.isPressed(KeyCode.UP);
         boolean down = Input.isPressed(KeyCode.DOWN);
         boolean p = Input.isPressed(KeyCode.P);
+        //test
 
         if (left) {
             ax = -1000;
