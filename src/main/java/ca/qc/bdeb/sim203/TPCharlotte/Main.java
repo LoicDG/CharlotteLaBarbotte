@@ -40,7 +40,8 @@ public class Main extends Application {
         Niveau.creerImages();
         Ennemis.creerImageEnnemis();
         var charlotte = new Charlotte(new Image("code/charlotte.png"), WIDTH / 2, HEIGHT / 2);
-        Niveau niveau = new Niveau();
+        var healthBar = new HealthBar(charlotte);
+        var niveau = new Niveau();
 
         //region Scène 1, La page titre
         var rootTitre = new VBox();
@@ -77,6 +78,13 @@ public class Main extends Application {
                 context.clearRect(0, 0, WIDTH, HEIGHT);
                 charlotte.update(deltaTime);
                 charlotte.draw(context);
+                healthBar.update();
+                healthBar.draw(context);
+                if (Input.isPressed(KeyCode.D)) {
+                    context.fillText("NB poissons: " + niveau.getPoissons().size(), 10, 50);
+                    context.fillText("NB projectiles: " + charlotte.getProjectilesTires().size(), 10, 65);
+                    context.fillText("Position Charlotte: ", 10, 80);
+                }
                 double tempsPassee = (System.currentTimeMillis() - niveau.getTempsCreationNiveau()) / 1000;
                 if (tempsPassee % (0.75 + 1 * Math.sqrt(niveau.getNumNiveau())) <= 0.02 &&
                         (System.currentTimeMillis() - niveau.getTempsExec()) / 1000 > 0.5) {

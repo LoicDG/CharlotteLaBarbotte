@@ -15,9 +15,9 @@ import java.util.List;
 public class Charlotte extends Poisson {
     private int choixProjectile;
     private List<Projectiles> projectilesTires;
-    private boolean espaceEstAppuye = false;
     private long tempsDuDernierTir;
     private static final long FREQUENCE_TIRS = 500; // 0.5 seconds in milliseconds
+    private int pv = 2;
 
 
     public Charlotte(Image imagePoisson, double x, double y) {
@@ -25,6 +25,18 @@ public class Charlotte extends Poisson {
         projectilesTires = new ArrayList<>();
         tempsDuDernierTir = 0;
         choixProjectile = 1;
+    }
+
+    public int getChoixProjectile() {
+        return choixProjectile;
+    }
+
+    public List<Projectiles> getProjectilesTires() {
+        return projectilesTires;
+    }
+
+    public int getPv() {
+        return pv;
     }
 
     public void setX(double newX) {
@@ -39,11 +51,15 @@ public class Charlotte extends Poisson {
     public void update(double deltaTime) {
         super.update(deltaTime);
 
+        //Mode débug
         if (Input.isPressed(KeyCode.D)) {
             if (Input.isPressed(KeyCode.Q)) {
                 choixProjectile = 1;
             } else if (Input.isPressed(KeyCode.W)) {
                 choixProjectile = 2;
+            }
+            if (Input.isPressed(KeyCode.R)) {
+                pv = 4;
             }
         }
 
