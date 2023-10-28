@@ -75,9 +75,11 @@ public class Main extends Application {
                     return;
                 }
                 double deltaTime = (now - lastTime) * 1e-9;
-                context.clearRect(0, 0, WIDTH, HEIGHT);
-                charlotte.update(deltaTime);
-                charlotte.draw(context);
+                if (!Input.isPressed(KeyCode.D) || !Input.isPressed(KeyCode.P)) {
+                    context.clearRect(0, 0, WIDTH, HEIGHT);
+                    charlotte.update(deltaTime);
+                    charlotte.draw(context);
+                }
                 healthBar.update();
                 healthBar.draw(context);
                 if (Input.isPressed(KeyCode.D)) {
@@ -88,12 +90,16 @@ public class Main extends Application {
                 double tempsPassee = (System.currentTimeMillis() - niveau.getTempsCreationNiveau()) / 1000;
                 if (tempsPassee % (0.75 + 1 * Math.sqrt(niveau.getNumNiveau())) <= 0.02 &&
                         (System.currentTimeMillis() - niveau.getTempsExec()) / 1000 > 0.5) {
-                    niveau.spawnEnnemis();
+                    if (!Input.isPressed(KeyCode.D) || !Input.isPressed(KeyCode.P)) {
+                        niveau.spawnEnnemis();
+                    }
                 }
                 if (!niveau.getPoissons().isEmpty()) {
                     for (int i = 0; i < niveau.getPoissons().size(); i++) {
-                        niveau.getPoissons().get(i).update(deltaTime);
-                        niveau.getPoissons().get(i).draw(context);
+                        if (!Input.isPressed(KeyCode.D) || !Input.isPressed(KeyCode.P)) {
+                            niveau.getPoissons().get(i).update(deltaTime);
+                            niveau.getPoissons().get(i).draw(context);
+                        }
                     }
                     niveau.isPlusLa();
                 }
@@ -180,12 +186,14 @@ public class Main extends Application {
                 stage.setScene(originale);
             } else if (event.getCode() == KeyCode.D && Input.isPressed(KeyCode.D)) {
                 Input.setKeyPressed(KeyCode.D, false);
+            } else if (event.getCode() == KeyCode.P && Input.isPressed(KeyCode.P)) {
+                Input.setKeyPressed(KeyCode.P, false);
             } else {
                 Input.setKeyPressed(event.getCode(), true);
             }
         });
         scene.setOnKeyReleased(event -> {
-            if (event.getCode() == KeyCode.D) return;
+            if (event.getCode() == KeyCode.D || event.getCode() == KeyCode.P) return;
             Input.setKeyPressed(event.getCode(), false);
         });
         return scene;
