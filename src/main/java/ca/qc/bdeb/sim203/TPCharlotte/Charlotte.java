@@ -122,8 +122,13 @@ public class Charlotte extends Poisson {
     protected void updatePhysique(double deltaTime) {
         super.updatePhysique(deltaTime);
         checkVitesseMax();
-        for (Projectiles projectile : projectilesTires) {
-            projectile.updatePhysique(deltaTime);
+        for (int i = projectilesTires.size() - 1; i >= 0; i--) {
+            Projectiles projectile = projectilesTires.get(i);
+            if (projectile.estSortiEcran()) {
+                projectilesTires.remove(i);
+            } else {
+                projectile.updatePhysique(deltaTime);
+            }
         }
     }
 
