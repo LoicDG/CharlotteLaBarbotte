@@ -2,9 +2,11 @@ package ca.qc.bdeb.sim203.TPCharlotte;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -21,6 +23,8 @@ import java.util.Random;
 public class Main extends Application {
     public static double HEIGHT = 590;
     public static double WIDTH = 900;
+    Canvas canvas = new Canvas(WIDTH, HEIGHT);
+    GraphicsContext context = canvas.getGraphicsContext2D();
 
     public static void main(String[] args) {
         launch(args);
@@ -33,6 +37,8 @@ public class Main extends Application {
         stage.setResizable(false);
         Niveau.creerImages();
         Ennemis.creerImageEnnemis();
+        var charlotte = new Charlotte(new Image("code/charlotte.png"), WIDTH / 2, HEIGHT / 2);
+        Niveau niveau = new Niveau();
 
         //region Scène 1, La page titre
         var rootTitre = new VBox();
@@ -52,14 +58,43 @@ public class Main extends Application {
         //endregion
 
         stage.setScene(titre);
-        //Scène pour le menu informations
+        //Scène 2, pour le menu informations
         var rnd = new Random();
         var ennemiImage = new Image("code/poisson" + rnd.nextInt(1, 6) + ".png");
         var sceneInfos = setScreenInfos(titre, stage, ennemiImage);
+        AnimationTimer timer = new AnimationTimer() {
+            private long lastTime = System.nanoTime();
 
-        //Scène pour jouer
-        Niveau niveau = new Niveau();
-        var sceneJouer = setScreenJouer(titre, stage, niveau);
+            @Override
+            public void handle(long now) {
+                if (lastTime == 0) {
+                    lastTime = now;
+                    return;
+                }
+                double deltaTime = (now - lastTime) * 1e-9;
+                context.clearRect(0, 0, WIDTH, HEIGHT);
+                charlotte.update(deltaTime);
+                charlotte.draw(context);
+                double tempsPassee = (System.currentTimeMillis() - niveau.getTempsCreationNiveau()) / 1000;
+                if (tempsPassee % (0.75 + 1 * Math.sqrt(Niveau.getNbNiveau())) <= 0.02 &&
+                        (System.currentTimeMillis() - niveau.getTempsExec()) / 1000 > 0.5) {
+                    niveau.spawnEnnemis();
+                    System.out.println("yes");
+                    System.out.println(tempsPassee);
+                }
+                if (!niveau.getPoissons().isEmpty()) {
+                    for (int i = 0; i < niveau.getPoissons().size(); i++) {
+                        niveau.getPoissons().get(i).update(deltaTime);
+                        niveau.getPoissons().get(i).draw(context);
+                    }
+                    niveau.isPlusLa();
+                }
+                lastTime = now;
+            }
+        };
+
+        //Scène 3, pour jouer
+        var sceneJouer = setScreenJouer(titre, stage, niveau, timer);
 
         //region Événementiel
         infos.setOnAction(event -> {
@@ -70,6 +105,12 @@ public class Main extends Application {
         });
         jouer.setOnAction(event -> {
             stage.setScene(sceneJouer);
+            timer.start();
+        });
+        titre.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ESCAPE) {
+                Platform.exit();
+            }
         });
 
         //endregion
@@ -120,17 +161,14 @@ public class Main extends Application {
         return scene;
     }
 
-    private Scene setScreenJouer(Scene originale, Stage stage, Niveau niveau) {
+    private Scene setScreenJouer(Scene originale, Stage stage, Niveau niveau, AnimationTimer timer) {
         var root = new Pane();
         var scene = new Scene(root, WIDTH, HEIGHT);
-        var canvas = new Canvas(WIDTH, HEIGHT);
-        var charlotte = new Charlotte(new Image("code/charlotte.png"), WIDTH / 2, HEIGHT / 2);
-        var context = canvas.getGraphicsContext2D();
-        context.drawImage(charlotte.getImagePoisson(), WIDTH / 2, HEIGHT / 2);
         root.setBackground(niveau.getBg());
         root.getChildren().add(canvas);
         scene.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ESCAPE) {
+                timer.stop();
                 stage.setScene(originale);
             } else {
                 Input.setKeyPressed(event.getCode(), true);
@@ -139,23 +177,6 @@ public class Main extends Application {
         scene.setOnKeyReleased(event -> {
             Input.setKeyPressed(event.getCode(), false);
         });
-        AnimationTimer timer = new AnimationTimer() {
-            private long lastTime = System.nanoTime();
-
-            @Override
-            public void handle(long now) {
-                if (lastTime == 0) {
-                    lastTime = now;
-                    return;
-                }
-                double deltaTime = (now - lastTime) * 1e-9;
-                context.clearRect(0, 0, WIDTH, HEIGHT);
-                charlotte.update(deltaTime);
-                charlotte.draw(context);
-                lastTime = now;
-            }
-        };
-        timer.start();
         return scene;
 
     }
