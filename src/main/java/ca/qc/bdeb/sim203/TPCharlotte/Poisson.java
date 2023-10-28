@@ -23,6 +23,7 @@ public class Poisson {
 
     public void update(double deltaTime) {
         updatePhysique(deltaTime);
+
     }
 
     protected void updatePhysique(double deltaTime) {
@@ -32,7 +33,7 @@ public class Poisson {
         vy += deltaTime * ay;
     }
 
-    public void draw(GraphicsContext context) { //TODO: doesnt work if touches both at the same time, and also it sticks for like 2 sec for some reason
+    public void draw(GraphicsContext context) {
         context.drawImage(imagePoisson, x, y);
         if (x < 0) {
             context.clearRect(x, y, imagePoisson.getWidth(), imagePoisson.getHeight());

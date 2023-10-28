@@ -36,29 +36,32 @@ public class Charlotte extends Poisson {
         boolean down = Input.isPressed(KeyCode.DOWN);
         boolean p = Input.isPressed(KeyCode.P);
         boolean espaceEstAppuyeMaintenant = Input.isPressed(KeyCode.SPACE);
+        double deceleration = -500;
 
         // Adjust velocity based on input
         if (left) { //TODO: Extract method because code is copié collé and copié collé is nono
             ax = -1000;
-            if (vx < -300) vx = -300;
         } else if (right) {
             ax = 1000;
-            if (vx > 300) vx = 300;
         } else {
-            ax = -300 * vx / Math.abs(vx);
+            ax = deceleration * vx / Math.abs(vx);
             if (vx == 0) ax = 0;// Stop moving horizontally
         }
+        if (vx < -300) vx = -300;
+        if (vx > 300) vx = 300;
 
         if (up) {
             ay = -1000;
-            if (vy < -300) vy = -300;
         } else if (down) {
             ay = 1000;
-            if (vy > 300) vy = 300;
         } else {
-            ay = -300 * vy / Math.abs(vy);
+            ay = deceleration * vy / Math.abs(vy);
             if (vy == 0) ay = 0;// Stop moving vertically
         }
+        if (vy < -300) vy = -300;
+        if (vy > 300) vy = 300;
+
+
 
         // Update Charlotte's position
         x += vx * deltaTime;
