@@ -56,7 +56,7 @@ public class Charlotte extends Poisson {
 
         long tempsMaintenant = System.currentTimeMillis();
         if (espaceEstAppuye & !espaceEstAppuyeMaintenant&& tempsMaintenant - tempsDuDernierTir >= FREQUENCE_TIRS) {
-            Projectiles newProjectile = null;
+            Projectiles newProjectile;
             switch (choixProjectile){
                 case 1 -> {
                     newProjectile = new EtoileDeMer(x,y);projectilesTires.add(newProjectile);
@@ -93,53 +93,53 @@ public class Charlotte extends Poisson {
         boolean right = Input.isPressed(KeyCode.RIGHT);
         boolean up = Input.isPressed(KeyCode.UP);
         boolean down = Input.isPressed(KeyCode.DOWN);
-        double deceleration = -500;
         // Adjust velocity based on input
-        if (left) { //TODO: Extract multiple method because code is copié collé and copié collé is nono. also a LOT of code, not rly readable
-            ax = -1000;
-        } else if (right) {
-            ax = 1000;
-        } else {
-            ax = deceleration * vx / Math.abs(vx);
-            if (vx == 0) ax = 0;// Stop moving horizontally
-        }
-        if (vx < -300) vx = -300;
-        if (vx > 300) vx = 300;
+        ax = adjustAcceleration(ax, vx, right, left);
+        vx = adjustSpeed(vx);
 
-        if (up) {
-            ay = -1000;
-        } else if (down) {
-            ay = 1000;
-        } else {
-            ay = deceleration * vy / Math.abs(vy);
-            if (vy == 0) ay = 0;// Stop moving vertically
-        }
-        if (vy < -300) vy = -300;
-        if (vy > 300) vy = 300;
-
+        ay = adjustAcceleration(ay, vy, down, up);
+        vy = adjustSpeed(vy);
 
         // Update Charlotte's position
         x += vx * deltaTime;
         y += vy * deltaTime;
 
         // Ensure Charlotte stays within the screen boundaries
-        if (x < 0) {
-            x = 0;
-        } else if (x > Main.WIDTH - imagePoisson.getWidth()) {
-            x = Main.WIDTH - imagePoisson.getWidth();
-        }
+        x = adjustPosition(x, Main.WIDTH, imagePoisson.getWidth());
+        y = adjustPosition(y, Main.HEIGHT, imagePoisson.getHeight());
+    }
 
-        if (y < 0) {
-            y = 0;
-        } else if (y > Main.HEIGHT - imagePoisson.getHeight()) {
-            y = Main.HEIGHT - imagePoisson.getHeight();
+    private double adjustPosition(double pos, double tailleMax, double taillePoisson) {
+        if (pos < 0) {
+            pos = 0;
+        } else if (pos > tailleMax - taillePoisson) {
+            pos = tailleMax - taillePoisson;
         }
+        return pos;
+    }
+
+    private double adjustSpeed(double v) {
+        if (v > 300) v = 300;
+        if (v < -300) v = -300;
+        return v;
+    }
+
+    private double adjustAcceleration(double a, double v, boolean plus, boolean moins) {
+        double deceleration = -500;
+        if (moins) {
+            a = -1000;
+        } else if (plus) {
+            a = 1000;
+        } else {
+            a = deceleration * v / Math.abs(v);
+            if (v == 0) a = 0;
+        }
+        return a;
     }
 
     @Override
     protected void updatePhysique(double deltaTime) {
         super.updatePhysique(deltaTime);
-        checkVitesseMax();
         checkLimites(deltaTime);
         for (int i = projectilesTires.size() - 1; i >= 0; i--) {
             var projectile = projectilesTires.get(i);
@@ -150,22 +150,4 @@ public class Charlotte extends Poisson {
             }
         }
     }
-
-    private void checkVitesseMax() {
-        if (vx >= 300) {
-            vx = 300;
-            ax = 0;
-        } else if (vx <= -300) {
-            vx = -300;
-            ax = 0;
-        }
-        if (vy <= -300) {
-            vy = -300;
-            ay = 0;
-        } else if (vy >= 300) {
-            vy = 300;
-            ay = 0;
-        }
-    }
-
 }
