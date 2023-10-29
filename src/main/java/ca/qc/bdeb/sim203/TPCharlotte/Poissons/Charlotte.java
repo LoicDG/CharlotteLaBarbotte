@@ -14,6 +14,10 @@ import java.util.ArrayList;
 
 public class Charlotte extends Poisson {
 
+    public void setChoixProjectile(int choixProjectile) {
+        this.choixProjectile = choixProjectile;
+    }
+
     private int choixProjectile;
     private ArrayList<Projectiles> projectilesTires;
     private long tempsDuDernierTir;

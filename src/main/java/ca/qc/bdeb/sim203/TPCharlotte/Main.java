@@ -92,6 +92,8 @@ public class Main extends Application {
                     charlotte.draw(context);
                     healthBar.update();
                     healthBar.draw(context);
+                    currentLevel.getBaril().updatePhysique();
+                    currentLevel.getBaril().draw(context);
                 }
                 //Débug mode
                 if (Input.isPressed(KeyCode.D)) {
@@ -132,6 +134,15 @@ public class Main extends Application {
                                     && !charlotte.isInvincible()) {
                                 charlotte.isTouchee();
                                 charlotte.setTempsTouchee(nowMS);
+                            }
+                            if (charlotte.isEnCollision(currentLevel.getBaril()) && !currentLevel.getBaril().isEstOuvert()){
+                                currentLevel.getBaril().setEstOuvert(true);
+                                currentLevel.getBaril().setImageBaril(new Image("code/baril-ouvert.png"));
+                                if (charlotte.getChoixProjectile() < 3){
+                                    charlotte.setChoixProjectile(charlotte.getChoixProjectile()+1);
+                                } else {
+                                    charlotte.setChoixProjectile(1);
+                                }
                             }
                         }
                     }
