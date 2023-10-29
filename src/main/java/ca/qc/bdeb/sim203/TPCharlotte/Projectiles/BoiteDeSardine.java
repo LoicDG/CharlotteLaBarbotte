@@ -58,13 +58,14 @@ public class BoiteDeSardine extends Projectiles{
     }
     protected void validerLimite(double deltaTime) {
         if (vitesseY > 0 && posY + hauteur >= Main.HEIGHT) {
-            posY = Main.WIDTH - hauteur;
+            posY = Main.HEIGHT - hauteur;
             vitesseY *= -1;
         } else if (vitesseY < 0 && posY <= 0) {
             posY = 0;
             vitesseY *= -1;
         }
     }
+
 
     @Override
     public double getX() {
