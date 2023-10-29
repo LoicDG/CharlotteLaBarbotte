@@ -20,6 +20,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 public class Main extends Application {
@@ -27,6 +28,7 @@ public class Main extends Application {
     public static double WIDTH = 900;
     Canvas canvas = new Canvas(WIDTH, HEIGHT);
     GraphicsContext context = canvas.getGraphicsContext2D();
+    Niveau currentLevel;
 
     public static void main(String[] args) {
         launch(args);
@@ -41,7 +43,11 @@ public class Main extends Application {
         Ennemis.creerImageEnnemis();
         var charlotte = new Charlotte(new Image("code/charlotte.png"), WIDTH / 2, HEIGHT / 2);
         var healthBar = new HealthBar(charlotte);
-        var niveau = new Niveau();
+        ArrayList<Niveau> niveaux = new ArrayList<>();
+        for (int i = 0; i < 6; i++) {
+            niveaux.add(new Niveau());
+        }
+        currentLevel = niveaux.get(0);
 
         //region Scène 1, La page titre
         var rootTitre = new VBox();
@@ -83,32 +89,32 @@ public class Main extends Application {
                 healthBar.update();
                 healthBar.draw(context);
                 if (Input.isPressed(KeyCode.D)) {
-                    context.fillText("NB poissons: " + niveau.getPoissons().size(), 10, 50);
+                    context.fillText("NB poissons: " + currentLevel.getPoissons().size(), 10, 50);
                     context.fillText("NB projectiles: " + charlotte.getProjectilesTires().size(), 10, 65);
                     context.fillText("Position Charlotte: ", 10, 80);
                 }
-                double tempsPassee = (System.currentTimeMillis() - niveau.getTempsCreationNiveau()) / 1000;
-                if (tempsPassee % (0.75 + 1 * Math.sqrt(niveau.getNumNiveau())) <= 0.02 &&
-                        (System.currentTimeMillis() - niveau.getTempsExec()) / 1000 > 0.5) {
+                double tempsPassee = (System.currentTimeMillis() - currentLevel.getTempsCreationNiveau()) / 1000;
+                if (tempsPassee % (0.75 + 1 * Math.sqrt(currentLevel.getNumNiveau())) <= 0.02 &&
+                        (System.currentTimeMillis() - currentLevel.getTempsExec()) / 1000 > 0.5) {
                     if (!Input.isPressed(KeyCode.D) || !Input.isPressed(KeyCode.P)) {
-                        niveau.spawnEnnemis();
+                        currentLevel.spawnEnnemis();
                     }
                 }
-                if (!niveau.getPoissons().isEmpty()) {
-                    for (int i = 0; i < niveau.getPoissons().size(); i++) {
+                if (!currentLevel.getPoissons().isEmpty()) {
+                    for (int i = 0; i < currentLevel.getPoissons().size(); i++) {
                         if (!Input.isPressed(KeyCode.D) || !Input.isPressed(KeyCode.P)) {
-                            niveau.getPoissons().get(i).update(deltaTime);
-                            niveau.getPoissons().get(i).draw(context);
+                            currentLevel.getPoissons().get(i).update(deltaTime);
+                            currentLevel.getPoissons().get(i).draw(context);
                         }
                     }
-                    niveau.isPlusLa();
+                    currentLevel.isPlusLa();
                 }
                 lastTime = now;
             }
         };
 
         //Scène 3, pour jouer
-        var sceneJouer = setScreenJouer(titre, stage, niveau, timer);
+        var sceneJouer = setScreenJouer(titre, stage, currentLevel, timer);
 
         //region Événementiel
         infos.setOnAction(event -> {
@@ -119,6 +125,10 @@ public class Main extends Application {
         });
         jouer.setOnAction(event -> {
             stage.setScene(sceneJouer);
+            charlotte.restart();
+            currentLevel.getPoissons().clear();
+            charlotte.getProjectilesTires().clear();
+            currentLevel = niveaux.get(0);
             timer.start();
         });
         titre.setOnKeyPressed(event -> {
@@ -128,8 +138,6 @@ public class Main extends Application {
         });
 
         //endregion
-
-
         stage.show();
     }
 
@@ -184,6 +192,8 @@ public class Main extends Application {
             if (event.getCode() == KeyCode.ESCAPE) {
                 timer.stop();
                 stage.setScene(originale);
+                Input.setKeyPressed(KeyCode.D, false);
+                Input.setKeyPressed(KeyCode.P, false);
             } else if (event.getCode() == KeyCode.D && Input.isPressed(KeyCode.D)) {
                 Input.setKeyPressed(KeyCode.D, false);
             } else if (event.getCode() == KeyCode.P && Input.isPressed(KeyCode.P)) {
