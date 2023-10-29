@@ -18,6 +18,8 @@ public class Charlotte extends Poisson {
     private long tempsDuDernierTir;
     private static final long FREQUENCE_TIRS = 500; // 0.5 seconds in milliseconds
     private int pv = 4;
+    private boolean invincible = false;
+    private long tempsTouchee = 0;
 
 
     public Charlotte(Image imagePoisson, double x, double y) {
@@ -39,12 +41,16 @@ public class Charlotte extends Poisson {
         return pv;
     }
 
-    public void setX(double newX) {
-        x = newX;
+    public boolean isInvincible() {
+        return invincible;
     }
 
-    public void setY(double newY) {
-        y = newY;
+    public void setInvincible(boolean invincible) {
+        this.invincible = invincible;
+    }
+
+    public long getTempsTouchee() {
+        return tempsTouchee;
     }
 
     @Override
@@ -173,5 +179,11 @@ public class Charlotte extends Poisson {
         double dCarre = dx * dx + dy * dy;
         return dCarre < (imagePoisson.getWidth() / 2 + poisson.getImagePoisson().getWidth() / 2) *
                 (imagePoisson.getWidth() / 2 + poisson.getImagePoisson().getWidth() / 2);
+    }
+
+    public void isTouchee() {
+        tempsTouchee = System.currentTimeMillis();
+        pv -= 1;
+        invincible = true; //Si true -> on ne tiens plus en compte les collisions
     }
 }

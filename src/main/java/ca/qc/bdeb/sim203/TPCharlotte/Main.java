@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Main extends Application {
-    public static double HEIGHT = 590;
+    public static double HEIGHT = 520;
     public static double WIDTH = 900;
     Canvas canvas = new Canvas(WIDTH, HEIGHT);
     GraphicsContext context = canvas.getGraphicsContext2D();
@@ -55,7 +55,7 @@ public class Main extends Application {
         var titre = new Scene(rootTitre, WIDTH, HEIGHT);
         var logo = new ImageView(new Image("code/logo.png"));
         logo.setPreserveRatio(true);
-        logo.setFitWidth(500);
+        logo.setFitWidth(450);
         var jouer = new Button("Jouer!");
         var infos = new Button("Infos");
         var boutons = new HBox(jouer, infos);
@@ -100,11 +100,20 @@ public class Main extends Application {
                         currentLevel.spawnEnnemis();
                     }
                 }
+                double tempsTouchee = (double)
+                        (System.currentTimeMillis() - charlotte.getTempsTouchee()) / 1000;
                 if (!currentLevel.getPoissons().isEmpty()) {
                     for (int i = 0; i < currentLevel.getPoissons().size(); i++) {
                         if (!Input.isPressed(KeyCode.D) || !Input.isPressed(KeyCode.P)) {
                             currentLevel.getPoissons().get(i).update(deltaTime);
                             currentLevel.getPoissons().get(i).draw(context);
+                            //TODO: Game logic, déplacer ça dans le modèle ?
+                            if (charlotte.isEnCollision(currentLevel.getPoissons().get(i)) && tempsTouchee > 2
+                                    && !charlotte.isInvincible()) {
+                                charlotte.isTouchee();
+                            } else if (tempsTouchee > 2) {
+                                charlotte.setInvincible(false);
+                            }
                         }
                     }
                     if (Input.isPressed(KeyCode.D)) {
