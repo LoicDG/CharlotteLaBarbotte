@@ -1,5 +1,6 @@
 package ca.qc.bdeb.sim203.TPCharlotte.Poissons;
 
+import ca.qc.bdeb.sim203.TPCharlotte.Projectiles.Projectiles;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -10,15 +11,15 @@ import java.util.Random;
 
 public class Ennemis extends Poisson {
     private static ArrayList<String> poissonsEnnemis = new ArrayList<>();
-    private double ratio;
-    private int taille;
 
     public Ennemis(double x, double y) {
         super(x, y);
         var random = new Random();
         imagePoisson = new Image(getUrlImage());
-        ratio = imagePoisson.getHeight() / imagePoisson.getWidth();
-        taille = random.nextInt(50, 121);
+        double ratio = imagePoisson.getHeight() / imagePoisson.getWidth();
+        double taille = random.nextInt(50, 121);
+        w = taille / ratio;
+        h = taille;
         ax = -500;
         ay = random.nextDouble(-100, 101);
     }
@@ -39,11 +40,5 @@ public class Ennemis extends Poisson {
         Random r = new Random();
         int randomIndex = r.nextInt(poissonsEnnemis.size());
         return poissonsEnnemis.get(randomIndex);
-    }
-
-    @Override
-    public void draw(GraphicsContext context) {
-        context.drawImage(imagePoisson, x, y, taille / ratio, taille);
-        drawHitBox(context);
     }
 }

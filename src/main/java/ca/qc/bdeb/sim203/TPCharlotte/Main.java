@@ -73,6 +73,7 @@ public class Main extends Application {
         var sceneInfos = setScreenInfos(titre, stage, ennemiImage);
         AnimationTimer timer = new AnimationTimer() {
             private long lastTime = System.nanoTime();
+            private long nowMS = System.currentTimeMillis();
 
             @Override
             public void handle(long now) {
@@ -82,6 +83,9 @@ public class Main extends Application {
                 }
                 boolean isNotPaused = !Input.isPressed(KeyCode.D) || !Input.isPressed(KeyCode.P);
                 double deltaTime = (now - lastTime) * 1e-9;
+                if (isNotPaused) {
+                    nowMS = System.currentTimeMillis();
+                }
                 if (isNotPaused) {
                     context.clearRect(0, 0, WIDTH, HEIGHT);
                     charlotte.update(deltaTime);
@@ -95,25 +99,41 @@ public class Main extends Application {
                     context.fillText("NB projectiles: " + charlotte.getProjectilesTires().size(), 10, 65);
                     context.fillText("Position Charlotte: ", 10, 80);
                 }
-                double tempsPassee = (System.currentTimeMillis() - currentLevel.getTempsCreationNiveau()) / 1000;
+                double tempsPassee = (nowMS - currentLevel.getTempsCreationNiveau()) / 1000;
                 if (tempsPassee % (0.75 + 1 / Math.sqrt(currentLevel.getNumNiveau())) <= 0.02 &&
-                        (System.currentTimeMillis() - currentLevel.getTempsExec()) / 1000 > 0.5) {
+                        (nowMS - currentLevel.getTempsExec()) / 1000 > 0.5) {
                     if (isNotPaused) {
                         currentLevel.spawnEnnemis();
+                        currentLevel.setTempsExec(nowMS);
                     }
                 }
                 double tempsTouchee = (double)
-                        (System.currentTimeMillis() - charlotte.getTempsTouchee()) / 1000;
+                        (nowMS - charlotte.getTempsTouchee()) / 1000;
                 if (!currentLevel.getPoissons().isEmpty()) {
                     charlotte.setNiveauCourant(currentLevel);
                     for (int i = 0; i < currentLevel.getPoissons().size(); i++) {
+                        var poisson = currentLevel.getPoissons().get(i);
                         if (isNotPaused) {
-                            currentLevel.getPoissons().get(i).update(deltaTime);
-                            currentLevel.getPoissons().get(i).draw(context);
+                            poisson.update(deltaTime);
+                            poisson.draw(context);
+                            for (int j = 0; j < charlotte.getProjectilesTires().size(); j++) {
+                                if (poisson.isEnCollision(charlotte.getProjectilesTires().get(j))) {
+                                    currentLevel.getPoissons().remove(poisson);
+                                    charlotte.getProjectilesTires().remove(charlotte.getProjectilesTires().get(j));
+                                    if (i != 0) {
+                                        i--;
+                                    }
+                                    break;
+                                }
+                            }
+                            if (currentLevel.getPoissons().isEmpty()) {
+                                break;
+                            }
                             //TODO: Game logic, déplacer ça dans le modèle ?
                             if (charlotte.isEnCollision(currentLevel.getPoissons().get(i)) && tempsTouchee > 2
                                     && !charlotte.isInvincible()) {
                                 charlotte.isTouchee();
+                                charlotte.setTempsTouchee(nowMS);
                             }
                         }
                     }
@@ -123,6 +143,9 @@ public class Main extends Application {
                     charlotte.setInvincible(false);
                 }
                 lastTime = now;
+                if (Input.isPressed(KeyCode.P)) {
+
+                }
             }
         };
 

@@ -12,6 +12,26 @@ public class EtoileDeMer extends Projectiles{
     }
 
     @Override
+    public double getX() {
+        return posX;
+    }
+
+    @Override
+    public double getY() {
+        return posY;
+    }
+
+    @Override
+    public double getW() {
+        return imageProjectile.getWidth();
+    }
+
+    @Override
+    public double getH() {
+        return imageProjectile.getHeight();
+    }
+
+    @Override
     public void updatePhysique(double deltaTime) {
         posX += deltaTime * vitesseX;
     }
