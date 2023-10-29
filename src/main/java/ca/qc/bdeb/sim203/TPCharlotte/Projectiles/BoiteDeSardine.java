@@ -73,4 +73,24 @@ public class BoiteDeSardine extends Projectiles{
             vitesseY *= -1;
         }
     }
+
+    @Override
+    public double getX() {
+        return posX;
+    }
+
+    @Override
+    public double getY() {
+        return posY;
+    }
+
+    @Override
+    public double getW() {
+        return imageProjectile.getWidth();
+    }
+
+    @Override
+    public double getH() {
+        return imageProjectile.getHeight();
+    }
 }

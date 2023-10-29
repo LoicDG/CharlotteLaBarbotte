@@ -1,10 +1,11 @@
 package ca.qc.bdeb.sim203.TPCharlotte.Projectiles;
 
+import ca.qc.bdeb.sim203.TPCharlotte.CanCollide;
 import ca.qc.bdeb.sim203.TPCharlotte.Main;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
-public abstract class Projectiles {
+public abstract class Projectiles implements CanCollide {
     protected double posX;
     protected double posY;
     protected Image imageProjectile;

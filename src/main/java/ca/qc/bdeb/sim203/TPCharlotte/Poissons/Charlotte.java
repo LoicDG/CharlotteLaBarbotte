@@ -53,6 +53,10 @@ public class Charlotte extends Poisson {
         return tempsTouchee;
     }
 
+    public void setTempsTouchee(long tempsTouchee) {
+        this.tempsTouchee = tempsTouchee;
+    }
+
     @Override
     public void update(double deltaTime) {
         super.update(deltaTime);
@@ -123,8 +127,8 @@ public class Charlotte extends Poisson {
         y += vy * deltaTime;
 
         // Ensure Charlotte stays within the screen boundaries
-        x = adjustPosition(x, Main.WIDTH, imagePoisson.getWidth());
-        y = adjustPosition(y, Main.HEIGHT, imagePoisson.getHeight());
+        x = adjustPosition(x, Main.WIDTH, w);
+        y = adjustPosition(y, Main.HEIGHT, h);
     }
 
     private double adjustPosition(double pos, double tailleMax, double taillePoisson) {
@@ -184,17 +188,8 @@ public class Charlotte extends Poisson {
         pv = 4;
     }
 
-    public boolean isEnCollision(Ennemis poisson) {
-        double dx = x - poisson.getX();
-        double dy = y - poisson.getY();
-        double dCarre = dx * dx + dy * dy;
-        return dCarre < (imagePoisson.getWidth() / 2 + poisson.getImagePoisson().getWidth() / 2) *
-                (imagePoisson.getWidth() / 2 + poisson.getImagePoisson().getWidth() / 2);
-    }
-
     public void isTouchee() {
         invincible = true;
-        tempsTouchee = System.currentTimeMillis();
         pv -= 1;
     }
 }

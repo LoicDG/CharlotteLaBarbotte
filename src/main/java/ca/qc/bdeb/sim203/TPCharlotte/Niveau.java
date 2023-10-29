@@ -46,6 +46,10 @@ public class Niveau {
         return tempsExec;
     }
 
+    public void setTempsExec(double tempsExec) {
+        this.tempsExec = tempsExec;
+    }
+
     public ArrayList<Ennemis> getPoissons() {
         return poissons;
     }
@@ -55,7 +59,6 @@ public class Niveau {
     }
 
     public void spawnEnnemis() {
-        tempsExec = System.currentTimeMillis();
         var random = new Random();
         int nbPoissons = random.nextInt(1, 6);
         for (int i = 0; i < nbPoissons; i++) {
