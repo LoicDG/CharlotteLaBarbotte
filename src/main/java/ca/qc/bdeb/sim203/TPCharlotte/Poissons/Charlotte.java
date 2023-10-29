@@ -11,13 +11,11 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Charlotte extends Poisson {
 
-    //private Niveau niveauCourant;
     private int choixProjectile;
-    private List<Projectiles> projectilesTires;
+    private ArrayList<Projectiles> projectilesTires;
     private long tempsDuDernierTir;
     private static final long FREQUENCE_TIRS = 500; // 0.5 seconds in milliseconds
     private int pv = 4;
@@ -36,7 +34,7 @@ public class Charlotte extends Poisson {
         return choixProjectile;
     }
 
-    public List<Projectiles> getProjectilesTires() {
+    public ArrayList<Projectiles> getProjectilesTires() {
         return projectilesTires;
     }
 
@@ -62,8 +60,10 @@ public class Charlotte extends Poisson {
 
     public void update(double deltaTime, Niveau niveauCourant) {
         super.update(deltaTime);
-        if (vx != 0 || vy != 0) {
+        if ((vx != 0 || vy != 0) && !invincible) {
             imagePoisson = new Image("code/charlotte-avant.png");
+        } else if (invincible) {
+            imagePoisson = new Image("code/charlotte-outch.png");
         } else {
             imagePoisson = new Image("code/charlotte.png");
         }

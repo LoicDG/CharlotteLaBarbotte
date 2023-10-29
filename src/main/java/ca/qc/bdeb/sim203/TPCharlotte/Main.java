@@ -118,7 +118,6 @@ public class Main extends Application {
                             for (int j = 0; j < charlotte.getProjectilesTires().size(); j++) {
                                 if (poisson.isEnCollision(charlotte.getProjectilesTires().get(j))) {
                                     currentLevel.getPoissons().remove(poisson);
-                                    charlotte.getProjectilesTires().remove(charlotte.getProjectilesTires().get(j));
                                     if (i != 0) {
                                         i--;
                                     }
