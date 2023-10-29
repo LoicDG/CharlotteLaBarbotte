@@ -27,6 +27,7 @@ public class HealthBar {
         switch (choix) {
             case 1 -> currentProjectile = new Image("code/etoile.png");
             case 2 -> currentProjectile = new Image("code/hippocampe.png");
+            case 3 -> currentProjectile = new Image("code/sardines.png");
         }
     }
 
