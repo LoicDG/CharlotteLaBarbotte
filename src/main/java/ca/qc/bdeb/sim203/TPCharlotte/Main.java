@@ -88,7 +88,7 @@ public class Main extends Application {
                 }
                 if (isNotPaused) {
                     context.clearRect(0, 0, WIDTH, HEIGHT);
-                    charlotte.update(deltaTime);
+                    charlotte.update(deltaTime, currentLevel);
                     charlotte.draw(context);
                     healthBar.update();
                     healthBar.draw(context);
@@ -110,7 +110,6 @@ public class Main extends Application {
                 double tempsTouchee = (double)
                         (nowMS - charlotte.getTempsTouchee()) / 1000;
                 if (!currentLevel.getPoissons().isEmpty()) {
-                    charlotte.setNiveauCourant(currentLevel);
                     for (int i = 0; i < currentLevel.getPoissons().size(); i++) {
                         var poisson = currentLevel.getPoissons().get(i);
                         if (isNotPaused) {
@@ -143,9 +142,6 @@ public class Main extends Application {
                     charlotte.setInvincible(false);
                 }
                 lastTime = now;
-                if (Input.isPressed(KeyCode.P)) {
-
-                }
             }
         };
 

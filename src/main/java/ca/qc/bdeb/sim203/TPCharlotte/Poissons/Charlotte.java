@@ -14,11 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Charlotte extends Poisson {
-    public void setNiveauCourant(Niveau niveauCourant) {
-        this.niveauCourant = niveauCourant;
-    }
 
-    private Niveau niveauCourant;
+    //private Niveau niveauCourant;
     private int choixProjectile;
     private List<Projectiles> projectilesTires;
     private long tempsDuDernierTir;
@@ -63,8 +60,7 @@ public class Charlotte extends Poisson {
         this.tempsTouchee = tempsTouchee;
     }
 
-    @Override
-    public void update(double deltaTime) {
+    public void update(double deltaTime, Niveau niveauCourant) {
         super.update(deltaTime);
         if (vx != 0 || vy != 0) {
             imagePoisson = new Image("code/charlotte-avant.png");

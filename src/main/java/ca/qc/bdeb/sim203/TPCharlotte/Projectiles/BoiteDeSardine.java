@@ -54,9 +54,10 @@ public class BoiteDeSardine extends Projectiles{
 
         posX += vitesseX*deltaTime;
         posY += vitesseY*deltaTime;
-        validerLimite(deltaTime);
+        validerLimite();
     }
-    protected void validerLimite(double deltaTime) {
+
+    protected void validerLimite() {
         if (vitesseY > 0 && posY + hauteur >= Main.HEIGHT) {
             posY = Main.HEIGHT - hauteur;
             vitesseY *= -1;
