@@ -148,9 +148,6 @@ public class Main extends Application {
                     }
                     currentLevel.isPlusLa();
                 }
-                if (tempsTouchee > 2) {
-                    charlotte.setInvincible(false);
-                }
                 lastTime = now;
             }
         };
