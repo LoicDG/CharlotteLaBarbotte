@@ -107,6 +107,13 @@ public class Main extends Application {
                             currentLevel.getPoissons().get(i).draw(context);
                         }
                     }
+                    if (Input.isPressed(KeyCode.D)) {
+                        for (var p : currentLevel.getPoissons()) {
+                            if (charlotte.isEnCollision(p)) {
+                                context.fillText("Charlotte touchée: " + charlotte.isEnCollision(p), 10, 95);
+                            }
+                        }
+                    }
                     currentLevel.isPlusLa();
                 }
                 lastTime = now;

@@ -166,4 +166,12 @@ public class Charlotte extends Poisson {
         ay = 0;
         choixProjectile = 1;
     }
+
+    public boolean isEnCollision(Ennemis poisson) {
+        double dx = x - poisson.getX();
+        double dy = y - poisson.getY();
+        double dCarre = dx * dx + dy * dy;
+        return dCarre < (imagePoisson.getWidth() / 2 + poisson.getImagePoisson().getWidth() / 2) *
+                (imagePoisson.getWidth() / 2 + poisson.getImagePoisson().getWidth() / 2);
+    }
 }
