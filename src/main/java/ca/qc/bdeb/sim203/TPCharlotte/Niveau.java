@@ -11,14 +11,20 @@ import java.util.Random;
 
 public class Niveau {
     private Background bg;
+    private final double TAILLE_DU_NIVEAU = 8*900;
     private static int nbNiveau = 0;
     private int numNiveau;
     private static ArrayList<Image> images = new ArrayList<>();
     private ArrayList<Ennemis> poissons = new ArrayList<>();
-    private double tempsCreationNiveau;
+    private long tempsCreationNiveau;
     private double tempsExec;
     private boolean isOver = false;
 
+    public Baril getBaril() {
+        return baril;
+    }
+
+    private Baril baril; //chaque niveau a 1 baril
     public Niveau() {
         var rnd = new Random();
         bg = new Background(new BackgroundFill(Color.hsb(rnd.nextDouble(190, 271), 0.84,
@@ -26,6 +32,12 @@ public class Niveau {
         nbNiveau++;
         numNiveau = nbNiveau;
         tempsCreationNiveau = System.currentTimeMillis();
+        Random random = new Random();
+        double minRange = (1/5) * TAILLE_DU_NIVEAU;
+        double maxRange = (4/5) * TAILLE_DU_NIVEAU;
+        double xBaril = minRange + random.nextDouble() * (maxRange - minRange);
+        baril = new Baril(xBaril,0,tempsCreationNiveau);
+
     }
 
     public int getNumNiveau() {
