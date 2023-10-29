@@ -60,6 +60,7 @@ public class Charlotte extends Poisson {
 
     public void update(double deltaTime, Niveau niveauCourant) {
         super.update(deltaTime);
+        invincible = (System.currentTimeMillis() - tempsTouchee) / 1000 < 2;
         if ((vx != 0 || vy != 0) && !invincible) {
             imagePoisson = new Image("code/charlotte-avant.png");
         } else if (invincible) {
