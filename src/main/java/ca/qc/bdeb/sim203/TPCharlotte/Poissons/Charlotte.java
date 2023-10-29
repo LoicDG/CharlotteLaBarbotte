@@ -56,6 +56,11 @@ public class Charlotte extends Poisson {
     @Override
     public void update(double deltaTime) {
         super.update(deltaTime);
+        if (vx != 0 || vy != 0) {
+            imagePoisson = new Image("code/charlotte-avant.png");
+        } else {
+            imagePoisson = new Image("code/charlotte.png");
+        }
 
         //Mode débug
         if (Input.isPressed(KeyCode.D)) {
@@ -106,9 +111,11 @@ public class Charlotte extends Poisson {
         boolean down = Input.isPressed(KeyCode.DOWN);
         // Adjust velocity based on input
         ax = adjustAcceleration(vx, right, left);
+        if (ax == 0) vx = 0;
         vx = adjustSpeed(vx);
 
         ay = adjustAcceleration(vy, down, up);
+        if (ay == 0) vy = 0;
         vy = adjustSpeed(vy);
 
         // Update Charlotte's position
@@ -143,8 +150,11 @@ public class Charlotte extends Poisson {
         } else if (plus) {
             a = 1000;
         } else {
+            if ((v <= 5 && v >= 0) || (v >= -5 && v <= 0)) {
+                a = 0;
+                return a;
+            }
             a = deceleration * v / Math.abs(v);
-            if (v == 0) a = 0;
         }
         return a;
     }
@@ -171,6 +181,7 @@ public class Charlotte extends Poisson {
         ax = 0;
         ay = 0;
         choixProjectile = 1;
+        pv = 4;
     }
 
     public boolean isEnCollision(Ennemis poisson) {
@@ -182,8 +193,8 @@ public class Charlotte extends Poisson {
     }
 
     public void isTouchee() {
+        invincible = true;
         tempsTouchee = System.currentTimeMillis();
         pv -= 1;
-        invincible = true; //Si true -> on ne tiens plus en compte les collisions
     }
 }
