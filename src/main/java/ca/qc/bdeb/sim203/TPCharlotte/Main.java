@@ -111,19 +111,13 @@ public class Main extends Application {
                             if (charlotte.isEnCollision(currentLevel.getPoissons().get(i)) && tempsTouchee > 2
                                     && !charlotte.isInvincible()) {
                                 charlotte.isTouchee();
-                            } else if (tempsTouchee > 2) {
-                                charlotte.setInvincible(false);
-                            }
-                        }
-                    }
-                    if (Input.isPressed(KeyCode.D)) {
-                        for (var p : currentLevel.getPoissons()) {
-                            if (charlotte.isEnCollision(p)) {
-                                context.fillText("Charlotte touchée: " + charlotte.isEnCollision(p), 10, 95);
                             }
                         }
                     }
                     currentLevel.isPlusLa();
+                }
+                if (tempsTouchee > 2) {
+                    charlotte.setInvincible(false);
                 }
                 lastTime = now;
             }
