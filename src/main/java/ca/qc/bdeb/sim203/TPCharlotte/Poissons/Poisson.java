@@ -51,6 +51,10 @@ public class Poisson {
 
     public void draw(GraphicsContext context) {
         context.drawImage(imagePoisson, x, y);
+        drawHitBox(context);
+    }
+
+    protected void drawHitBox(GraphicsContext context) {
         if (Input.isPressed(KeyCode.D)) {
             context.setStroke(Color.WHITE);
             context.strokeRect(x, y, imagePoisson.getWidth(), imagePoisson.getHeight());

@@ -80,23 +80,25 @@ public class Main extends Application {
                     lastTime = now;
                     return;
                 }
+                boolean isNotPaused = !Input.isPressed(KeyCode.D) || !Input.isPressed(KeyCode.P);
                 double deltaTime = (now - lastTime) * 1e-9;
-                if (!Input.isPressed(KeyCode.D) || !Input.isPressed(KeyCode.P)) {
+                if (isNotPaused) {
                     context.clearRect(0, 0, WIDTH, HEIGHT);
                     charlotte.update(deltaTime);
                     charlotte.draw(context);
+                    healthBar.update();
+                    healthBar.draw(context);
                 }
-                healthBar.update();
-                healthBar.draw(context);
+                //Débug mode
                 if (Input.isPressed(KeyCode.D)) {
                     context.fillText("NB poissons: " + currentLevel.getPoissons().size(), 10, 50);
                     context.fillText("NB projectiles: " + charlotte.getProjectilesTires().size(), 10, 65);
                     context.fillText("Position Charlotte: ", 10, 80);
                 }
                 double tempsPassee = (System.currentTimeMillis() - currentLevel.getTempsCreationNiveau()) / 1000;
-                if (tempsPassee % (0.75 + 1 * Math.sqrt(currentLevel.getNumNiveau())) <= 0.02 &&
+                if (tempsPassee % (0.75 + 1 / Math.sqrt(currentLevel.getNumNiveau())) <= 0.02 &&
                         (System.currentTimeMillis() - currentLevel.getTempsExec()) / 1000 > 0.5) {
-                    if (!Input.isPressed(KeyCode.D) || !Input.isPressed(KeyCode.P)) {
+                    if (isNotPaused) {
                         currentLevel.spawnEnnemis();
                     }
                 }
@@ -104,7 +106,7 @@ public class Main extends Application {
                         (System.currentTimeMillis() - charlotte.getTempsTouchee()) / 1000;
                 if (!currentLevel.getPoissons().isEmpty()) {
                     for (int i = 0; i < currentLevel.getPoissons().size(); i++) {
-                        if (!Input.isPressed(KeyCode.D) || !Input.isPressed(KeyCode.P)) {
+                        if (isNotPaused) {
                             currentLevel.getPoissons().get(i).update(deltaTime);
                             currentLevel.getPoissons().get(i).draw(context);
                             //TODO: Game logic, déplacer ça dans le modèle ?
