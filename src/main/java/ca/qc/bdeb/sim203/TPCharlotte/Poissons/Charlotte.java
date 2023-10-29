@@ -1,6 +1,7 @@
 package ca.qc.bdeb.sim203.TPCharlotte.Poissons;
 
 import ca.qc.bdeb.sim203.TPCharlotte.*;
+import ca.qc.bdeb.sim203.TPCharlotte.Projectiles.BoiteDeSardine;
 import ca.qc.bdeb.sim203.TPCharlotte.Projectiles.EtoileDeMer;
 import ca.qc.bdeb.sim203.TPCharlotte.Projectiles.Hippocampes;
 import ca.qc.bdeb.sim203.TPCharlotte.Projectiles.Projectiles;
@@ -13,6 +14,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Charlotte extends Poisson {
+    public void setNiveauCourant(Niveau niveauCourant) {
+        this.niveauCourant = niveauCourant;
+    }
+
+    private Niveau niveauCourant;
     private int choixProjectile;
     private List<Projectiles> projectilesTires;
     private long tempsDuDernierTir;
@@ -68,6 +74,8 @@ public class Charlotte extends Poisson {
                 choixProjectile = 1;
             } else if (Input.isPressed(KeyCode.W)) {
                 choixProjectile = 2;
+            } else if (Input.isPressed(KeyCode.E)){
+                choixProjectile = 3;
             }
             if (Input.isPressed(KeyCode.R)) {
                 pv = 4;
@@ -84,6 +92,9 @@ public class Charlotte extends Poisson {
                     for (int i = 0; i < 3; i++) {
                         projectilesTires.add(new Hippocampes(x, y));
                     }
+                }
+                case 3 -> {
+                    projectilesTires.add(new BoiteDeSardine(x,y,niveauCourant.getPoissons()));
                 }
             }
             tempsDuDernierTir = tempsMaintenant;

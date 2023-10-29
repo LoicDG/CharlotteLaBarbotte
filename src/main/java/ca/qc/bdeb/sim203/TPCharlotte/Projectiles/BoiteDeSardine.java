@@ -8,9 +8,9 @@ import java.util.ArrayList;
 
 public class BoiteDeSardine extends Projectiles{
     private final static double K = 1000;
-    ArrayList<Ennemis> listeEnnemis;
-    double forceEnX;//acceleration en y
-    double forceEnY;//acceleration en x
+    private ArrayList<Ennemis> listeEnnemis;
+    private double forceEnX;//acceleration en y
+    private double forceEnY;//acceleration en x
     public BoiteDeSardine(double posX, double posY, ArrayList<Ennemis> listeEnnemis) {
         super(posX, posY);
         this.largeur = 35;
@@ -57,20 +57,13 @@ public class BoiteDeSardine extends Projectiles{
         validerLimite(deltaTime);
     }
     protected void validerLimite(double deltaTime) {
-        if (vitesseX > 0 && posX + largeur >= Main.WIDTH) {
-            posX = Main.WIDTH - largeur;
-            vitesseX *= -1;
-        } else if (vitesseX < 0 && posX <= 0) {
-            posX = 0;
-            vitesseX *= -1;
-        }
-
         if (vitesseY > 0 && posY + hauteur >= Main.HEIGHT) {
-            posY = Main.WIDTH - hauteur;
+            posY = Main.HEIGHT - hauteur;
             vitesseY *= -1;
         } else if (vitesseY < 0 && posY <= 0) {
             posY = 0;
             vitesseY *= -1;
         }
     }
+
 }
