@@ -151,6 +151,10 @@ public class Main extends Application {
                     }
                     currentLevel.isPlusLa();
                 }
+                if (!charlotte.isAlive()) {
+                    retourMenu(titre, stage);
+                    return;
+                }
                 lastTime = now;
             }
         };
@@ -233,14 +237,7 @@ public class Main extends Application {
         scene.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ESCAPE) {
                 timer.stop();
-                niveaux.clear();
-                Niveau.resetNbNiveau();
-                for (int i = 0; i < 6; i++) {
-                    niveaux.add(new Niveau());
-                }
-                stage.setScene(originale);
-                Input.setKeyPressed(KeyCode.D, false);
-                Input.setKeyPressed(KeyCode.P, false);
+                retourMenu(originale, stage);
             } else if (event.getCode() == KeyCode.D && Input.isPressed(KeyCode.D)) {
                 Input.setKeyPressed(KeyCode.D, false);
             } else if (event.getCode() == KeyCode.P && Input.isPressed(KeyCode.P)) {
@@ -255,5 +252,16 @@ public class Main extends Application {
         });
         return scene;
 
+    }
+
+    private void retourMenu(Scene originale, Stage stage) {
+        niveaux.clear();
+        Niveau.resetNbNiveau();
+        for (int i = 0; i < 6; i++) {
+            niveaux.add(new Niveau());
+        }
+        stage.setScene(originale);
+        Input.setKeyPressed(KeyCode.D, false);
+        Input.setKeyPressed(KeyCode.P, false);
     }
 }

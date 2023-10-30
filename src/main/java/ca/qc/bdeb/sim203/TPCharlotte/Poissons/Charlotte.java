@@ -47,6 +47,10 @@ public class Charlotte extends Poisson {
         return pv;
     }
 
+    public boolean isAlive() {
+        return pv > 0;
+    }
+
     public boolean isInvincible() {
         return invincible;
     }
