@@ -1,5 +1,6 @@
 package ca.qc.bdeb.sim203.TPCharlotte;
 
+import ca.qc.bdeb.sim203.TPCharlotte.Poissons.Charlotte;
 import ca.qc.bdeb.sim203.TPCharlotte.Poissons.Ennemis;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -19,7 +20,8 @@ public class Niveau {
     private static ArrayList<Image> images = new ArrayList<>();
     private ArrayList<Ennemis> poissons = new ArrayList<>();
     private long tempsCreationNiveau;
-    private double tempsExec;
+    private long tempsExec;
+    private double sinceDespawn = 0;
     private boolean isOver = false;
 
     public Baril getBaril() {
@@ -61,28 +63,27 @@ public class Niveau {
         return bg;
     }
 
-    public double getTempsExec() {
-        return tempsExec;
-    }
-
-    public void setTempsExec(double tempsExec) {
-        this.tempsExec = tempsExec;
+    public void setTempsCreationNiveau(long tempsCreationNiveau) {
+        this.tempsCreationNiveau = tempsCreationNiveau;
     }
 
     public ArrayList<Ennemis> getPoissons() {
         return poissons;
     }
 
-    public double getTempsCreationNiveau() {
-        return tempsCreationNiveau;
-    }
-
     public void spawnEnnemis() {
         var random = new Random();
         int nbPoissons = random.nextInt(1, 6);
-        for (int i = 0; i < nbPoissons; i++) {
-            poissons.add(new Ennemis(Main.WIDTH, random.nextDouble(Main.HEIGHT * 0.2, Main.HEIGHT * 0.81)));
-            poissons.get(i).setVx(-(100 * Math.pow(numNiveau, 0.33) + 200));
+        System.out.println(sinceDespawn);
+        if (sinceDespawn >= (0.75 + 1 / Math.sqrt(numNiveau))) {
+            for (int i = 0; i < nbPoissons; i++) {
+                poissons.add(new Ennemis(Main.WIDTH,
+                        random.nextDouble(Main.HEIGHT * 0.2, Main.HEIGHT * 0.81), numNiveau));
+            }
+            tempsExec = System.currentTimeMillis();
+            sinceDespawn = 0;
+        } else {
+            sinceDespawn = (double) (System.currentTimeMillis() - tempsExec) / 1000;
         }
     }
 
@@ -103,6 +104,12 @@ public class Niveau {
         if (System.currentTimeMillis() - tempsCreationNiveau <= 5000) {
             context.setFont(Font.font("Comic Sans MS", 72));
             context.fillText("NIVEAU " + numNiveau, Main.WIDTH / 3, Main.HEIGHT / 2);
+        }
+    }
+
+    public void checkFini(Charlotte charlotte) {
+        if (charlotte.getX() + charlotte.getW() >= Main.WIDTH) {
+            isOver = true;
         }
     }
 }

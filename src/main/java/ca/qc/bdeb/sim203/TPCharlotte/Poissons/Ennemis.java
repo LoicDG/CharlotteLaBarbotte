@@ -12,7 +12,7 @@ import java.util.Random;
 public class Ennemis extends Poisson {
     private static ArrayList<String> poissonsEnnemis = new ArrayList<>();
 
-    public Ennemis(double x, double y) {
+    public Ennemis(double x, double y, int numNiveau) {
         super(x, y);
         var random = new Random();
         imagePoisson = new Image(getUrlImage());
@@ -21,10 +21,8 @@ public class Ennemis extends Poisson {
         w = taille / ratio;
         h = taille;
         ax = -500;
+        vx = -(100 * Math.pow(numNiveau, 0.33) + 200);
         ay = random.nextDouble(-100, 101);
-    }
-    public void setVx(double vx) {
-        this.vx = vx;
     }
 
 
@@ -40,5 +38,10 @@ public class Ennemis extends Poisson {
         Random r = new Random();
         int randomIndex = r.nextInt(poissonsEnnemis.size());
         return poissonsEnnemis.get(randomIndex);
+    }
+
+    @Override
+    public void update(double deltaTime) {
+        super.update(deltaTime);
     }
 }
