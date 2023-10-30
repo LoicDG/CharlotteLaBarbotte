@@ -29,6 +29,7 @@ public class Main extends Application {
     Canvas canvas = new Canvas(WIDTH, HEIGHT);
     GraphicsContext context = canvas.getGraphicsContext2D();
     Niveau currentLevel;
+    ArrayList<Niveau> niveaux = new ArrayList<>();
 
     public static void main(String[] args) {
         launch(args);
@@ -36,6 +37,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) {
+
         stage.setTitle("Charlotte la Barbotte");
         stage.getIcons().add(new Image("code/charlotte.png"));
         stage.setResizable(false);
@@ -43,7 +45,6 @@ public class Main extends Application {
         Ennemis.creerImageEnnemis();
         var charlotte = new Charlotte(new Image("code/charlotte.png"), WIDTH / 2, HEIGHT / 2);
         var healthBar = new HealthBar(charlotte);
-        ArrayList<Niveau> niveaux = new ArrayList<>();
         for (int i = 0; i < 6; i++) {
             niveaux.add(new Niveau());
         }
@@ -88,6 +89,7 @@ public class Main extends Application {
                 }
                 if (isNotPaused) {
                     context.clearRect(0, 0, WIDTH, HEIGHT);
+                    currentLevel.afficherNumNiveau(context);
                     charlotte.update(deltaTime, currentLevel);
                     charlotte.draw(context);
                     healthBar.update();
@@ -97,6 +99,7 @@ public class Main extends Application {
                 }
                 //Débug mode
                 if (Input.isPressed(KeyCode.D)) {
+                    context.setFont(Font.font(-1));
                     context.fillText("NB poissons: " + currentLevel.getPoissons().size(), 10, 50);
                     context.fillText("NB projectiles: " + charlotte.getProjectilesTires().size(), 10, 65);
                     context.fillText("Position Charlotte: ", 10, 80);
@@ -230,6 +233,11 @@ public class Main extends Application {
         scene.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ESCAPE) {
                 timer.stop();
+                niveaux.clear();
+                Niveau.resetNbNiveau();
+                for (int i = 0; i < 6; i++) {
+                    niveaux.add(new Niveau());
+                }
                 stage.setScene(originale);
                 Input.setKeyPressed(KeyCode.D, false);
                 Input.setKeyPressed(KeyCode.P, false);
