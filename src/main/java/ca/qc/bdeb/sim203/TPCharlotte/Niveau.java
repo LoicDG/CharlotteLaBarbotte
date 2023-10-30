@@ -74,7 +74,6 @@ public class Niveau {
     public void spawnEnnemis() {
         var random = new Random();
         int nbPoissons = random.nextInt(1, 6);
-        System.out.println(sinceDespawn);
         if (sinceDespawn >= (0.75 + 1 / Math.sqrt(numNiveau))) {
             for (int i = 0; i < nbPoissons; i++) {
                 poissons.add(new Ennemis(Main.WIDTH,

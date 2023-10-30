@@ -79,6 +79,7 @@ public class Main extends Application {
         var sceneInfos = setScreenInfos(titre, stage, ennemiImage);
         //Scène 3, pour jouer
         var sceneJouer = setScreenJouer(titre, stage, currentLevel);
+        //TODO: Faire une classe partie (I was rightl lmao)
         timer = new AnimationTimer() {
             private long lastTime = System.nanoTime();
             private long nowMS = System.currentTimeMillis();
@@ -167,7 +168,7 @@ public class Main extends Application {
                 lastTime = now;
                 currentLevel.checkFini(charlotte);
                 if (currentLevel.isOver() && currentLevel.getNumNiveau() < 6) {
-                    currentLevel = niveaux.get(currentLevel.getNumNiveau());
+                    currentLevel = niveaux.get(currentLevel.getNumNiveau() - 1);
                     nextLevel();
                 }
             }
