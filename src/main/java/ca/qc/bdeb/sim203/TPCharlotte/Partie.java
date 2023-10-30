@@ -31,18 +31,27 @@ public class Partie {
         return partieFinie;
     }
 
+    public Niveau getCurrentLevel() {
+        return currentLevel;
+    }
+
+    public ArrayList<Niveau> getNiveaux() {
+        return niveaux;
+    }
+
+    public Charlotte getCharlotte() {
+        return charlotte;
+    }
+
+
     public void update(double deltaTime) {
         boolean isNotPaused = !Input.isPressed(KeyCode.D) || !Input.isPressed(KeyCode.P);
         if (isNotPaused) {
             long nowMS = System.currentTimeMillis();
 
             charlotte.update(deltaTime, currentLevel);
-
             healthBar.update();
-
             currentLevel.getBaril().updatePhysique();
-
-            //TODO: add deltatime between spawns
             currentLevel.spawnEnnemis();
             double tempsTouchee = (double)
                     (nowMS - charlotte.getTempsTouchee()) / 1000;
@@ -125,19 +134,6 @@ public class Partie {
         currentLevel.setTempsCreationNiveau(System.currentTimeMillis());
         charlotte.setX(0);
         charlotte.setY(Main.HEIGHT / 2);
-    }
-
-    private void retourMenu(Scene originale, Stage stage) {
-        niveaux.clear();
-        Niveau.resetNbNiveau();
-        //charlotte.restart();
-        charlotte = new Charlotte(new Image("code/charlotte.png"), 0, Main.HEIGHT / 2);
-        for (int i = 0; i < 6; i++) {
-            niveaux.add(new Niveau());
-        }
-        stage.setScene(originale);
-        Input.setKeyPressed(KeyCode.D, false);
-        Input.setKeyPressed(KeyCode.P, false);
     }
 
 }

@@ -48,12 +48,11 @@ public class Main extends Application {
         stage.setResizable(false);
         Niveau.creerImages();
         Ennemis.creerImageEnnemis();
-
-        var healthBar = new HealthBar(charlotte);
+        Partie partie = new Partie();
         for (int i = 0; i < 6; i++) {
             niveaux.add(new Niveau());
         }
-        currentLevel = niveaux.get(0);
+        currentLevel = partie.getCurrentLevel();
 
         //region Scène 1, La page titre
         var rootTitre = new VBox();
@@ -72,14 +71,14 @@ public class Main extends Application {
         rootTitre.setSpacing(10);
         //endregion
 
+
         stage.setScene(titre);
         //Scène 2, pour le menu informations
         var rnd = new Random();
         var ennemiImage = new Image("code/poisson" + rnd.nextInt(1, 6) + ".png");
         var sceneInfos = setScreenInfos(titre, stage, ennemiImage);
         //Scène 3, pour jouer
-        var sceneJouer = setScreenJouer(titre, stage, currentLevel);
-        Partie partie = new Partie();
+        var sceneJouer = setScreenJouer(titre, stage, partie);
         timer = new AnimationTimer() {
             private long lastTime = System.nanoTime();
 
@@ -92,6 +91,10 @@ public class Main extends Application {
                 double deltaTime = (now - lastTime) * 1e-9;
                 partie.update(deltaTime);
                 partie.draw(context);
+                if (partie.isPartieFinie()) {
+                    retourMenu(titre, stage);
+                    return;
+                }
                 lastTime = now;
             }
         };
@@ -112,7 +115,6 @@ public class Main extends Application {
                 Platform.exit();
             }
         });
-
         //endregion
         stage.show();
     }
@@ -125,7 +127,6 @@ public class Main extends Application {
         charlotte.setX(0);
         charlotte.setY(HEIGHT / 2);
     }
-
     private Scene setScreenInfos(Scene originale, Stage stage, Image poisson) {
         var root = new VBox();
         var scene = new Scene(root, WIDTH, HEIGHT);
@@ -168,10 +169,10 @@ public class Main extends Application {
         return scene;
     }
 
-    private Scene setScreenJouer(Scene originale, Stage stage, Niveau niveau) {
+    private Scene setScreenJouer(Scene originale, Stage stage, Partie partie) {
         var root = new Pane();
         var scene = new Scene(root, WIDTH, HEIGHT);
-        root.setBackground(niveau.getBg());
+        root.setBackground(partie.getCurrentLevel().getBg());
         root.getChildren().add(canvas);
         scene.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ESCAPE) {
