@@ -23,6 +23,7 @@ import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.Random;
+
 //arraylist des ennemis que charlotte a pas depasse et ajouter un nouveau parametre a charlotte
 public class Main extends Application {
     public static double HEIGHT = 520;
@@ -31,11 +32,14 @@ public class Main extends Application {
     GraphicsContext context = canvas.getGraphicsContext2D();
     Niveau currentLevel;
     ArrayList<Niveau> niveaux = new ArrayList<>();
+    AnimationTimer timer;
+    Charlotte charlotte = new Charlotte(new Image("code/charlotte.png"), WIDTH / 2, HEIGHT / 2);
 
     public static void main(String[] args) {
         launch(args);
     }
 
+    //TODO: créer un objet Timer pour prendre en compte les deltaTemps d'exécution
     @Override
     public void start(Stage stage) {
 
@@ -44,7 +48,7 @@ public class Main extends Application {
         stage.setResizable(false);
         Niveau.creerImages();
         Ennemis.creerImageEnnemis();
-        var charlotte = new Charlotte(new Image("code/charlotte.png"), WIDTH / 2, HEIGHT / 2);
+
         var healthBar = new HealthBar(charlotte);
         for (int i = 0; i < 6; i++) {
             niveaux.add(new Niveau());
@@ -73,7 +77,9 @@ public class Main extends Application {
         var rnd = new Random();
         var ennemiImage = new Image("code/poisson" + rnd.nextInt(1, 6) + ".png");
         var sceneInfos = setScreenInfos(titre, stage, ennemiImage);
-        AnimationTimer timer = new AnimationTimer() {
+        //Scène 3, pour jouer
+        var sceneJouer = setScreenJouer(titre, stage, currentLevel);
+        timer = new AnimationTimer() {
             private long lastTime = System.nanoTime();
             private long nowMS = System.currentTimeMillis();
 
@@ -105,14 +111,9 @@ public class Main extends Application {
                     context.fillText("NB poissons: " + currentLevel.getPoissons().size(), 10, 50);
                     context.fillText("NB projectiles: " + charlotte.getProjectilesTires().size(), 10, 65);
                     context.fillText("Position Charlotte: ", 10, 80);
-                }
-                double tempsPassee = (nowMS - currentLevel.getTempsCreationNiveau()) / 1000;
-                if (tempsPassee % (0.75 + 1 / Math.sqrt(currentLevel.getNumNiveau())) <= 0.02 &&
-                        (nowMS - currentLevel.getTempsExec()) / 1000 > 0.5) {
-                    if (isNotPaused) {
-                        currentLevel.spawnEnnemis();
-                        currentLevel.setTempsExec(nowMS);
-                    }
+                } //TODO: add deltatime between spawns
+                if (isNotPaused) {
+                    currentLevel.spawnEnnemis();
                 }
                 double tempsTouchee = (double)
                         (nowMS - charlotte.getTempsTouchee()) / 1000;
@@ -140,11 +141,11 @@ public class Main extends Application {
                                 charlotte.isTouchee();
                                 charlotte.setTempsTouchee(nowMS);
                             }
-                            if (charlotte.isEnCollision(currentLevel.getBaril()) && !currentLevel.getBaril().isEstOuvert()){
+                            if (charlotte.isEnCollision(currentLevel.getBaril()) && !currentLevel.getBaril().isEstOuvert()) {
                                 currentLevel.getBaril().setEstOuvert(true);
                                 currentLevel.getBaril().setImageBaril(new Image("code/baril-ouvert.png"));
-                                if (charlotte.getChoixProjectile() < 3){
-                                    charlotte.setChoixProjectile(charlotte.getChoixProjectile()+1);
+                                if (charlotte.getChoixProjectile() < 3) {
+                                    charlotte.setChoixProjectile(charlotte.getChoixProjectile() + 1);
                                 } else {
                                     charlotte.setChoixProjectile(1);
                                 }
@@ -164,11 +165,13 @@ public class Main extends Application {
                     }
                 }
                 lastTime = now;
+                currentLevel.checkFini(charlotte);
+                if (currentLevel.isOver() && currentLevel.getNumNiveau() < 6) {
+                    currentLevel = niveaux.get(currentLevel.getNumNiveau());
+                    nextLevel();
+                }
             }
         };
-
-        //Scène 3, pour jouer
-        var sceneJouer = setScreenJouer(titre, stage, currentLevel, timer);
 
         //region Événementiel
         infos.setOnAction(event -> {
@@ -178,11 +181,7 @@ public class Main extends Application {
             stage.setScene(sceneInfos);
         });
         jouer.setOnAction(event -> {
-            stage.setScene(sceneJouer);
-            charlotte.restart();
-            currentLevel.getPoissons().clear();
-            charlotte.getProjectilesTires().clear();
-            currentLevel = niveaux.get(0);
+            startGame(stage, sceneJouer);
             timer.start();
         });
         titre.setOnKeyPressed(event -> {
@@ -193,6 +192,23 @@ public class Main extends Application {
 
         //endregion
         stage.show();
+    }
+
+    private void startGame(Stage stage, Scene sceneJouer) {
+        stage.setScene(sceneJouer);
+        currentLevel.getPoissons().clear();
+        charlotte.getProjectilesTires().clear();
+        currentLevel = niveaux.get(0);
+        charlotte.setX(0);
+        charlotte.setY(HEIGHT / 2);
+    }
+
+    private void nextLevel() {
+        charlotte.getProjectilesTires().clear();
+        currentLevel = niveaux.get(currentLevel.getNumNiveau());
+        currentLevel.setTempsCreationNiveau(System.currentTimeMillis());
+        charlotte.setX(0);
+        charlotte.setY(HEIGHT / 2);
     }
 
     private Scene setScreenInfos(Scene originale, Stage stage, Image poisson) {
@@ -237,7 +253,7 @@ public class Main extends Application {
         return scene;
     }
 
-    private Scene setScreenJouer(Scene originale, Stage stage, Niveau niveau, AnimationTimer timer) {
+    private Scene setScreenJouer(Scene originale, Stage stage, Niveau niveau) {
         var root = new Pane();
         var scene = new Scene(root, WIDTH, HEIGHT);
         root.setBackground(niveau.getBg());
@@ -265,6 +281,8 @@ public class Main extends Application {
     private void retourMenu(Scene originale, Stage stage) {
         niveaux.clear();
         Niveau.resetNbNiveau();
+        //charlotte.restart();
+        charlotte = new Charlotte(new Image("code/charlotte.png"), 0, HEIGHT / 2);
         for (int i = 0; i < 6; i++) {
             niveaux.add(new Niveau());
         }

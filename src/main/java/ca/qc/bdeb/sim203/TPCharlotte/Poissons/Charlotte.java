@@ -73,6 +73,14 @@ public class Charlotte extends Poisson {
         this.tempsTouchee = tempsTouchee;
     }
 
+    public void setX(double x) {
+        this.x = x;
+    }
+
+    public void setY(double y) {
+        this.y = y;
+    }
+
     public void update(double deltaTime, Niveau niveauCourant) {
         super.update(deltaTime);
         if ((double) System.currentTimeMillis() / 1000 - tempsVisible >= 0.5 && invincible) {
