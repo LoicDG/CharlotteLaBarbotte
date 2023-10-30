@@ -16,6 +16,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -100,6 +101,7 @@ public class Main extends Application {
                 //Débug mode
                 if (Input.isPressed(KeyCode.D)) {
                     context.setFont(Font.font(-1));
+                    context.setFill(Color.WHITE);
                     context.fillText("NB poissons: " + currentLevel.getPoissons().size(), 10, 50);
                     context.fillText("NB projectiles: " + charlotte.getProjectilesTires().size(), 10, 65);
                     context.fillText("Position Charlotte: ", 10, 80);
@@ -152,8 +154,14 @@ public class Main extends Application {
                     currentLevel.isPlusLa();
                 }
                 if (!charlotte.isAlive()) {
-                    retourMenu(titre, stage);
-                    return;
+                    if (System.currentTimeMillis() - charlotte.getDeathTime() > 4000) {
+                        retourMenu(titre, stage);
+                        return;
+                    } else {
+                        context.setFill(Color.RED);
+                        context.setFont(Font.font("Comic Sans MS", 72));
+                        context.fillText("Fin de partie", WIDTH / 4, Main.HEIGHT / 2);
+                    }
                 }
                 lastTime = now;
             }

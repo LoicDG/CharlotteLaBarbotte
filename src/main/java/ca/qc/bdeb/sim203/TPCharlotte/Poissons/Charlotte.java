@@ -26,6 +26,8 @@ public class Charlotte extends Poisson {
     private boolean invincible = false;
     private long tempsTouchee = 0;
     private double tempsVisible = 0;
+    private long deathTime;
+    private boolean first = true;
 
 
     public Charlotte(Image imagePoisson, double x, double y) {
@@ -48,7 +50,15 @@ public class Charlotte extends Poisson {
     }
 
     public boolean isAlive() {
+        if (pv == 0 && first) {
+            deathTime = System.currentTimeMillis();
+            first = false;
+        }
         return pv > 0;
+    }
+
+    public long getDeathTime() {
+        return deathTime;
     }
 
     public boolean isInvincible() {
