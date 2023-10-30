@@ -25,6 +25,7 @@ public class Charlotte extends Poisson {
     private int pv = 4;
     private boolean invincible = false;
     private long tempsTouchee = 0;
+    private double tempsVisible = 0;
 
 
     public Charlotte(Image imagePoisson, double x, double y) {
@@ -50,10 +51,6 @@ public class Charlotte extends Poisson {
         return invincible;
     }
 
-    public void setInvincible(boolean invincible) {
-        this.invincible = invincible;
-    }
-
     public long getTempsTouchee() {
         return tempsTouchee;
     }
@@ -64,6 +61,9 @@ public class Charlotte extends Poisson {
 
     public void update(double deltaTime, Niveau niveauCourant) {
         super.update(deltaTime);
+        if ((double) System.currentTimeMillis() / 1000 - tempsVisible >= 0.5 && invincible) {
+            tempsVisible = (double) System.currentTimeMillis() / 1000;
+        }
         invincible = (System.currentTimeMillis() - tempsTouchee) / 1000 < 2;
         if ((vx != 0 || vy != 0) && !invincible) {
             imagePoisson = new Image("code/charlotte-avant.png");
@@ -108,7 +108,9 @@ public class Charlotte extends Poisson {
 
     @Override
     public void draw(GraphicsContext context) {
-        super.draw(context);
+        if ((double) System.currentTimeMillis() / 1000 - tempsVisible <= 0.25 || !invincible) {
+            super.draw(context);
+        }
         for (var projectile : projectilesTires) {
             projectile.draw(context);
             if (Input.isPressed(KeyCode.D)) {
@@ -202,6 +204,7 @@ public class Charlotte extends Poisson {
 
     public void isTouchee() {
         invincible = true;
+        tempsVisible = (double) System.currentTimeMillis() / 1000;
         pv -= 1;
     }
 }
