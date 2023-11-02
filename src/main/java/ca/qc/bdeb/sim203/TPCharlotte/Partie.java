@@ -53,8 +53,7 @@ public class Partie {
             healthBar.update();
             currentLevel.getBaril().updatePhysique();
             currentLevel.spawnEnnemis();
-            double tempsTouchee = (double)
-                    (nowMS - charlotte.getTempsTouchee()) / 1000;
+            double tempsTouchee = (double) (nowMS - charlotte.getTempsTouchee()) / 1000;
             if (!currentLevel.getPoissons().isEmpty()) {
                 for (int i = 0; i < currentLevel.getPoissons().size(); i++) {
                     var poisson = currentLevel.getPoissons().get(i);
@@ -67,22 +66,22 @@ public class Partie {
                             }
                             break;
                         }
-                        if (currentLevel.getPoissons().isEmpty()) {
-                            break;
-                        }
-                        if (charlotte.isEnCollision(currentLevel.getPoissons().get(i)) && tempsTouchee > 2
-                                && !charlotte.isInvincible()) {
-                            charlotte.isTouchee();
-                            charlotte.setTempsTouchee(nowMS);
-                        }
-                        if (charlotte.isEnCollision(currentLevel.getBaril()) && !currentLevel.getBaril().isEstOuvert()) {
-                            currentLevel.getBaril().setEstOuvert(true);
-                            currentLevel.getBaril().setImageBaril(new Image("code/baril-ouvert.png"));
-                            if (charlotte.getChoixProjectile() < 3) {
-                                charlotte.setChoixProjectile(charlotte.getChoixProjectile() + 1);
-                            } else {
-                                charlotte.setChoixProjectile(1);
-                            }
+                    }
+                    if (currentLevel.getPoissons().isEmpty()) {
+                        break;
+                    }
+                    if (charlotte.isEnCollision(currentLevel.getPoissons().get(i)) && tempsTouchee > 2
+                            && !charlotte.isInvincible()) {
+                        charlotte.isTouchee();
+                        charlotte.setTempsTouchee(nowMS);
+                    }
+                    if (charlotte.isEnCollision(currentLevel.getBaril()) && !currentLevel.getBaril().isEstOuvert()) {
+                        currentLevel.getBaril().setEstOuvert(true);
+                        currentLevel.getBaril().setImageBaril(new Image("code/baril-ouvert.png"));
+                        if (charlotte.getChoixProjectile() < 3) {
+                            charlotte.setChoixProjectile(charlotte.getChoixProjectile() + 1);
+                        } else {
+                            charlotte.setChoixProjectile(1);
                         }
                     }
                 }
@@ -100,6 +99,7 @@ public class Partie {
             currentLevel = niveaux.get(currentLevel.getNumNiveau() - 1);
             nextLevel();
         }
+
     }
 
     public void draw(GraphicsContext context) {
