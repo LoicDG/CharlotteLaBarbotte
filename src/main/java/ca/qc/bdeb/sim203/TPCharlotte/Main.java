@@ -19,6 +19,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
+import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
@@ -28,6 +30,7 @@ import java.util.Random;
 public class Main extends Application {
     public static double HEIGHT = 520;
     public static double WIDTH = 900;
+    Partie partie;
     Canvas canvas = new Canvas(WIDTH, HEIGHT);
     GraphicsContext context = canvas.getGraphicsContext2D();
     Niveau currentLevel;
@@ -49,7 +52,7 @@ public class Main extends Application {
         Niveau.creerImages();
         Ennemis.creerImageEnnemis();
 
-        var healthBar = new HealthBar(charlotte);
+        partie = new Partie(charlotte,new HealthBar(charlotte));
         for (int i = 0; i < 6; i++) {
             niveaux.add(new Niveau());
         }
@@ -97,16 +100,15 @@ public class Main extends Application {
                 }
                 if (isNotPaused) {
                     context.clearRect(0, 0, WIDTH, HEIGHT);
-                    currentLevel.afficherNumNiveau(context);
-                    charlotte.update(deltaTime, currentLevel);
-                    charlotte.draw(context);
-                    healthBar.update();
-                    healthBar.draw(context);
+                    partie.afficherNumNiveau(context);
+                    partie.update(deltaTime,currentLevel);
+                    partie.draw(context);
                     currentLevel.getBaril().updatePhysique();
                     currentLevel.getBaril().draw(context);
                 }
                 //Débug mode
                 if (Input.isPressed(KeyCode.D)) {
+//                    partie.debugMode(context);
                     context.setFont(Font.font(-1));
                     context.setFill(Color.WHITE);
                     context.fillText("NB poissons: " + currentLevel.getPoissons().size(), 10, 50);
@@ -169,6 +171,7 @@ public class Main extends Application {
                 currentLevel.checkFini(charlotte);
                 if (currentLevel.isOver() && currentLevel.getNumNiveau() < 6) {
                     currentLevel = niveaux.get(currentLevel.getNumNiveau() - 1);
+                    partie.setNiveauCourant(currentLevel);
                     nextLevel();
                 }
             }
@@ -200,6 +203,7 @@ public class Main extends Application {
         currentLevel.getPoissons().clear();
         charlotte.getProjectilesTires().clear();
         currentLevel = niveaux.get(0);
+        partie.setNiveauCourant(currentLevel);
         charlotte.setX(0);
         charlotte.setY(HEIGHT / 2);
     }
@@ -207,6 +211,7 @@ public class Main extends Application {
     private void nextLevel() {
         charlotte.getProjectilesTires().clear();
         currentLevel = niveaux.get(currentLevel.getNumNiveau());
+        partie.setNiveauCourant(currentLevel);
         currentLevel.setTempsCreationNiveau(System.currentTimeMillis());
         charlotte.setX(0);
         charlotte.setY(HEIGHT / 2);
@@ -225,13 +230,17 @@ public class Main extends Application {
         imageEnnemi.setFitHeight(HEIGHT * 0.4);
 
         //Collaborateurs
-        var collabos = new VBox();
-        var loic = new Text("Par Loïc Desrochers-Girard"); //TODO: arranger le style de "Par" et "et" si on veut
+        var collabos = new TextFlow();
+        var par = new Text("Par ");
+        par.setFont(Font.font(25));
+        var loic = new Text("Loïc Desrochers-Girard\n"); //TODO: arranger le style de "Par" et "et" si on veut
         loic.setFont(Font.font(32));
-        var sebby = new Text("et Sebastian Crête");
+        var et = new Text(" et ");
+        et.setFont(Font.font(25));
+        var sebby = new Text("Sebastian Crête");
         sebby.setFont(Font.font(32));
-        collabos.getChildren().addAll(loic, sebby);
-        collabos.setAlignment(Pos.CENTER);
+        collabos.getChildren().addAll(par,loic,et, sebby);
+        collabos.setTextAlignment(TextAlignment.CENTER);
 
         //Description du travail
         var sources = new Text("""

@@ -25,16 +25,20 @@ public class BoiteDeSardine extends Projectiles{
     public void updatePhysique(double deltaTime) {
         forceEnX = 0;
         forceEnY = 0;
-        for (Ennemis ennemi : listeEnnemis){
-            double distance = Math.sqrt(Math.pow(posX - ennemi.getX(), 2) + Math.pow(posY - ennemi.getY(), 2));
-            if (distance < 0.01){
-                distance = 0.01;
+        for (int i = 0; i < listeEnnemis.size();i++){
+            double distance = Math.sqrt(Math.pow(posX - listeEnnemis.get(i).getX(), 2) + Math.pow(posY - listeEnnemis.get(i).getY(), 2));
+    //Checker si l'ennemi a depasse charlotte et/ou le projectile lui meme
+            if (distance < 0){
+                continue;
             }
-            double deltaX = posX - ennemi.getX();
-            double deltaY = posY - ennemi.getY();
+            if (distance <0.1){
+                distance = 0.1;
+            }
+            double deltaX = posX - listeEnnemis.get(i).getX();
+            double deltaY = posY - listeEnnemis.get(i).getY();
             double proportionX = deltaX/distance;
             double proportionY = deltaY/distance;
-            double forceElectrique = (K*-100*200)/Math.pow(distance,2);
+            double forceElectrique = (K*-100*200)/(Math.pow(distance,2));
             forceEnX += forceElectrique/proportionX;
             forceEnY += forceElectrique/proportionY;
         }
