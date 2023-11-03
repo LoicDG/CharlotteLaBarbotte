@@ -19,8 +19,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
-import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
@@ -30,7 +28,6 @@ import java.util.Random;
 public class Main extends Application {
     public static double HEIGHT = 520;
     public static double WIDTH = 900;
-    Partie partie;
     Canvas canvas = new Canvas(WIDTH, HEIGHT);
     GraphicsContext context = canvas.getGraphicsContext2D();
     Niveau currentLevel;
@@ -51,12 +48,11 @@ public class Main extends Application {
         stage.setResizable(false);
         Niveau.creerImages();
         Ennemis.creerImageEnnemis();
-
-        partie = new Partie(charlotte,new HealthBar(charlotte));
+        Partie partie = new Partie();
         for (int i = 0; i < 6; i++) {
             niveaux.add(new Niveau());
         }
-        currentLevel = niveaux.get(0);
+        currentLevel = partie.getCurrentLevel();
 
         //region Scène 1, La page titre
         var rootTitre = new VBox();
@@ -75,17 +71,16 @@ public class Main extends Application {
         rootTitre.setSpacing(10);
         //endregion
 
+
         stage.setScene(titre);
         //Scène 2, pour le menu informations
         var rnd = new Random();
         var ennemiImage = new Image("code/poisson" + rnd.nextInt(1, 6) + ".png");
         var sceneInfos = setScreenInfos(titre, stage, ennemiImage);
         //Scène 3, pour jouer
-        var sceneJouer = setScreenJouer(titre, stage, currentLevel);
-        //TODO: Faire une classe partie (I was rightl lmao)
+        var sceneJouer = setScreenJouer(titre, stage, partie);
         timer = new AnimationTimer() {
             private long lastTime = System.nanoTime();
-            private long nowMS = System.currentTimeMillis();
 
             @Override
             public void handle(long now) {
@@ -93,88 +88,14 @@ public class Main extends Application {
                     lastTime = now;
                     return;
                 }
-                boolean isNotPaused = !Input.isPressed(KeyCode.D) || !Input.isPressed(KeyCode.P);
                 double deltaTime = (now - lastTime) * 1e-9;
-                if (isNotPaused) {
-                    nowMS = System.currentTimeMillis();
-                }
-                if (isNotPaused) {
-                    context.clearRect(0, 0, WIDTH, HEIGHT);
-                    partie.afficherNumNiveau(context);
-                    partie.update(deltaTime,currentLevel);
-                    partie.draw(context);
-                    currentLevel.getBaril().updatePhysique();
-                    currentLevel.getBaril().draw(context);
-                }
-                //Débug mode
-                if (Input.isPressed(KeyCode.D)) {
-//                    partie.debugMode(context);
-                    context.setFont(Font.font(-1));
-                    context.setFill(Color.WHITE);
-                    context.fillText("NB poissons: " + currentLevel.getPoissons().size(), 10, 50);
-                    context.fillText("NB projectiles: " + charlotte.getProjectilesTires().size(), 10, 65);
-                    context.fillText("Position Charlotte: ", 10, 80);
-                } //TODO: add deltatime between spawns
-                if (isNotPaused) {
-                    currentLevel.spawnEnnemis();
-                }
-                double tempsTouchee = (double)
-                        (nowMS - charlotte.getTempsTouchee()) / 1000;
-                if (!currentLevel.getPoissons().isEmpty()) {
-                    for (int i = 0; i < currentLevel.getPoissons().size(); i++) {
-                        var poisson = currentLevel.getPoissons().get(i);
-                        if (isNotPaused) {
-                            poisson.update(deltaTime);
-                            poisson.draw(context);
-                            for (int j = 0; j < charlotte.getProjectilesTires().size(); j++) {
-                                if (poisson.isEnCollision(charlotte.getProjectilesTires().get(j))) {
-                                    currentLevel.getPoissons().remove(poisson);
-                                    charlotte.getProjectilesTires().remove(charlotte.getProjectilesTires().get(j));
-                                    if (i != 0) {
-                                        i--;
-                                    }
-                                    break;
-                                }
-                            }
-                            if (currentLevel.getPoissons().isEmpty()) {
-                                break;
-                            }
-                            //TODO: Game logic, déplacer ça dans le modèle ?
-                            if (charlotte.isEnCollision(currentLevel.getPoissons().get(i)) && tempsTouchee > 2
-                                    && !charlotte.isInvincible()) {
-                                charlotte.isTouchee();
-                                charlotte.setTempsTouchee(nowMS);
-                            }
-                            if (charlotte.isEnCollision(currentLevel.getBaril()) && !currentLevel.getBaril().isEstOuvert()) {
-                                currentLevel.getBaril().setEstOuvert(true);
-                                currentLevel.getBaril().setImageBaril(new Image("code/baril-ouvert.png"));
-                                if (charlotte.getChoixProjectile() < 3) {
-                                    charlotte.setChoixProjectile(charlotte.getChoixProjectile() + 1);
-                                } else {
-                                    charlotte.setChoixProjectile(1);
-                                }
-                            }
-                        }
-                    }
-                    currentLevel.isPlusLa();
-                }
-                if (!charlotte.isAlive()) {
-                    if (System.currentTimeMillis() - charlotte.getDeathTime() > 4000) {
-                        retourMenu(titre, stage);
-                        return;
-                    } else {
-                        context.setFill(Color.RED);
-                        context.setFont(Font.font("Comic Sans MS", 72));
-                        context.fillText("Fin de partie", WIDTH / 4, Main.HEIGHT / 2);
-                    }
+                partie.update(deltaTime);
+                partie.draw(context);
+                if (partie.isPartieFinie()) {
+                    retourMenu(titre, stage);
+                    return;
                 }
                 lastTime = now;
-                currentLevel.checkFini(charlotte);
-                if (currentLevel.isOver() && currentLevel.getNumNiveau() < 6) {
-                    currentLevel = niveaux.get(currentLevel.getNumNiveau() - 1);
-                    partie.setNiveauCourant(currentLevel);
-                    nextLevel();
-                }
             }
         };
 
@@ -194,7 +115,6 @@ public class Main extends Application {
                 Platform.exit();
             }
         });
-
         //endregion
         stage.show();
     }
@@ -204,20 +124,9 @@ public class Main extends Application {
         currentLevel.getPoissons().clear();
         charlotte.getProjectilesTires().clear();
         currentLevel = niveaux.get(0);
-        partie.setNiveauCourant(currentLevel);
         charlotte.setX(0);
         charlotte.setY(HEIGHT / 2);
     }
-
-    private void nextLevel() {
-        charlotte.getProjectilesTires().clear();
-        currentLevel = niveaux.get(currentLevel.getNumNiveau());
-        partie.setNiveauCourant(currentLevel);
-        currentLevel.setTempsCreationNiveau(System.currentTimeMillis());
-        charlotte.setX(0);
-        charlotte.setY(HEIGHT / 2);
-    }
-
     private Scene setScreenInfos(Scene originale, Stage stage, Image poisson) {
         var root = new VBox();
         var scene = new Scene(root, WIDTH, HEIGHT);
@@ -231,17 +140,13 @@ public class Main extends Application {
         imageEnnemi.setFitHeight(HEIGHT * 0.4);
 
         //Collaborateurs
-        var collabos = new TextFlow();
-        var par = new Text("Par ");
-        par.setFont(Font.font(25));
-        var loic = new Text("Loïc Desrochers-Girard\n"); //TODO: arranger le style de "Par" et "et" si on veut
+        var collabos = new VBox();
+        var loic = new Text("Par Loïc Desrochers-Girard"); //TODO: arranger le style de "Par" et "et" si on veut
         loic.setFont(Font.font(32));
-        var et = new Text(" et ");
-        et.setFont(Font.font(25));
-        var sebby = new Text("Sebastian Crête");
+        var sebby = new Text("et Sebastian Crête");
         sebby.setFont(Font.font(32));
-        collabos.getChildren().addAll(par,loic,et, sebby);
-        collabos.setTextAlignment(TextAlignment.CENTER);
+        collabos.getChildren().addAll(loic, sebby);
+        collabos.setAlignment(Pos.CENTER);
 
         //Description du travail
         var sources = new Text("""
@@ -264,10 +169,10 @@ public class Main extends Application {
         return scene;
     }
 
-    private Scene setScreenJouer(Scene originale, Stage stage, Niveau niveau) {
+    private Scene setScreenJouer(Scene originale, Stage stage, Partie partie) {
         var root = new Pane();
         var scene = new Scene(root, WIDTH, HEIGHT);
-        root.setBackground(niveau.getBg());
+        root.setBackground(partie.getCurrentLevel().getBg());
         root.getChildren().add(canvas);
         scene.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ESCAPE) {
@@ -288,12 +193,11 @@ public class Main extends Application {
         return scene;
 
     }
-
     private void retourMenu(Scene originale, Stage stage) {
         niveaux.clear();
         Niveau.resetNbNiveau();
         //charlotte.restart();
-        charlotte = new Charlotte(new Image("code/charlotte.png"), 0, HEIGHT / 2);
+        charlotte = new Charlotte(new Image("code/charlotte.png"), 0, Main.HEIGHT / 2);
         for (int i = 0; i < 6; i++) {
             niveaux.add(new Niveau());
         }
@@ -301,4 +205,5 @@ public class Main extends Application {
         Input.setKeyPressed(KeyCode.D, false);
         Input.setKeyPressed(KeyCode.P, false);
     }
+
 }
