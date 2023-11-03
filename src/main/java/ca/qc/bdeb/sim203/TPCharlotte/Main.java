@@ -132,7 +132,7 @@ public class Main extends Application {
         var scene = new Scene(root, WIDTH, HEIGHT);
         var titre = new Text("Charlotte la Barbotte");
         titre.setFont(Font.font(48));
-        root.setStyle("-fx-background-color: #2A7FFF;");
+        root.setStyle("-fx-background-color: #2A7FFF");
 
         //image poisson
         var imageEnnemi = new ImageView(poisson);
@@ -151,7 +151,7 @@ public class Main extends Application {
         //Description du travail
         var sources = new Text("""
                 Travail remis à Nicolas Hurtubise et Georges Côté. Graphismes adaptés de https://game-icons.net/ et de
-                https://openclipart.org/. Dgitéveloppé dans le cadre du cours 420-203-RE - Développement de programmes\s
+                https://openclipart.org/. Développé dans le cadre du cours 420-203-RE - Développement de programmes\s
                 dans un environnement graphique, au Collège de Bois-de-Boulogne.""");
 
         var boutonRetour = new Button("Retour");
