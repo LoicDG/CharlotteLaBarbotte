@@ -11,6 +11,10 @@ import javafx.stage.Stage;
 
 import java.util.ArrayList;
 
+//TODO: Il n'y a pas 6 niveaux, le jeu continue à 
+//l'infini jusqu'à ce qu'on meure (regarder PDF
+//au cas où)
+
 public class Partie {
     private Charlotte charlotte;
     private ArrayList<Niveau> niveaux = new ArrayList<>();
