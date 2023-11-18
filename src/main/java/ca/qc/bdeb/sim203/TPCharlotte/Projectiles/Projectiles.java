@@ -40,7 +40,7 @@ public abstract class Projectiles implements CanCollide {
     }
 
     public boolean estSortiEcran() {
-        return posX + largeur < 0 || posX > Main.WIDTH || posY + hauteur < 0 || posY > Main.HEIGHT;
+        return posX + largeur < 0 || posX > Main.TAILLE_NIVEAU || posY + hauteur < 0 || posY > Main.HEIGHT;
     }
 }
 

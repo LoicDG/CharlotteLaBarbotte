@@ -28,7 +28,7 @@ public class Partie {
         }
         currentLevel = niveaux.get(0);
         healthBar = new HealthBar(charlotte);
-        camera = new Camera(Main.WIDTH, this);
+        camera = new Camera(Main.WIDTH);
     }
 
     public boolean isPartieFinie() {
@@ -112,6 +112,7 @@ public class Partie {
             currentLevel.afficherNumNiveau(context);
             charlotte.draw(context);
             healthBar.draw(context);
+
             if (Input.isPressed(KeyCode.D)) {
                 context.setFont(Font.font(-1));
                 context.setFill(Color.WHITE);

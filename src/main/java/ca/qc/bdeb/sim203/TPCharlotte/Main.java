@@ -28,6 +28,7 @@ import java.util.Random;
 public class Main extends Application {
     public static double HEIGHT = 520;
     public static double WIDTH = 900;
+    public static double TAILLE_NIVEAU = WIDTH*8;
     Canvas canvas = new Canvas(WIDTH, HEIGHT);
     GraphicsContext context = canvas.getGraphicsContext2D();
     Niveau currentLevel;

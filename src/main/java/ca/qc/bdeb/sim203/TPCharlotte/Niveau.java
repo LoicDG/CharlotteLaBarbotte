@@ -15,11 +15,6 @@ import java.util.Random;
 public class Niveau {
     private Background bg;
 
-    public double getTAILLE_DU_NIVEAU() {
-        return TAILLE_DU_NIVEAU;
-    }
-
-    private final double TAILLE_DU_NIVEAU = 8 * 900;
     private static int nbNiveau = 0;
     private int numNiveau;
     private static ArrayList<Image> images = new ArrayList<>();
@@ -43,8 +38,8 @@ public class Niveau {
         numNiveau = nbNiveau;
         tempsCreationNiveau = System.currentTimeMillis();
         Random random = new Random();
-        double minRange = TAILLE_DU_NIVEAU/ 5;
-        double maxRange = (4*TAILLE_DU_NIVEAU)/5;
+        double minRange = Main.TAILLE_NIVEAU/ 5;
+        double maxRange = (4*Main.TAILLE_NIVEAU)/5;
         double xBaril = minRange + random.nextDouble() * (maxRange - minRange);
         baril = new Baril(xBaril, 0, tempsCreationNiveau);
 
@@ -81,7 +76,7 @@ public class Niveau {
         int nbPoissons = random.nextInt(1, 6);
         if (sinceDespawn >= (0.75 + 1 / Math.sqrt(numNiveau))) {
             for (int i = 0; i < nbPoissons; i++) {
-                poissons.add(new Ennemis(Main.WIDTH,
+                poissons.add(new Ennemis(Main.TAILLE_NIVEAU,
                         random.nextDouble(Main.HEIGHT * 0.2, Main.HEIGHT * 0.81), numNiveau));
             }
             tempsExec = System.currentTimeMillis();
@@ -112,7 +107,7 @@ public class Niveau {
     }
 
     public void checkFini(Charlotte charlotte) {
-        if (charlotte.getX() + charlotte.getW() >= Main.WIDTH) {
+        if (charlotte.getX() + charlotte.getW() >= Main.TAILLE_NIVEAU) {
             isOver = true;
         }
     }

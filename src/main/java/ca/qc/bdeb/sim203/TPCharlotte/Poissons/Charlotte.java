@@ -163,7 +163,7 @@ public class Charlotte extends Poisson {
         y += vy * deltaTime;
 
         // Ensure Charlotte stays within the screen boundaries
-        x = adjustPosition(x, Main.WIDTH, w);
+        x = adjustPosition(x, Main.TAILLE_NIVEAU, w);
         y = adjustPosition(y, Main.HEIGHT, h);
     }
 
