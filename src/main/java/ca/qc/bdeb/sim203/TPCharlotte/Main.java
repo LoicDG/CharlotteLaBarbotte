@@ -96,6 +96,7 @@ public class Main extends Application {
                     return;
                 }
                 lastTime = now;
+                lastTime = now;
             }
         };
 

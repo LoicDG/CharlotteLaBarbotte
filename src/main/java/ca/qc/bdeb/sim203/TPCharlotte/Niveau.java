@@ -14,6 +14,11 @@ import java.util.Random;
 
 public class Niveau {
     private Background bg;
+
+    public double getTAILLE_DU_NIVEAU() {
+        return TAILLE_DU_NIVEAU;
+    }
+
     private final double TAILLE_DU_NIVEAU = 8 * 900;
     private static int nbNiveau = 0;
     private int numNiveau;
@@ -38,8 +43,8 @@ public class Niveau {
         numNiveau = nbNiveau;
         tempsCreationNiveau = System.currentTimeMillis();
         Random random = new Random();
-        double minRange = (1 / 5) * TAILLE_DU_NIVEAU;
-        double maxRange = (4 / 5) * TAILLE_DU_NIVEAU;
+        double minRange = TAILLE_DU_NIVEAU/ 5;
+        double maxRange = (4*TAILLE_DU_NIVEAU)/5;
         double xBaril = minRange + random.nextDouble() * (maxRange - minRange);
         baril = new Baril(xBaril, 0, tempsCreationNiveau);
 

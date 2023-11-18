@@ -10,6 +10,11 @@ import javafx.scene.paint.Color;
 
 public class Poisson implements CanCollide {
     protected Image imagePoisson;
+
+    public double getVx() {
+        return vx;
+    }
+
     protected double vx, vy, ax, ay;
     protected double x, y;
     protected double w, h;

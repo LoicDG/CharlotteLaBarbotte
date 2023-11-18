@@ -1,13 +1,11 @@
 package ca.qc.bdeb.sim203.TPCharlotte;
 
 import ca.qc.bdeb.sim203.TPCharlotte.Poissons.Charlotte;
-import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import javafx.stage.Stage;
 
 import java.util.ArrayList;
 
@@ -21,6 +19,7 @@ public class Partie {
     private Niveau currentLevel;
     private HealthBar healthBar;
     private boolean partieFinie = false;
+    private Camera camera;
 
     public Partie() {
         charlotte = new Charlotte(new Image("code/charlotte.png"), 0, Main.HEIGHT / 2);
@@ -29,6 +28,7 @@ public class Partie {
         }
         currentLevel = niveaux.get(0);
         healthBar = new HealthBar(charlotte);
+        camera = new Camera(Main.WIDTH, this);
     }
 
     public boolean isPartieFinie() {
@@ -46,13 +46,11 @@ public class Partie {
     public Charlotte getCharlotte() {
         return charlotte;
     }
-
-
     public void update(double deltaTime) {
         boolean isNotPaused = !Input.isPressed(KeyCode.D) || !Input.isPressed(KeyCode.P);
         if (isNotPaused) {
             long nowMS = System.currentTimeMillis();
-
+            camera.follow(charlotte);
             charlotte.update(deltaTime, currentLevel);
             healthBar.update();
             currentLevel.getBaril().updatePhysique();
@@ -110,6 +108,7 @@ public class Partie {
         boolean isNotPaused = !Input.isPressed(KeyCode.D) || !Input.isPressed(KeyCode.P);
         if (isNotPaused) {
             context.clearRect(0, 0, Main.WIDTH, Main.HEIGHT);
+            camera.apply(context);
             currentLevel.afficherNumNiveau(context);
             charlotte.draw(context);
             healthBar.draw(context);
@@ -129,6 +128,7 @@ public class Partie {
                 context.setFont(Font.font("Comic Sans MS", 72));
                 context.fillText("Fin de partie", Main.WIDTH / 4, Main.HEIGHT / 2);
             }
+            context.setTransform(1, 0, 0, 1, 0, 0);
         }
     }
 
