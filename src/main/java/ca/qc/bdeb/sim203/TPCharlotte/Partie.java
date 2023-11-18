@@ -9,13 +9,8 @@ import javafx.scene.text.Font;
 
 import java.util.ArrayList;
 
-//TODO: Il n'y a pas 6 niveaux, le jeu continue à 
-//l'infini jusqu'à ce qu'on meure (regarder PDF
-//au cas où)
-
 public class Partie {
     private Charlotte charlotte;
-    private ArrayList<Niveau> niveaux = new ArrayList<>();
     private Niveau currentLevel;
     private HealthBar healthBar;
     private boolean partieFinie = false;
@@ -23,10 +18,7 @@ public class Partie {
 
     public Partie() {
         charlotte = new Charlotte(new Image("code/charlotte.png"), 0, Main.HEIGHT / 2);
-        for (int i = 0; i < 6; i++) {
-            niveaux.add(new Niveau());
-        }
-        currentLevel = niveaux.get(0);
+        currentLevel = new Niveau();
         healthBar = new HealthBar(charlotte);
         camera = new Camera(Main.WIDTH);
     }
@@ -37,14 +29,6 @@ public class Partie {
 
     public Niveau getCurrentLevel() {
         return currentLevel;
-    }
-
-    public ArrayList<Niveau> getNiveaux() {
-        return niveaux;
-    }
-
-    public Charlotte getCharlotte() {
-        return charlotte;
     }
     public void update(double deltaTime) {
         boolean isNotPaused = !Input.isPressed(KeyCode.D) || !Input.isPressed(KeyCode.P);
@@ -97,8 +81,7 @@ public class Partie {
             }
         }
         currentLevel.checkFini(charlotte);
-        if (currentLevel.isOver() && currentLevel.getNumNiveau() < 6) {
-            currentLevel = niveaux.get(currentLevel.getNumNiveau() - 1);
+        if (currentLevel.isOver()) {
             nextLevel();
         }
 
@@ -135,7 +118,7 @@ public class Partie {
 
     private void nextLevel() {
         charlotte.getProjectilesTires().clear();
-        currentLevel = niveaux.get(currentLevel.getNumNiveau());
+        currentLevel = new Niveau();
         currentLevel.setTempsCreationNiveau(System.currentTimeMillis());
         charlotte.setX(0);
         charlotte.setY(Main.HEIGHT / 2);
