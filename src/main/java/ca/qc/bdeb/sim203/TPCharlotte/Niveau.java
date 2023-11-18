@@ -15,10 +15,6 @@ import java.util.Random;
 public class Niveau {
     private Background bg;
 
-    public double getTAILLE_DU_NIVEAU() {
-        return TAILLE_DU_NIVEAU;
-    }
-
     private final double TAILLE_DU_NIVEAU = 8 * 900;
     private static int nbNiveau = 0;
     private int numNiveau;
@@ -28,11 +24,6 @@ public class Niveau {
     private long tempsExec;
     private double sinceDespawn = 0;
     private boolean isOver = false;
-
-    public Baril getBaril() {
-        return baril;
-    }
-
     private Baril baril; //chaque niveau a 1 baril
 
     public Niveau() {
@@ -50,8 +41,16 @@ public class Niveau {
 
     }
 
+    public double getTAILLE_DU_NIVEAU() {
+        return TAILLE_DU_NIVEAU;
+    }
+
     public int getNumNiveau() {
         return numNiveau;
+    }
+
+    public Baril getBaril() {
+        return baril;
     }
 
     public static void resetNbNiveau() {
