@@ -30,8 +30,6 @@ public class Main extends Application {
     public static double WIDTH = 900;
     Canvas canvas = new Canvas(WIDTH, HEIGHT);
     GraphicsContext context = canvas.getGraphicsContext2D();
-    Niveau currentLevel;
-    ArrayList<Niveau> niveaux = new ArrayList<>();
     AnimationTimer timer;
     Partie partie = new Partie();
 
@@ -48,7 +46,6 @@ public class Main extends Application {
         stage.setResizable(false);
         Niveau.creerImages();
         Ennemis.creerImageEnnemis();
-        currentLevel = partie.getCurrentLevel();
 
         //region Scène 1, La page titre
         var rootTitre = new VBox();
@@ -118,10 +115,6 @@ public class Main extends Application {
     private void startGame(Stage stage, Scene sceneJouer) {
         partie = new Partie();
         stage.setScene(sceneJouer);
-        currentLevel.getPoissons().clear();
-        partie.getCharlotte().getProjectilesTires().clear();
-        partie.getCharlotte().setX(0);
-        partie.getCharlotte().setY(HEIGHT / 2);
     }
     private Scene setScreenInfos(Scene originale, Stage stage, Image poisson) {
         var root = new VBox();
@@ -190,7 +183,6 @@ public class Main extends Application {
 
     }
     private void retourMenu(Scene originale, Stage stage) {
-        niveaux.clear();
         Niveau.resetNbNiveau();
         stage.setScene(originale);
         Input.setKeyPressed(KeyCode.D, false);

@@ -9,10 +9,6 @@ import javafx.scene.text.Font;
 
 import java.util.ArrayList;
 
-//TODO: Il n'y a pas 6 niveaux, le jeu continue à 
-//l'infini jusqu'à ce qu'on meure (regarder PDF
-//au cas où)
-
 public class Partie {
     private Charlotte charlotte;
     private Niveau currentLevel;
@@ -33,10 +29,6 @@ public class Partie {
 
     public Niveau getCurrentLevel() {
         return currentLevel;
-    }
-
-    public Charlotte getCharlotte() {
-        return charlotte;
     }
     public void update(double deltaTime) {
         boolean isNotPaused = !Input.isPressed(KeyCode.D) || !Input.isPressed(KeyCode.P);
