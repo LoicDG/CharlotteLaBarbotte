@@ -20,7 +20,7 @@ public class Partie {
         charlotte = new Charlotte(new Image("code/charlotte.png"), 0, Main.HEIGHT / 2);
         currentLevel = new Niveau();
         healthBar = new HealthBar(charlotte);
-        camera = new Camera(Main.WIDTH);
+        camera = new Camera(Main.WIDTH, healthBar);
     }
 
     public boolean isPartieFinie() {

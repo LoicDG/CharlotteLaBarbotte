@@ -2,9 +2,9 @@ package ca.qc.bdeb.sim203.TPCharlotte.Poissons;
 
 import ca.qc.bdeb.sim203.TPCharlotte.CanCollide;
 import ca.qc.bdeb.sim203.TPCharlotte.Input;
+import ca.qc.bdeb.sim203.TPCharlotte.ObjetDuJeu;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 
@@ -54,7 +54,6 @@ public class Poisson implements CanCollide {
 
     public void update(double deltaTime) {
         updatePhysique(deltaTime);
-
     }
 
     protected void updatePhysique(double deltaTime) {

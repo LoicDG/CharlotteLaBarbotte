@@ -21,6 +21,10 @@ public class HealthBar {
         this.currentProjectile = currentProjectile;
     }
 
+    public void setX(double x) {
+        this.x = x;
+    }
+
     public void update() {
         pvRestants = charlotte.getPv() * 37.5;
         int choix = charlotte.getChoixProjectile();

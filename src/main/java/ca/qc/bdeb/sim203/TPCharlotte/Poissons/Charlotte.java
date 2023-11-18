@@ -15,7 +15,6 @@ import java.util.ArrayList;
 public class Charlotte extends Poisson {
 
     private int choixProjectile;
-
     private ArrayList<Projectiles> projectilesTires;
     private long tempsDuDernierTir;
     private static final long FREQUENCE_TIRS = 500; // 0.5 seconds in milliseconds
