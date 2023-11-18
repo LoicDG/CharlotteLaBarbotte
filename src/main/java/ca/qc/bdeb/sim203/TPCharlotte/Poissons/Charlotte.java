@@ -14,11 +14,8 @@ import java.util.ArrayList;
 
 public class Charlotte extends Poisson {
 
-    public void setChoixProjectile(int choixProjectile) {
-        this.choixProjectile = choixProjectile;
-    }
-
     private int choixProjectile;
+
     private ArrayList<Projectiles> projectilesTires;
     private long tempsDuDernierTir;
     private static final long FREQUENCE_TIRS = 500; // 0.5 seconds in milliseconds
@@ -29,12 +26,15 @@ public class Charlotte extends Poisson {
     private long deathTime;
     private boolean first = true;
 
-
     public Charlotte(Image imagePoisson, double x, double y) {
         super(imagePoisson, x, y);
         projectilesTires = new ArrayList<>();
         tempsDuDernierTir = 0;
         choixProjectile = 1;
+    }
+
+    public void setChoixProjectile(int choixProjectile) {
+        this.choixProjectile = choixProjectile;
     }
 
     public int getChoixProjectile() {

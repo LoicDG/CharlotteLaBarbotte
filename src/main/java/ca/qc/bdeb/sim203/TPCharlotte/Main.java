@@ -33,7 +33,7 @@ public class Main extends Application {
     Niveau currentLevel;
     ArrayList<Niveau> niveaux = new ArrayList<>();
     AnimationTimer timer;
-    Charlotte charlotte = new Charlotte(new Image("code/charlotte.png"), WIDTH / 2, HEIGHT / 2);
+    Partie partie = new Partie();
 
     public static void main(String[] args) {
         launch(args);
@@ -48,10 +48,6 @@ public class Main extends Application {
         stage.setResizable(false);
         Niveau.creerImages();
         Ennemis.creerImageEnnemis();
-        Partie partie = new Partie();
-        for (int i = 0; i < 6; i++) {
-            niveaux.add(new Niveau());
-        }
         currentLevel = partie.getCurrentLevel();
 
         //region Scène 1, La page titre
@@ -96,7 +92,6 @@ public class Main extends Application {
                     return;
                 }
                 lastTime = now;
-                lastTime = now;
             }
         };
 
@@ -121,12 +116,12 @@ public class Main extends Application {
     }
 
     private void startGame(Stage stage, Scene sceneJouer) {
+        partie = new Partie();
         stage.setScene(sceneJouer);
         currentLevel.getPoissons().clear();
-        charlotte.getProjectilesTires().clear();
-        currentLevel = niveaux.get(0);
-        charlotte.setX(0);
-        charlotte.setY(HEIGHT / 2);
+        partie.getCharlotte().getProjectilesTires().clear();
+        partie.getCharlotte().setX(0);
+        partie.getCharlotte().setY(HEIGHT / 2);
     }
     private Scene setScreenInfos(Scene originale, Stage stage, Image poisson) {
         var root = new VBox();
@@ -197,11 +192,6 @@ public class Main extends Application {
     private void retourMenu(Scene originale, Stage stage) {
         niveaux.clear();
         Niveau.resetNbNiveau();
-        //charlotte.restart();
-        charlotte = new Charlotte(new Image("code/charlotte.png"), 0, Main.HEIGHT / 2);
-        for (int i = 0; i < 6; i++) {
-            niveaux.add(new Niveau());
-        }
         stage.setScene(originale);
         Input.setKeyPressed(KeyCode.D, false);
         Input.setKeyPressed(KeyCode.P, false);
