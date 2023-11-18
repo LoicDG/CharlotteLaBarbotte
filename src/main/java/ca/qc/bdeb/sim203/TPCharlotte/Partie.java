@@ -4,6 +4,8 @@ import ca.qc.bdeb.sim203.TPCharlotte.Poissons.Charlotte;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
@@ -29,6 +31,10 @@ public class Partie {
 
     public Niveau getCurrentLevel() {
         return currentLevel;
+    }
+
+    public Background getBackground() {
+        return currentLevel.getBg();
     }
     public void update(double deltaTime) {
         boolean isNotPaused = !Input.isPressed(KeyCode.D) || !Input.isPressed(KeyCode.P);

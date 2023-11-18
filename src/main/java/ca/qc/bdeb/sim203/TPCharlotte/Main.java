@@ -73,6 +73,7 @@ public class Main extends Application {
         var sceneInfos = setScreenInfos(titre, stage, ennemiImage);
         //Scène 3, pour jouer
         var sceneJouer = setScreenJouer(titre, stage, partie);
+        Pane paneJouer = (Pane) sceneJouer.getRoot();
         timer = new AnimationTimer() {
             private long lastTime = System.nanoTime();
 
@@ -85,6 +86,7 @@ public class Main extends Application {
                 double deltaTime = (now - lastTime) * 1e-9;
                 partie.update(deltaTime);
                 partie.draw(context);
+                paneJouer.setBackground(partie.getBackground());
                 if (partie.isPartieFinie()) {
                     retourMenu(titre, stage);
                     return;

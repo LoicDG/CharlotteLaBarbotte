@@ -14,7 +14,6 @@ import java.util.Random;
 
 public class Niveau {
     private Background bg;
-
     private static int nbNiveau = 0;
     private int numNiveau;
     private static ArrayList<Image> images = new ArrayList<>();
@@ -23,11 +22,9 @@ public class Niveau {
     private long tempsExec;
     private double sinceDespawn = 0;
     private boolean isOver = false;
-
     public Baril getBaril() {
         return baril;
     }
-
     private Baril baril; //chaque niveau a 1 baril
 
     public Niveau() {
