@@ -114,7 +114,6 @@ public class Main extends Application {
     }
 
     private void startGame(Stage stage, Scene sceneJouer) {
-        partie = new Partie();
         stage.setScene(sceneJouer);
     }
     private Scene setScreenInfos(Scene originale, Stage stage, Image poisson) {

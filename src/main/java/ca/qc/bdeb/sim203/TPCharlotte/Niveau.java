@@ -42,7 +42,6 @@ public class Niveau {
         double maxRange = (4*Main.TAILLE_NIVEAU)/5;
         double xBaril = minRange + random.nextDouble() * (maxRange - minRange);
         baril = new Baril(xBaril, 0, tempsCreationNiveau);
-
     }
 
     public int getNumNiveau() {
