@@ -23,6 +23,7 @@ public class Niveau {
     private double sinceDespawn = 0;
     private boolean isOver = false;
     private Baril baril; //chaque niveau a 1 baril
+    private ArrayList<Decor> decors = new ArrayList<>();
     public Niveau() {
         var rnd = new Random();
         bg = new Background(new BackgroundFill(Color.hsb(rnd.nextDouble(190, 271), 0.84,
@@ -35,6 +36,13 @@ public class Niveau {
         double maxRange = (4*Main.TAILLE_NIVEAU)/5;
         double xBaril = minRange + random.nextDouble() * (maxRange - minRange);
         baril = new Baril(xBaril, 0, tempsCreationNiveau);
+        double espacement = rnd.nextInt(50, 101);
+        double xDecors = espacement;
+        while (xDecors < Main.TAILLE_NIVEAU) {
+            decors.add(new Decor(xDecors));
+            espacement = rnd.nextInt(50, 101) + Decor.getW();
+            xDecors += espacement;
+        }
     }
 
     public int getNumNiveau() {
@@ -43,6 +51,10 @@ public class Niveau {
 
     public Baril getBaril() {
         return baril;
+    }
+
+    public ArrayList<Decor> getDecors() {
+        return decors;
     }
 
     public static void resetNbNiveau() {
