@@ -36,6 +36,7 @@ public class Partie {
     public Background getBackground() {
         return currentLevel.getBg();
     }
+
     public void update(double deltaTime) {
         boolean isNotPaused = !Input.isPressed(KeyCode.D) || !Input.isPressed(KeyCode.P);
         if (isNotPaused) {
@@ -90,6 +91,7 @@ public class Partie {
         currentLevel.checkFini(charlotte);
         if (currentLevel.isOver()) {
             nextLevel();
+            System.out.println(currentLevel.getNumNiveau());
         }
 
     }
@@ -131,6 +133,7 @@ public class Partie {
         currentLevel.setTempsCreationNiveau(System.currentTimeMillis());
         charlotte.setX(0);
         charlotte.setY(Main.HEIGHT / 2);
+        camera.resetX();
     }
 
 }
