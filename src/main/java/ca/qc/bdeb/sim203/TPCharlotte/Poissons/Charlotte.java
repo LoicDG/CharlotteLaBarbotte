@@ -147,12 +147,12 @@ public class Charlotte extends Poisson {
 
     }
 
-    public void checkLimites(double deltaTime, double xCam) {
+    public void checkVelocity(double deltaTime) {
         boolean left = Input.isPressed(KeyCode.LEFT);
         boolean right = Input.isPressed(KeyCode.RIGHT);
         boolean up = Input.isPressed(KeyCode.UP);
         boolean down = Input.isPressed(KeyCode.DOWN);
-        // Adjust velocity based on input
+
         ax = adjustAcceleration(vx, right, left);
         if (ax == 0) vx = 0;
         vx = adjustSpeed(vx);
@@ -161,11 +161,11 @@ public class Charlotte extends Poisson {
         if (ay == 0) vy = 0;
         vy = adjustSpeed(vy);
 
-        // Update Charlotte's position
         x += vx * deltaTime;
         y += vy * deltaTime;
+    }
 
-        // Ensure Charlotte stays within the screen boundaries
+    public void checkLimits(double xCam) {
         x = adjustPosition(x, Main.TAILLE_NIVEAU, w, xCam);
         y = adjustPosition(y, Main.HEIGHT, h, 0);
     }

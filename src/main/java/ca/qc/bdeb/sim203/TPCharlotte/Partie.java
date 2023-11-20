@@ -45,9 +45,10 @@ public class Partie {
         boolean isNotPaused = !Input.isPressed(KeyCode.D) || !Input.isPressed(KeyCode.P);
         if (isNotPaused) {
             long nowMS = System.currentTimeMillis();
-            camera.follow(charlotte);
             charlotte.update(deltaTime, currentLevel);
-            charlotte.checkLimites(deltaTime, camera.getX());
+            charlotte.checkVelocity(deltaTime);
+            charlotte.checkLimits(camera.getX());
+            camera.follow(charlotte);
             healthBar.update();
             currentLevel.getBaril().updatePhysique();
             currentLevel.spawnEnnemis(camera);
