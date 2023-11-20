@@ -104,6 +104,10 @@ public class Partie {
             currentLevel.afficherNumNiveau(context);
             charlotte.draw(context);
             healthBar.draw(context);
+            for (var decor : currentLevel.getDecors()) {
+                context.drawImage(decor.getImage(), decor.getX(), Decor.getY());
+            }
+            
 
             if (Input.isPressed(KeyCode.D)) {
                 context.setFont(Font.font(-1));
