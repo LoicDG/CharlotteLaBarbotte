@@ -23,24 +23,17 @@ public class Camera {
         return width;
     }
 
+    public void resetX() {
+        x = 0;
+    }
+
     public void follow(Charlotte charlotte) {
         double xCible;
         if (charlotte.getVx() > 0) {
             xCible = charlotte.getX() - width * 0.2;
-            if (xCible < 0) {
-                x = 0;
-            } else if (xCible + width > Main.TAILLE_NIVEAU) {
+            if (xCible + width > Main.TAILLE_NIVEAU) {
                 x = Main.TAILLE_NIVEAU - width;
-            } else {
-                x = xCible;
-            }
-        } else if (charlotte.getVx() < 0) {
-            xCible = charlotte.getX() + width * 0.2;
-            if (xCible < 0) {
-                x = 0;
-            } else if (xCible + width > Main.TAILLE_NIVEAU) {
-                x = Main.TAILLE_NIVEAU - width;
-            } else {
+            } else if (charlotte.getX() > x + width * 0.2) {
                 x = xCible;
             }
         }

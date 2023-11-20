@@ -36,12 +36,14 @@ public class Partie {
     public Background getBackground() {
         return currentLevel.getBg();
     }
+
     public void update(double deltaTime) {
         boolean isNotPaused = !Input.isPressed(KeyCode.D) || !Input.isPressed(KeyCode.P);
         if (isNotPaused) {
             long nowMS = System.currentTimeMillis();
             camera.follow(charlotte);
             charlotte.update(deltaTime, currentLevel);
+            charlotte.checkLimites(deltaTime, camera.getX());
             healthBar.update();
             currentLevel.getBaril().updatePhysique();
             currentLevel.spawnEnnemis(camera);
@@ -89,6 +91,7 @@ public class Partie {
         currentLevel.checkFini(charlotte);
         if (currentLevel.isOver()) {
             nextLevel();
+            System.out.println(currentLevel.getNumNiveau());
         }
 
     }
@@ -130,6 +133,7 @@ public class Partie {
         currentLevel.setTempsCreationNiveau(System.currentTimeMillis());
         charlotte.setX(0);
         charlotte.setY(Main.HEIGHT / 2);
+        camera.resetX();
     }
 
 }
