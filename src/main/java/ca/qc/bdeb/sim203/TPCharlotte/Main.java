@@ -116,6 +116,9 @@ public class Main extends Application {
     }
 
     private void startGame(Stage stage, Scene sceneJouer) {
+        if (partie.isPartieFinie()) {
+            partie = new Partie();
+        }
         stage.setScene(sceneJouer);
     }
     private Scene setScreenInfos(Scene originale, Stage stage, Image poisson) {
@@ -159,7 +162,6 @@ public class Main extends Application {
         //endregion
         return scene;
     }
-
     private Scene setScreenJouer(Scene originale, Stage stage, Partie partie) {
         var root = new Pane();
         var scene = new Scene(root, WIDTH, HEIGHT);
@@ -189,6 +191,7 @@ public class Main extends Application {
         stage.setScene(originale);
         Input.setKeyPressed(KeyCode.D, false);
         Input.setKeyPressed(KeyCode.P, false);
+        partie.setPartieFinie(true);
     }
 
 }

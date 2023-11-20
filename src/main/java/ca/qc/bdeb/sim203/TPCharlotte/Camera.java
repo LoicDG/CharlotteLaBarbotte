@@ -33,7 +33,7 @@ public class Camera {
             xCible = charlotte.getX() - width * 0.2;
             if (xCible + width > Main.TAILLE_NIVEAU) {
                 x = Main.TAILLE_NIVEAU - width;
-            } else if (charlotte.getX() > x + width * 0.2) {
+            } else if (charlotte.getX() >= x + width * 0.2) {
                 x = xCible;
             }
         }

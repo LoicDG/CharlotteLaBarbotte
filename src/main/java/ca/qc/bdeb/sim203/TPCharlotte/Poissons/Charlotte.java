@@ -16,6 +16,7 @@ public class Charlotte extends Poisson {
 
     private int choixProjectile;
     private ArrayList<Projectiles> projectilesTires;
+    private Image[] imagesCharlotte = new Image[3];
     private long tempsDuDernierTir;
     private static final long FREQUENCE_TIRS = 500; // 0.5 seconds in milliseconds
     private int pv = 4;
@@ -30,6 +31,9 @@ public class Charlotte extends Poisson {
         projectilesTires = new ArrayList<>();
         tempsDuDernierTir = 0;
         choixProjectile = 1;
+        imagesCharlotte[0] = new Image("code/charlotte.png");
+        imagesCharlotte[1] = new Image("code/charlotte-avant.png");
+        imagesCharlotte[2] = new Image("code/charlotte-outch.png");
     }
 
     public void setChoixProjectile(int choixProjectile) {
@@ -87,11 +91,11 @@ public class Charlotte extends Poisson {
         }
         invincible = (System.currentTimeMillis() - tempsTouchee) / 1000 < 2;
         if ((vx != 0 || vy != 0) && !invincible) {
-            imagePoisson = new Image("code/charlotte-avant.png");
+            imagePoisson = imagesCharlotte[1];
         } else if (invincible) {
-            imagePoisson = new Image("code/charlotte-outch.png");
+            imagePoisson = imagesCharlotte[2];
         } else {
-            imagePoisson = new Image("code/charlotte.png");
+            imagePoisson = imagesCharlotte[0];
         }
 
         //Mode débug
@@ -167,7 +171,7 @@ public class Charlotte extends Poisson {
     }
 
     private double adjustPosition(double pos, double tailleMax, double taillePoisson, double limites) {
-        if (pos < limites) { //TODO: Pas 0, faut que ce soit le x de la caméra
+        if (pos < limites) {
             pos = limites;
         } else if (pos > tailleMax - taillePoisson) {
             pos = tailleMax - taillePoisson;

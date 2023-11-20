@@ -29,6 +29,10 @@ public class Partie {
         return partieFinie;
     }
 
+    public void setPartieFinie(boolean partieFinie) {
+        this.partieFinie = partieFinie;
+    }
+
     public Niveau getCurrentLevel() {
         return currentLevel;
     }
@@ -125,7 +129,7 @@ public class Partie {
             if (!charlotte.isAlive() && System.currentTimeMillis() - charlotte.getDeathTime() < 4000) {
                 context.setFill(Color.RED);
                 context.setFont(Font.font("Comic Sans MS", 72));
-                context.fillText("Fin de partie", Main.WIDTH / 4, Main.HEIGHT / 2);
+                context.fillText("Fin de partie", camera.getX() + camera.getWidth() * 0.3, Main.HEIGHT / 2);
             }
             context.setTransform(1, 0, 0, 1, 0, 0);
         }
