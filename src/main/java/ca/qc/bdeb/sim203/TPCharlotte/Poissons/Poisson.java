@@ -57,10 +57,10 @@ public class Poisson implements CanCollide {
     }
 
     protected void updatePhysique(double deltaTime) {
-        x += deltaTime * vx;
-        y += deltaTime * vy;
         vx += deltaTime * ax;
         vy += deltaTime * ay;
+        x += deltaTime * vx;
+        y += deltaTime * vy;
     }
 
     public void draw(GraphicsContext context) {

@@ -86,6 +86,7 @@ public class Charlotte extends Poisson {
 
     public void update(double deltaTime, Niveau niveauCourant) {
         super.update(deltaTime);
+        //System.out.println(vx);
         if ((double) System.currentTimeMillis() / 1000 - tempsVisible >= 0.5 && invincible) {
             tempsVisible = (double) System.currentTimeMillis() / 1000;
         }
@@ -160,9 +161,6 @@ public class Charlotte extends Poisson {
         ay = adjustAcceleration(vy, down, up);
         if (ay == 0) vy = 0;
         vy = adjustSpeed(vy);
-
-        x += vx * deltaTime;
-        y += vy * deltaTime;
     }
 
     public void checkLimits(double xCam) {
