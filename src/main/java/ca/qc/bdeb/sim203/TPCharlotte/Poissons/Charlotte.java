@@ -15,7 +15,6 @@ import java.util.ArrayList;
 public class Charlotte extends Poisson {
 
     private int choixProjectile;
-
     private ArrayList<Projectiles> projectilesTires;
     private long tempsDuDernierTir;
     private static final long FREQUENCE_TIRS = 500; // 0.5 seconds in milliseconds
@@ -211,17 +210,6 @@ public class Charlotte extends Poisson {
                 projectile.updatePhysique(deltaTime);
             }
         }
-    }
-
-    public void restart() {
-        x = 0;
-        y = Main.HEIGHT / 2;
-        vy = 0;
-        vx = 0;
-        ax = 0;
-        ay = 0;
-        choixProjectile = 1;
-        pv = 4;
     }
 
     public void isTouchee() {

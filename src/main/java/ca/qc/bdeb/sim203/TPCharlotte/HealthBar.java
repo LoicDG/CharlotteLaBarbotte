@@ -17,8 +17,8 @@ public class HealthBar {
         currentProjectile = new Image("code/etoile.png");
     }
 
-    public void setCurrentProjectile(Image currentProjectile) { //TODO: This method will be useful when adding barrel
-        this.currentProjectile = currentProjectile;
+    public void setX(double x) {
+        this.x = x;
     }
 
     public void update() {
