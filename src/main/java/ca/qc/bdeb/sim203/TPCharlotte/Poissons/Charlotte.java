@@ -148,7 +148,7 @@ public class Charlotte extends Poisson {
 
     }
 
-    public void checkVelocity(double deltaTime) {
+    public void checkVelocity() {
         boolean left = Input.isPressed(KeyCode.LEFT);
         boolean right = Input.isPressed(KeyCode.RIGHT);
         boolean up = Input.isPressed(KeyCode.UP);
