@@ -42,6 +42,7 @@ public class Partie {
             long nowMS = System.currentTimeMillis();
             camera.follow(charlotte);
             charlotte.update(deltaTime, currentLevel);
+            charlotte.checkLimites(deltaTime, camera.getX());
             healthBar.update();
             currentLevel.getBaril().updatePhysique();
             currentLevel.spawnEnnemis(camera);

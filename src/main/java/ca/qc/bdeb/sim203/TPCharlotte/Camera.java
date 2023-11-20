@@ -34,15 +34,6 @@ public class Camera {
             } else {
                 x = xCible;
             }
-        } else if (charlotte.getVx() < 0) {
-            xCible = charlotte.getX() + width * 0.2;
-            if (xCible < 0) {
-                x = 0;
-            } else if (xCible + width > Main.TAILLE_NIVEAU) {
-                x = Main.TAILLE_NIVEAU - width;
-            } else {
-                x = xCible;
-            }
         }
         healthBar.setX(x + 10);
     }

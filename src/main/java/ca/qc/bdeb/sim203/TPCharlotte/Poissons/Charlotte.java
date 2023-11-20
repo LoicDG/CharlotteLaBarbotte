@@ -143,7 +143,7 @@ public class Charlotte extends Poisson {
 
     }
 
-    private void checkLimites(double deltaTime) {
+    public void checkLimites(double deltaTime, double xCam) {
         boolean left = Input.isPressed(KeyCode.LEFT);
         boolean right = Input.isPressed(KeyCode.RIGHT);
         boolean up = Input.isPressed(KeyCode.UP);
@@ -162,13 +162,13 @@ public class Charlotte extends Poisson {
         y += vy * deltaTime;
 
         // Ensure Charlotte stays within the screen boundaries
-        x = adjustPosition(x, Main.TAILLE_NIVEAU, w);
-        y = adjustPosition(y, Main.HEIGHT, h);
+        x = adjustPosition(x, Main.TAILLE_NIVEAU, w, xCam);
+        y = adjustPosition(y, Main.HEIGHT, h, 0);
     }
 
-    private double adjustPosition(double pos, double tailleMax, double taillePoisson) {
-        if (pos < 0) {
-            pos = 0;
+    private double adjustPosition(double pos, double tailleMax, double taillePoisson, double limites) {
+        if (pos < limites) { //TODO: Pas 0, faut que ce soit le x de la caméra
+            pos = limites;
         } else if (pos > tailleMax - taillePoisson) {
             pos = tailleMax - taillePoisson;
         }
@@ -201,7 +201,6 @@ public class Charlotte extends Poisson {
     @Override
     protected void updatePhysique(double deltaTime) {
         super.updatePhysique(deltaTime);
-        checkLimites(deltaTime);
         for (int i = projectilesTires.size() - 1; i >= 0; i--) {
             var projectile = projectilesTires.get(i);
             if (projectile.estSortiEcran()) {
