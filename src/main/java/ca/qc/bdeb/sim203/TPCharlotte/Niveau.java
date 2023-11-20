@@ -22,11 +22,7 @@ public class Niveau {
     private long tempsExec;
     private double sinceDespawn = 0;
     private boolean isOver = false;
-    public Baril getBaril() {
-        return baril;
-    }
     private Baril baril; //chaque niveau a 1 baril
-
     public Niveau() {
         var rnd = new Random();
         bg = new Background(new BackgroundFill(Color.hsb(rnd.nextDouble(190, 271), 0.84,
@@ -44,6 +40,10 @@ public class Niveau {
 
     public int getNumNiveau() {
         return numNiveau;
+    }
+
+    public Baril getBaril() {
+        return baril;
     }
 
     public static void resetNbNiveau() {
@@ -68,12 +68,12 @@ public class Niveau {
         return poissons;
     }
 
-    public void spawnEnnemis() {
+    public void spawnEnnemis(Camera cam) {
         var random = new Random();
         int nbPoissons = random.nextInt(1, 6);
         if (sinceDespawn >= (0.75 + 1 / Math.sqrt(numNiveau))) {
             for (int i = 0; i < nbPoissons; i++) {
-                poissons.add(new Ennemis(Main.TAILLE_NIVEAU,
+                poissons.add(new Ennemis(cam.getX() + cam.getWidth(),
                         random.nextDouble(Main.HEIGHT * 0.2, Main.HEIGHT * 0.81), numNiveau));
             }
             tempsExec = System.currentTimeMillis();

@@ -44,7 +44,7 @@ public class Partie {
             charlotte.update(deltaTime, currentLevel);
             healthBar.update();
             currentLevel.getBaril().updatePhysique();
-            currentLevel.spawnEnnemis();
+            currentLevel.spawnEnnemis(camera);
             double tempsTouchee = (double) (nowMS - charlotte.getTempsTouchee()) / 1000;
             if (!currentLevel.getPoissons().isEmpty()) {
                 for (int i = 0; i < currentLevel.getPoissons().size(); i++) {
@@ -105,9 +105,11 @@ public class Partie {
             if (Input.isPressed(KeyCode.D)) {
                 context.setFont(Font.font(-1));
                 context.setFill(Color.WHITE);
-                context.fillText("NB poissons: " + currentLevel.getPoissons().size(), 10, 50);
-                context.fillText("NB projectiles: " + charlotte.getProjectilesTires().size(), 10, 65);
-                context.fillText("Position Charlotte: ", 10, 80);
+                double distanceTexte = camera.getX() + 10;
+                context.fillText("NB poissons: " + currentLevel.getPoissons().size(), distanceTexte, 50);
+                context.fillText("NB projectiles: " + charlotte.getProjectilesTires().size(), distanceTexte,
+                        65);
+                context.fillText("Position Charlotte: ", distanceTexte, 80);
             }
             currentLevel.getBaril().draw(context);
             for (var p : currentLevel.getPoissons()) {

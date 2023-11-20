@@ -19,6 +19,10 @@ public class Camera {
         return x;
     }
 
+    public double getWidth() {
+        return width;
+    }
+
     public void follow(Charlotte charlotte) {
         double xCible;
         if (charlotte.getVx() > 0) {

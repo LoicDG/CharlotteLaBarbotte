@@ -212,17 +212,6 @@ public class Charlotte extends Poisson {
         }
     }
 
-    public void restart() {
-        x = 0;
-        y = Main.HEIGHT / 2;
-        vy = 0;
-        vx = 0;
-        ax = 0;
-        ay = 0;
-        choixProjectile = 1;
-        pv = 4;
-    }
-
     public void isTouchee() {
         invincible = true;
         tempsVisible = (double) System.currentTimeMillis() / 1000;
