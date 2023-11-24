@@ -5,16 +5,22 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 
+import java.util.ArrayList;
+
 public class HealthBar {
     private Charlotte charlotte;
     private double w = 150, h = 20, x = 10, y = 15;
     private double pvRestants;
     private Image currentProjectile;
+    private Image[] imagesProjectiles = new Image[3];
 
     public HealthBar(Charlotte charlotte) {
         this.charlotte = charlotte;
         pvRestants = 150;
-        currentProjectile = new Image("code/etoile.png");
+        imagesProjectiles[0] = new Image("code/etoile.png");
+        imagesProjectiles[1] = new Image("code/hippocampe.png");
+        imagesProjectiles[2] = new Image("code/sardines.png");
+        currentProjectile = imagesProjectiles[0];
     }
 
     public void setX(double x) {
@@ -25,9 +31,9 @@ public class HealthBar {
         pvRestants = charlotte.getPv() * 37.5;
         int choix = charlotte.getChoixProjectile();
         switch (choix) {
-            case 1 -> currentProjectile = new Image("code/etoile.png");
-            case 2 -> currentProjectile = new Image("code/hippocampe.png");
-            case 3 -> currentProjectile = new Image("code/sardines.png");
+            case 1 -> currentProjectile = imagesProjectiles[0];
+            case 2 -> currentProjectile = imagesProjectiles[1];
+            case 3 -> currentProjectile = imagesProjectiles[2];
         }
     }
 
