@@ -123,7 +123,8 @@ public class Partie {
                 context.fillText("NB poissons: " + currentLevel.getPoissons().size(), distanceTexte, 50);
                 context.fillText("NB projectiles: " + charlotte.getProjectilesTires().size(), distanceTexte,
                         65);
-                context.fillText("Position Charlotte: ", distanceTexte, 80);
+                context.fillText("Position Charlotte: " + charlotte.getX() / Main.TAILLE_NIVEAU * 100 + "%",
+                        distanceTexte, 80);
             }
             currentLevel.getBaril().draw(context);
             for (var p : currentLevel.getPoissons()) {
