@@ -85,7 +85,7 @@ public class Partie {
                     }
                 }
             }
-            currentLevel.isPlusLa(); //TODO: Arranger disparition poissons
+            currentLevel.isPlusLa(camera.getX());
         }
         if (!charlotte.isAlive()) {
             if (System.currentTimeMillis() - charlotte.getDeathTime() > 4000) {

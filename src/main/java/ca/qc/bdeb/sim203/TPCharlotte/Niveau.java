@@ -94,9 +94,9 @@ public class Niveau {
         }
     }
 
-    public void isPlusLa() {
+    public void isPlusLa(double x) {
         for (int i = 0; i < poissons.size(); i++) {
-            if (poissons.get(i).getX() + poissons.get(i).getImagePoisson().getWidth() < 0) {
+            if (poissons.get(i).getX() + poissons.get(i).getImagePoisson().getWidth() < x) {
                 poissons.remove(poissons.get(i));
                 i--;
             }

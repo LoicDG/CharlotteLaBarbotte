@@ -96,7 +96,7 @@ public class Main extends Application {
         };
 
         //region Événementiel
-        infos.setOnAction(event -> { //TODO: doesnt work si on meurt
+        infos.setOnAction(event -> {
             //change l'image à chaque fois
             var image = (ImageView) sceneInfos.getRoot().getChildrenUnmodifiable().get(1);
             image.setImage(new Image(Ennemis.getUrlImage()));
