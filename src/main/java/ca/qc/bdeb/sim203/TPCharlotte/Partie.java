@@ -85,7 +85,7 @@ public class Partie {
                     }
                 }
             }
-            currentLevel.isPlusLa();
+            currentLevel.isPlusLa(); //TODO: Arranger disparition poissons
         }
         if (!charlotte.isAlive()) {
             if (System.currentTimeMillis() - charlotte.getDeathTime() > 4000) {
@@ -94,9 +94,8 @@ public class Partie {
             }
         }
         currentLevel.checkFini(charlotte);
-        if (currentLevel.isOver()) {
+        if (currentLevel.isOver() || (Input.isPressed(KeyCode.D) && Input.isPressed(KeyCode.T))) {
             nextLevel();
-            System.out.println(currentLevel.getNumNiveau());
         }
 
     }
@@ -110,7 +109,10 @@ public class Partie {
             charlotte.draw(context);
             healthBar.draw(context);
             for (var decor : currentLevel.getDecors()) {
-                context.drawImage(decor.getImage(), decor.getX(), Decor.getY());
+                if (decor.getX() + decor.getImage().getWidth() > camera.getX() && decor.getX() < camera.getX() +
+                        camera.getWidth()) {
+                    context.drawImage(decor.getImage(), decor.getX(), Decor.getY());
+                }
             }
             
 

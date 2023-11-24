@@ -87,7 +87,7 @@ public class Main extends Application {
                 partie.update(deltaTime);
                 partie.draw(context);
                 paneJouer.setBackground(partie.getBackground());
-                if (partie.isPartieFinie()) {
+                if (partie.isPartieFinie() && stage.getScene() == sceneJouer) {
                     retourMenu(titre, stage);
                     return;
                 }
@@ -96,7 +96,7 @@ public class Main extends Application {
         };
 
         //region Événementiel
-        infos.setOnAction(event -> {
+        infos.setOnAction(event -> { //TODO: doesnt work si on meurt
             //change l'image à chaque fois
             var image = (ImageView) sceneInfos.getRoot().getChildrenUnmodifiable().get(1);
             image.setImage(new Image(Ennemis.getUrlImage()));

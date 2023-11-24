@@ -18,7 +18,7 @@ public class Charlotte extends Poisson {
     private ArrayList<Projectiles> projectilesTires;
     private Image[] imagesCharlotte = new Image[3];
     private long tempsDuDernierTir;
-    private static final long FREQUENCE_TIRS = 500; // 0.5 seconds in milliseconds
+    private final long FREQUENCE_TIRS = 500; // 0.5 seconds in milliseconds
     private int pv = 4;
     private boolean invincible = false;
     private long tempsTouchee = 0;
