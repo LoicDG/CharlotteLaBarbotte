@@ -7,7 +7,7 @@ import java.util.Random;
 public class Hippocampes extends Projectiles{
     private Random random = new Random();
     private double amplitudeSinus;
-    private double periode = (random.nextDouble(3)+1)*1000;
+    private double periode = (random.nextDouble(1, 4)) * 1000;
     private double posYinitial;
     private double tempsDeLaCreation;
     public Hippocampes(double posX, double posY) {
@@ -18,7 +18,7 @@ public class Hippocampes extends Projectiles{
         hauteur = 36;
         vitesseX = 500;
         imageProjectile = new Image("code/hippocampe.png");
-        amplitudeSinus = random.nextDouble(31)+30;
+        amplitudeSinus = random.nextDouble(30, 61);
         int signe = random.nextInt(2);
         if (signe == 1){
             amplitudeSinus = -amplitudeSinus;
