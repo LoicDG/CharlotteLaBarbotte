@@ -1,6 +1,7 @@
-package ca.qc.bdeb.sim203.TPCharlotte;
+package ca.qc.bdeb.sim203.TPCharlotte.GameLogic;
 
-import ca.qc.bdeb.sim203.TPCharlotte.Poissons.Charlotte;
+import ca.qc.bdeb.sim203.TPCharlotte.Main;
+import ca.qc.bdeb.sim203.TPCharlotte.ObjetsDuJeu.Poissons.Charlotte;
 import javafx.scene.canvas.GraphicsContext;
 
 public class Camera {

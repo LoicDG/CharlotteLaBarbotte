@@ -1,7 +1,9 @@
-package ca.qc.bdeb.sim203.TPCharlotte;
+package ca.qc.bdeb.sim203.TPCharlotte.GameLogic;
 
-import ca.qc.bdeb.sim203.TPCharlotte.Poissons.Charlotte;
-import ca.qc.bdeb.sim203.TPCharlotte.Poissons.Ennemis;
+import ca.qc.bdeb.sim203.TPCharlotte.Main;
+import ca.qc.bdeb.sim203.TPCharlotte.ObjetsDuJeu.Baril;
+import ca.qc.bdeb.sim203.TPCharlotte.ObjetsDuJeu.Poissons.Charlotte;
+import ca.qc.bdeb.sim203.TPCharlotte.ObjetsDuJeu.Poissons.Ennemis;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Background;
@@ -96,7 +98,7 @@ public class Niveau {
 
     public void isPlusLa(double x) {
         for (int i = 0; i < poissons.size(); i++) {
-            if (poissons.get(i).getX() + poissons.get(i).getImagePoisson().getWidth() < x) {
+            if (poissons.get(i).getX() + poissons.get(i).getImage().getWidth() < x) {
                 poissons.remove(poissons.get(i));
                 i--;
             }

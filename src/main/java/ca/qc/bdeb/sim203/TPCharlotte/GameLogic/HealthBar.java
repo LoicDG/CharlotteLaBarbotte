@@ -1,11 +1,9 @@
-package ca.qc.bdeb.sim203.TPCharlotte;
+package ca.qc.bdeb.sim203.TPCharlotte.GameLogic;
 
-import ca.qc.bdeb.sim203.TPCharlotte.Poissons.Charlotte;
+import ca.qc.bdeb.sim203.TPCharlotte.ObjetsDuJeu.Poissons.Charlotte;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
-
-import java.util.ArrayList;
 
 public class HealthBar {
     private Charlotte charlotte;

@@ -1,7 +1,9 @@
 package ca.qc.bdeb.sim203.TPCharlotte;
 
-import ca.qc.bdeb.sim203.TPCharlotte.Poissons.Charlotte;
-import ca.qc.bdeb.sim203.TPCharlotte.Poissons.Ennemis;
+import ca.qc.bdeb.sim203.TPCharlotte.GameLogic.Input;
+import ca.qc.bdeb.sim203.TPCharlotte.GameLogic.Niveau;
+import ca.qc.bdeb.sim203.TPCharlotte.GameLogic.Partie;
+import ca.qc.bdeb.sim203.TPCharlotte.ObjetsDuJeu.Poissons.Ennemis;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -16,12 +18,10 @@ import javafx.scene.layout.HBox;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-import java.util.ArrayList;
 import java.util.Random;
 
 //arraylist des ennemis que charlotte a pas depasse et ajouter un nouveau parametre a charlotte

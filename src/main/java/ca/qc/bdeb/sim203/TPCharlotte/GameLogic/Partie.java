@@ -1,11 +1,12 @@
-package ca.qc.bdeb.sim203.TPCharlotte;
+package ca.qc.bdeb.sim203.TPCharlotte.GameLogic;
 
-import ca.qc.bdeb.sim203.TPCharlotte.Poissons.Charlotte;
+import ca.qc.bdeb.sim203.TPCharlotte.Main;
+import ca.qc.bdeb.sim203.TPCharlotte.ObjetsDuJeu.Poissons.Charlotte;
+import ca.qc.bdeb.sim203.TPCharlotte.ObjetsDuJeu.Projectiles.Projectiles;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Background;
-import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
@@ -46,7 +47,8 @@ public class Partie {
         if (isNotPaused) {
             long nowMS = System.currentTimeMillis();
             charlotte.checkVelocity();
-            charlotte.update(deltaTime, currentLevel);
+            charlotte.update(deltaTime);
+            charlotte.addProjectiles(currentLevel);
             charlotte.checkLimits(camera.getX());
             camera.follow(charlotte);
             healthBar.update();
@@ -74,8 +76,8 @@ public class Partie {
                         charlotte.isTouchee();
                         charlotte.setTempsTouchee(nowMS);
                     }
-                    if (charlotte.isEnCollision(currentLevel.getBaril()) && !currentLevel.getBaril().isEstOuvert()) {
-                        currentLevel.getBaril().setEstOuvert(true);
+                    if (charlotte.isEnCollision(currentLevel.getBaril()) && !currentLevel.getBaril().isOuvert()) {
+                        currentLevel.getBaril().setOuvert(true);
                         currentLevel.getBaril().setImageBaril(new Image("code/baril-ouvert.png"));
                         if (charlotte.getChoixProjectile() < 3) {
                             charlotte.setChoixProjectile(charlotte.getChoixProjectile() + 1);
@@ -83,6 +85,15 @@ public class Partie {
                             charlotte.setChoixProjectile(1);
                         }
                     }
+                }
+            }
+            ArrayList<Projectiles> projectilesTires = charlotte.getProjectilesTires();
+            for (int i = projectilesTires.size() - 1; i >= 0; i--) {
+                var projectile = projectilesTires.get(i);
+                if (projectile.estSortiEcran(camera.getX() + camera.getWidth())) {
+                    projectilesTires.remove(i);
+                } else {
+                    projectile.updatePhysique(deltaTime);
                 }
             }
             currentLevel.isPlusLa(camera.getX());
@@ -113,6 +124,9 @@ public class Partie {
                         camera.getWidth()) {
                     context.drawImage(decor.getImage(), decor.getX(), Decor.getY());
                 }
+            }
+            for (var projectile : charlotte.getProjectilesTires()) {
+                projectile.draw(context);
             }
             
 

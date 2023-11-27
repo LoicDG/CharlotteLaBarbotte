@@ -1,14 +1,15 @@
-package ca.qc.bdeb.sim203.TPCharlotte.Poissons;
+package ca.qc.bdeb.sim203.TPCharlotte.ObjetsDuJeu.Poissons;
 
 import ca.qc.bdeb.sim203.TPCharlotte.*;
-import ca.qc.bdeb.sim203.TPCharlotte.Projectiles.BoiteDeSardine;
-import ca.qc.bdeb.sim203.TPCharlotte.Projectiles.EtoileDeMer;
-import ca.qc.bdeb.sim203.TPCharlotte.Projectiles.Hippocampes;
-import ca.qc.bdeb.sim203.TPCharlotte.Projectiles.Projectiles;
+import ca.qc.bdeb.sim203.TPCharlotte.GameLogic.Input;
+import ca.qc.bdeb.sim203.TPCharlotte.GameLogic.Niveau;
+import ca.qc.bdeb.sim203.TPCharlotte.ObjetsDuJeu.Projectiles.BoiteDeSardine;
+import ca.qc.bdeb.sim203.TPCharlotte.ObjetsDuJeu.Projectiles.EtoileDeMer;
+import ca.qc.bdeb.sim203.TPCharlotte.ObjetsDuJeu.Projectiles.Hippocampes;
+import ca.qc.bdeb.sim203.TPCharlotte.ObjetsDuJeu.Projectiles.Projectiles;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
-import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
 
@@ -84,21 +85,22 @@ public class Charlotte extends Poisson {
         this.y = y;
     }
 
-    public void update(double deltaTime, Niveau niveauCourant) {
+    public void update(double deltaTime) {
         super.update(deltaTime);
-        //System.out.println(vx);
         if ((double) System.currentTimeMillis() / 1000 - tempsVisible >= 0.5 && invincible) {
             tempsVisible = (double) System.currentTimeMillis() / 1000;
         }
         invincible = (System.currentTimeMillis() - tempsTouchee) / 1000 < 2;
         if ((vx != 0 || vy != 0) && !invincible) {
-            imagePoisson = imagesCharlotte[1];
+            image = imagesCharlotte[1];
         } else if (invincible) {
-            imagePoisson = imagesCharlotte[2];
+            image = imagesCharlotte[2];
         } else {
-            imagePoisson = imagesCharlotte[0];
+            image = imagesCharlotte[0];
         }
+    }
 
+    public void addProjectiles(Niveau niveauCourant) {
         //Mode débug
         if (Input.isPressed(KeyCode.D)) {
             if (Input.isPressed(KeyCode.Q)) {
@@ -112,7 +114,6 @@ public class Charlotte extends Poisson {
                 pv = 4;
             }
         }
-
         long tempsMaintenant = System.currentTimeMillis();
         if (Input.isPressed(KeyCode.SPACE) && tempsMaintenant - tempsDuDernierTir >= FREQUENCE_TIRS) {
             switch (choixProjectile) {
@@ -125,7 +126,7 @@ public class Charlotte extends Poisson {
                     }
                 }
                 case 3 -> {
-                    projectilesTires.add(new BoiteDeSardine(x,y,niveauCourant.getPoissons()));
+                    projectilesTires.add(new BoiteDeSardine(x, y, niveauCourant.getPoissons()));
                 }
             }
             tempsDuDernierTir = tempsMaintenant;
@@ -137,15 +138,6 @@ public class Charlotte extends Poisson {
         if ((double) System.currentTimeMillis() / 1000 - tempsVisible <= 0.25 || !invincible) {
             super.draw(context);
         }
-        for (var projectile : projectilesTires) {
-            projectile.draw(context);
-            if (Input.isPressed(KeyCode.D)) {
-                context.setStroke(Color.WHITE);
-                context.strokeRect(projectile.getPosX(), projectile.getPosY(),
-                        projectile.getImageProjectile().getWidth(), projectile.getImageProjectile().getHeight());
-            }
-        }
-
     }
 
     public void checkVelocity() {
@@ -198,19 +190,6 @@ public class Charlotte extends Poisson {
             a = deceleration * v / Math.abs(v);
         }
         return a;
-    }
-
-    @Override
-    protected void updatePhysique(double deltaTime) {
-        super.updatePhysique(deltaTime);
-        for (int i = projectilesTires.size() - 1; i >= 0; i--) {
-            var projectile = projectilesTires.get(i);
-            if (projectile.estSortiEcran()) {
-                projectilesTires.remove(i);
-            } else {
-                projectile.updatePhysique(deltaTime);
-            }
-        }
     }
 
     public void isTouchee() {
