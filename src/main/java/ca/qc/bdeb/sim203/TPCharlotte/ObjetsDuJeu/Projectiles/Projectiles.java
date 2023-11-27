@@ -2,45 +2,26 @@ package ca.qc.bdeb.sim203.TPCharlotte.ObjetsDuJeu.Projectiles;
 
 import ca.qc.bdeb.sim203.TPCharlotte.GameLogic.CanCollide;
 import ca.qc.bdeb.sim203.TPCharlotte.Main;
+import ca.qc.bdeb.sim203.TPCharlotte.ObjetsDuJeu.ObjetDuJeu;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
-public abstract class Projectiles implements CanCollide {
-    protected double posX;
-    protected double posY;
-    protected Image imageProjectile;
-    protected double vitesseX;
-    protected double vitesseY;
-    protected double largeur;
-    protected double hauteur;
-
-
+public abstract class Projectiles extends ObjetDuJeu implements CanCollide {
     public Projectiles(double posX, double posY) {
-        this.posX = posX;
-        this.posY = posY;
-
-    }
-
-    public double getPosX() {
-        return posX;
-    }
-
-    public double getPosY() {
-        return posY;
+        super(posX, posY);
     }
 
     public Image getImageProjectile() {
-        return imageProjectile;
+        return image;
     }
 
-    public abstract void updatePhysique(double deltaTime);
-
-    public void draw(GraphicsContext gc) {
-        gc.drawImage(imageProjectile, posX, posY);
+    @Override
+    public void updatePhysique(double deltaTime) {
+        x += vx * deltaTime;
     }
 
-    public boolean estSortiEcran() {
-        return posX + largeur < 0 || posX > Main.TAILLE_NIVEAU || posY + hauteur < 0 || posY > Main.HEIGHT;
+    public boolean estSortiEcran(double xCam) {
+        return x + w < 0 || x > xCam || y + h < 0 || y > Main.HEIGHT;
     }
 }
 

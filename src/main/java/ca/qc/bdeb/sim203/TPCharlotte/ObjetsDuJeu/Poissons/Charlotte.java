@@ -143,7 +143,7 @@ public class Charlotte extends Poisson {
             projectile.draw(context);
             if (Input.isPressed(KeyCode.D)) {
                 context.setStroke(Color.WHITE);
-                context.strokeRect(projectile.getPosX(), projectile.getPosY(),
+                context.strokeRect(projectile.getX(), projectile.getY(),
                         projectile.getImageProjectile().getWidth(), projectile.getImageProjectile().getHeight());
             }
         }
@@ -200,19 +200,6 @@ public class Charlotte extends Poisson {
             a = deceleration * v / Math.abs(v);
         }
         return a;
-    }
-
-    @Override
-    protected void updatePhysique(double deltaTime) {
-        super.updatePhysique(deltaTime);
-        for (int i = projectilesTires.size() - 1; i >= 0; i--) {
-            var projectile = projectilesTires.get(i);
-            if (projectile.estSortiEcran()) {
-                projectilesTires.remove(i);
-            } else {
-                projectile.updatePhysique(deltaTime);
-            }
-        }
     }
 
     public void isTouchee() {

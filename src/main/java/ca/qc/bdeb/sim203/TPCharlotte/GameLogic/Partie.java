@@ -2,12 +2,15 @@ package ca.qc.bdeb.sim203.TPCharlotte.GameLogic;
 
 import ca.qc.bdeb.sim203.TPCharlotte.Main;
 import ca.qc.bdeb.sim203.TPCharlotte.ObjetsDuJeu.Poissons.Charlotte;
+import ca.qc.bdeb.sim203.TPCharlotte.ObjetsDuJeu.Projectiles.Projectiles;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Background;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+
+import java.util.ArrayList;
 
 public class Partie {
     private Charlotte charlotte;
@@ -81,6 +84,15 @@ public class Partie {
                             charlotte.setChoixProjectile(1);
                         }
                     }
+                }
+            }
+            ArrayList<Projectiles> projectilesTires = charlotte.getProjectilesTires();
+            for (int i = projectilesTires.size() - 1; i >= 0; i--) {
+                var projectile = projectilesTires.get(i);
+                if (projectile.estSortiEcran(camera.getX() + camera.getWidth())) {
+                    projectilesTires.remove(i);
+                } else {
+                    projectile.updatePhysique(deltaTime);
                 }
             }
             currentLevel.isPlusLa(camera.getX());

@@ -15,6 +15,42 @@ public abstract class ObjetDuJeu {
         this.y = y;
     }
 
+    public double getX() {
+        return x;
+    }
+
+    public double getY() {
+        return y;
+    }
+
+    public double getW() {
+        return image.getWidth();
+    }
+
+    public double getH() {
+        return image.getHeight();
+    }
+
+    public double getVx() {
+        return vx;
+    }
+
+    public double getVy() {
+        return vy;
+    }
+
+    public double getAx() {
+        return ax;
+    }
+
+    public double getAy() {
+        return ay;
+    }
+
+    public Image getImage() {
+        return image;
+    }
+
     public void update(double deltaTime) {
         updatePhysique(deltaTime);
     }
@@ -27,7 +63,7 @@ public abstract class ObjetDuJeu {
     }
 
     public void draw(GraphicsContext context) {
-        context.drawImage(image, x, y, w, h);
+        context.drawImage(image, x, y);
         if (Input.isPressed(KeyCode.D)) {
             drawHitbox(context);
         }

@@ -6,18 +6,19 @@ import javafx.scene.image.Image;
 
 import java.util.ArrayList;
 
-public class BoiteDeSardine extends Projectiles{
+public class BoiteDeSardine extends Projectiles {
     private final static double K = 1000;
     ArrayList<Ennemis> listeEnnemis;
     double forceEnX;//acceleration en y
     double forceEnY;//acceleration en x
+
     public BoiteDeSardine(double posX, double posY, ArrayList<Ennemis> listeEnnemis) {
         super(posX, posY);
-        this.largeur = 35;
-        this.hauteur = 29;
-        this.vitesseX = 300;
-        this.vitesseY = 0;
-        this.imageProjectile = new Image("code/sardines.png");
+        w = 35;
+        h = 29;
+        vx = 300;
+        vy = 0;
+        image = new Image("code/sardines.png");
         this.listeEnnemis = listeEnnemis;
     }
 
@@ -25,70 +26,50 @@ public class BoiteDeSardine extends Projectiles{
     public void updatePhysique(double deltaTime) {
         forceEnX = 0;
         forceEnY = 0;
-        for (int i = 0; i < listeEnnemis.size();i++){
-            double distance = Math.sqrt(Math.pow(posX - listeEnnemis.get(i).getX(), 2) + Math.pow(posY - listeEnnemis.get(i).getY(), 2));
-    //Checker si l'ennemi a depasse charlotte et/ou le projectile lui meme
-            if (distance < 0){
+        for (int i = 0; i < listeEnnemis.size(); i++) {
+            double distance = Math.sqrt(Math.pow(x - listeEnnemis.get(i).getX(), 2) +
+                    Math.pow(y - listeEnnemis.get(i).getY(), 2));
+            //Checker si l'ennemi a depasse charlotte et/ou le projectile lui meme
+            if (distance < 0) {
                 continue;
             }
-            if (distance <0.1){
+            if (distance < 0.1) {
                 distance = 0.1;
             }
-            double deltaX = posX - listeEnnemis.get(i).getX();
-            double deltaY = posY - listeEnnemis.get(i).getY();
-            double proportionX = deltaX/distance;
-            double proportionY = deltaY/distance;
-            double forceElectrique = (K*-100*200)/(Math.pow(distance,2));
-            forceEnX += forceElectrique/proportionX;
-            forceEnY += forceElectrique/proportionY;
+            double deltaX = x - listeEnnemis.get(i).getX();
+            double deltaY = y - listeEnnemis.get(i).getY();
+            double proportionX = deltaX / distance;
+            double proportionY = deltaY / distance;
+            double forceElectrique = (K * -100 * 200) / (Math.pow(distance, 2));
+            forceEnX += forceElectrique / proportionX;
+            forceEnY += forceElectrique / proportionY;
         }
-        vitesseX += (forceEnX*deltaTime);
-        if (vitesseX < 300){
-            vitesseX = 300;
-        } else if(vitesseX > 500){
-            vitesseX = 500;
-        }
-
-        vitesseY += (forceEnY*deltaTime);
-        if (vitesseY < -500){
-            vitesseY = -500;
-        } else if (vitesseY > 500){
-            vitesseY = 500;
+        vx += (forceEnX * deltaTime);
+        if (vx < 300) {
+            vx = 300;
+        } else if (vx > 500) {
+            vx = 500;
         }
 
-        posX += vitesseX*deltaTime;
-        posY += vitesseY*deltaTime;
+        vy += (forceEnY * deltaTime);
+        if (vy < -500) {
+            vy = -500;
+        } else if (vy > 500) {
+            vy = 500;
+        }
+
+        x += vx * deltaTime;
+        y += vy * deltaTime;
         validerLimite();
     }
 
     protected void validerLimite() {
-        if (vitesseY > 0 && posY + hauteur >= Main.HEIGHT) {
-            posY = Main.HEIGHT - hauteur;
-            vitesseY *= -1;
-        } else if (vitesseY < 0 && posY <= 0) {
-            posY = 0;
-            vitesseY *= -1;
+        if (vy > 0 && y + h >= Main.HEIGHT) {
+            y = Main.HEIGHT - h;
+            vy *= -1;
+        } else if (vy < 0 && y <= 0) {
+            y = 0;
+            vy *= -1;
         }
-    }
-
-
-    @Override
-    public double getX() {
-        return posX;
-    }
-
-    @Override
-    public double getY() {
-        return posY;
-    }
-
-    @Override
-    public double getW() {
-        return imageProjectile.getWidth();
-    }
-
-    @Override
-    public double getH() {
-        return imageProjectile.getHeight();
     }
 }
