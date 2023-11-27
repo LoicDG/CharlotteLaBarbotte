@@ -10,11 +10,6 @@ public abstract class Projectiles extends ObjetDuJeu implements CanCollide {
     public Projectiles(double posX, double posY) {
         super(posX, posY);
     }
-
-    public Image getImageProjectile() {
-        return image;
-    }
-
     @Override
     public void updatePhysique(double deltaTime) {
         x += vx * deltaTime;

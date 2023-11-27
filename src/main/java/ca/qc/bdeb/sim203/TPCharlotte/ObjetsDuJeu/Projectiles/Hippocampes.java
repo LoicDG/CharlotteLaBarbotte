@@ -22,14 +22,11 @@ public class Hippocampes extends Projectiles{
         if (signe == 1){
             amplitudeSinus = -amplitudeSinus;
         }
-
-
     }
     @Override
     public void updatePhysique(double deltaTime) {
         super.updatePhysique(deltaTime);
         double t = System.currentTimeMillis()-tempsDeLaCreation;
         y = amplitudeSinus * Math.sin((2 * Math.PI * t) / periode) + posYinitial;
-
     }
 }

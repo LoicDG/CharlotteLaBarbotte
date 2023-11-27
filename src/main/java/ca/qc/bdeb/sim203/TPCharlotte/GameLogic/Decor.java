@@ -13,8 +13,7 @@ public class Decor {
     private static final double w = 80;
 
     public Decor(double x) {
-        var rng = new Random();
-        image = new Image("code/decor" + rng.nextInt(1, 7) + ".png");
+        image = new Image("code/decor" + Input.rnd.nextInt(1, 7) + ".png");
         this.x = x;
     }
 

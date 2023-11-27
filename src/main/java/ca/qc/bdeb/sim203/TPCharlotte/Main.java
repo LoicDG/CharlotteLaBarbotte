@@ -38,7 +38,6 @@ public class Main extends Application {
         launch(args);
     }
 
-    //TODO: créer un objet Timer pour prendre en compte les deltaTemps d'exécution
     @Override
     public void start(Stage stage) {
 
@@ -173,14 +172,12 @@ public class Main extends Application {
                 retourMenu(originale, stage);
             } else if (event.getCode() == KeyCode.D && Input.isPressed(KeyCode.D)) {
                 Input.setKeyPressed(KeyCode.D, false);
-            } else if (event.getCode() == KeyCode.P && Input.isPressed(KeyCode.P)) {
-                Input.setKeyPressed(KeyCode.P, false);
             } else {
                 Input.setKeyPressed(event.getCode(), true);
             }
         });
         scene.setOnKeyReleased(event -> {
-            if (event.getCode() == KeyCode.D || event.getCode() == KeyCode.P) return;
+            if (event.getCode() == KeyCode.D) return;
             Input.setKeyPressed(event.getCode(), false);
         });
         return scene;
@@ -190,7 +187,6 @@ public class Main extends Application {
         Niveau.resetNbNiveau();
         stage.setScene(originale);
         Input.setKeyPressed(KeyCode.D, false);
-        Input.setKeyPressed(KeyCode.P, false);
         partie.setPartieFinie(true);
     }
 

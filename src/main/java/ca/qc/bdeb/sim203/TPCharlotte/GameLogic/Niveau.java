@@ -27,30 +27,23 @@ public class Niveau {
     private Baril baril; //chaque niveau a 1 baril
     private ArrayList<Decor> decors = new ArrayList<>();
     public Niveau() {
-        var rnd = new Random();
-        bg = new Background(new BackgroundFill(Color.hsb(rnd.nextDouble(190, 271), 0.84,
+        bg = new Background(new BackgroundFill(Color.hsb(Input.rnd.nextDouble(190, 271), 0.84,
                 1.0), null, null));
         nbNiveau++;
         numNiveau = nbNiveau;
         tempsCreationNiveau = System.currentTimeMillis();
-        Random random = new Random();
         double minRange = Main.TAILLE_NIVEAU/ 5;
         double maxRange = (4*Main.TAILLE_NIVEAU)/5;
-        double xBaril = minRange + random.nextDouble() * (maxRange - minRange);
+        double xBaril = minRange + Input.rnd.nextDouble() * (maxRange - minRange);
         baril = new Baril(xBaril, 0, tempsCreationNiveau);
-        double espacement = rnd.nextInt(50, 101);
+        double espacement = Input.rnd.nextInt(50, 101);
         double xDecors = espacement;
         while (xDecors < Main.TAILLE_NIVEAU) {
             decors.add(new Decor(xDecors));
-            espacement = rnd.nextInt(50, 101) + Decor.getW();
+            espacement = Input.rnd.nextInt(50, 101) + Decor.getW();
             xDecors += espacement;
         }
     }
-
-    public int getNumNiveau() {
-        return numNiveau;
-    }
-
     public Baril getBaril() {
         return baril;
     }
@@ -82,12 +75,11 @@ public class Niveau {
     }
 
     public void spawnEnnemis(Camera cam) {
-        var random = new Random();
-        int nbPoissons = random.nextInt(1, 6);
+        int nbPoissons = Input.rnd.nextInt(1, 6);
         if (sinceDespawn >= (0.75 + 1 / Math.sqrt(numNiveau))) {
             for (int i = 0; i < nbPoissons; i++) {
                 poissons.add(new Ennemis(cam.getX() + cam.getWidth(),
-                        random.nextDouble(Main.HEIGHT * 0.2, Main.HEIGHT * 0.81), numNiveau));
+                        Input.rnd.nextDouble(Main.HEIGHT * 0.2, Main.HEIGHT * 0.81), numNiveau));
             }
             tempsExec = System.currentTimeMillis();
             sinceDespawn = 0;
