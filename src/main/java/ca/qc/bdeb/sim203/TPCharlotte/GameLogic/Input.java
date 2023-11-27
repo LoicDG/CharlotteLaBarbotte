@@ -1,4 +1,4 @@
-package ca.qc.bdeb.sim203.TPCharlotte;
+package ca.qc.bdeb.sim203.TPCharlotte.GameLogic;
 
 import javafx.scene.input.KeyCode;
 

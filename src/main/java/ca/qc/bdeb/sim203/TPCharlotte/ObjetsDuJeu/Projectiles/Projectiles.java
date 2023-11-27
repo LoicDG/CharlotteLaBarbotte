@@ -1,6 +1,6 @@
-package ca.qc.bdeb.sim203.TPCharlotte.Projectiles;
+package ca.qc.bdeb.sim203.TPCharlotte.ObjetsDuJeu.Projectiles;
 
-import ca.qc.bdeb.sim203.TPCharlotte.CanCollide;
+import ca.qc.bdeb.sim203.TPCharlotte.GameLogic.CanCollide;
 import ca.qc.bdeb.sim203.TPCharlotte.Main;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;

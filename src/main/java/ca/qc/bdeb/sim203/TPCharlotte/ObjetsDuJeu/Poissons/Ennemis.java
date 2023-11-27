@@ -1,9 +1,6 @@
-package ca.qc.bdeb.sim203.TPCharlotte.Poissons;
+package ca.qc.bdeb.sim203.TPCharlotte.ObjetsDuJeu.Poissons;
 
-import ca.qc.bdeb.sim203.TPCharlotte.Projectiles.Projectiles;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 
 import java.util.ArrayList;
 import java.util.Random;

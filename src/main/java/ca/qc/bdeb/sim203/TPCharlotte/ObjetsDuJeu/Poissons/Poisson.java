@@ -1,8 +1,7 @@
-package ca.qc.bdeb.sim203.TPCharlotte.Poissons;
+package ca.qc.bdeb.sim203.TPCharlotte.ObjetsDuJeu.Poissons;
 
-import ca.qc.bdeb.sim203.TPCharlotte.CanCollide;
-import ca.qc.bdeb.sim203.TPCharlotte.Input;
-import ca.qc.bdeb.sim203.TPCharlotte.ObjetDuJeu;
+import ca.qc.bdeb.sim203.TPCharlotte.GameLogic.CanCollide;
+import ca.qc.bdeb.sim203.TPCharlotte.GameLogic.Input;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
@@ -10,11 +9,6 @@ import javafx.scene.paint.Color;
 
 public class Poisson implements CanCollide {
     protected Image imagePoisson;
-
-    public double getVx() {
-        return vx;
-    }
-
     protected double vx, vy, ax, ay;
     protected double x, y;
     protected double w, h;
@@ -34,6 +28,10 @@ public class Poisson implements CanCollide {
 
     public Image getImagePoisson() {
         return imagePoisson;
+    }
+
+    public double getVx() {
+        return vx;
     }
 
     public double getX() {

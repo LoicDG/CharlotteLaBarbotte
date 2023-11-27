@@ -1,4 +1,4 @@
-package ca.qc.bdeb.sim203.TPCharlotte.Projectiles;
+package ca.qc.bdeb.sim203.TPCharlotte.ObjetsDuJeu.Projectiles;
 
 import javafx.scene.image.Image;
 

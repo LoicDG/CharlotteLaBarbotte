@@ -1,15 +1,13 @@
-package ca.qc.bdeb.sim203.TPCharlotte;
+package ca.qc.bdeb.sim203.TPCharlotte.GameLogic;
 
-import ca.qc.bdeb.sim203.TPCharlotte.Poissons.Charlotte;
+import ca.qc.bdeb.sim203.TPCharlotte.Main;
+import ca.qc.bdeb.sim203.TPCharlotte.ObjetsDuJeu.Poissons.Charlotte;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Background;
-import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-
-import java.util.ArrayList;
 
 public class Partie {
     private Charlotte charlotte;

@@ -1,6 +1,7 @@
-package ca.qc.bdeb.sim203.TPCharlotte;
+package ca.qc.bdeb.sim203.TPCharlotte.ObjetsDuJeu;
 
-import ca.qc.bdeb.sim203.TPCharlotte.Poissons.Charlotte;
+import ca.qc.bdeb.sim203.TPCharlotte.GameLogic.CanCollide;
+import ca.qc.bdeb.sim203.TPCharlotte.GameLogic.Input;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;

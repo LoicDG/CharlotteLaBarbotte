@@ -1,10 +1,12 @@
-package ca.qc.bdeb.sim203.TPCharlotte.Poissons;
+package ca.qc.bdeb.sim203.TPCharlotte.ObjetsDuJeu.Poissons;
 
 import ca.qc.bdeb.sim203.TPCharlotte.*;
-import ca.qc.bdeb.sim203.TPCharlotte.Projectiles.BoiteDeSardine;
-import ca.qc.bdeb.sim203.TPCharlotte.Projectiles.EtoileDeMer;
-import ca.qc.bdeb.sim203.TPCharlotte.Projectiles.Hippocampes;
-import ca.qc.bdeb.sim203.TPCharlotte.Projectiles.Projectiles;
+import ca.qc.bdeb.sim203.TPCharlotte.GameLogic.Input;
+import ca.qc.bdeb.sim203.TPCharlotte.GameLogic.Niveau;
+import ca.qc.bdeb.sim203.TPCharlotte.ObjetsDuJeu.Projectiles.BoiteDeSardine;
+import ca.qc.bdeb.sim203.TPCharlotte.ObjetsDuJeu.Projectiles.EtoileDeMer;
+import ca.qc.bdeb.sim203.TPCharlotte.ObjetsDuJeu.Projectiles.Hippocampes;
+import ca.qc.bdeb.sim203.TPCharlotte.ObjetsDuJeu.Projectiles.Projectiles;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
