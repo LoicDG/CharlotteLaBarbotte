@@ -2,75 +2,23 @@ package ca.qc.bdeb.sim203.TPCharlotte.ObjetsDuJeu.Poissons;
 
 import ca.qc.bdeb.sim203.TPCharlotte.GameLogic.CanCollide;
 import ca.qc.bdeb.sim203.TPCharlotte.GameLogic.Input;
+import ca.qc.bdeb.sim203.TPCharlotte.ObjetsDuJeu.ObjetDuJeu;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 
-public class Poisson implements CanCollide {
-    protected Image imagePoisson;
-    protected double vx, vy, ax, ay;
-    protected double x, y;
-    protected double w, h;
+public class Poisson extends ObjetDuJeu implements CanCollide {
 
     public Poisson(Image imagePoisson, double x, double y) {
-        this.imagePoisson = imagePoisson;
-        this.x = x;
-        this.y = y;
+        super(x, y);
+        image = imagePoisson;
         w = imagePoisson.getWidth();
         h = imagePoisson.getHeight();
     }
 
     public Poisson(double x, double y) {
-        this.x = x;
-        this.y = y;
-    }
-
-    public Image getImagePoisson() {
-        return imagePoisson;
-    }
-
-    public double getVx() {
-        return vx;
-    }
-
-    public double getX() {
-        return x;
-    }
-
-    public double getY() {
-        return y;
-    }
-
-    public double getW() {
-        return w;
-    }
-
-    public double getH() {
-        return h;
-    }
-
-    public void update(double deltaTime) {
-        updatePhysique(deltaTime);
-    }
-
-    protected void updatePhysique(double deltaTime) {
-        vx += deltaTime * ax;
-        vy += deltaTime * ay;
-        x += deltaTime * vx;
-        y += deltaTime * vy;
-    }
-
-    public void draw(GraphicsContext context) {
-        context.drawImage(imagePoisson, x, y, w, h);
-        drawHitBox(context);
-    }
-
-    protected void drawHitBox(GraphicsContext context) {
-        if (Input.isPressed(KeyCode.D)) {
-            context.setStroke(Color.WHITE);
-            context.strokeRect(x, y, w, h);
-        }
+        super(x, y);
     }
 
     public boolean isEnCollision(CanCollide objet) {

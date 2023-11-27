@@ -35,18 +35,6 @@ public abstract class ObjetDuJeu {
         return vx;
     }
 
-    public double getVy() {
-        return vy;
-    }
-
-    public double getAx() {
-        return ax;
-    }
-
-    public double getAy() {
-        return ay;
-    }
-
     public Image getImage() {
         return image;
     }
@@ -59,11 +47,11 @@ public abstract class ObjetDuJeu {
         vx += ax * deltaTime;
         vy += ay * deltaTime;
         x += vx * deltaTime;
-        y = vy * deltaTime;
+        y += vy * deltaTime;
     }
 
     public void draw(GraphicsContext context) {
-        context.drawImage(image, x, y);
+        context.drawImage(image, x, y, w, h);
         if (Input.isPressed(KeyCode.D)) {
             drawHitbox(context);
         }

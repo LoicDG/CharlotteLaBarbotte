@@ -47,7 +47,8 @@ public class Partie {
         if (isNotPaused) {
             long nowMS = System.currentTimeMillis();
             charlotte.checkVelocity();
-            charlotte.update(deltaTime, currentLevel);
+            charlotte.update(deltaTime);
+            charlotte.addProjectiles(currentLevel);
             charlotte.checkLimits(camera.getX());
             camera.follow(charlotte);
             healthBar.update();
@@ -123,6 +124,9 @@ public class Partie {
                         camera.getWidth()) {
                     context.drawImage(decor.getImage(), decor.getX(), Decor.getY());
                 }
+            }
+            for (var projectile : charlotte.getProjectilesTires()) {
+                projectile.draw(context);
             }
             
 
