@@ -11,11 +11,11 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
-import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -28,7 +28,7 @@ import java.util.Random;
 public class Main extends Application {
     public static double HEIGHT = 520;
     public static double WIDTH = 900;
-    public static double TAILLE_NIVEAU = WIDTH*8;
+    public static double TAILLE_NIVEAU = WIDTH * 8;
     Canvas canvas = new Canvas(WIDTH, HEIGHT);
     GraphicsContext context = canvas.getGraphicsContext2D();
     AnimationTimer timer;
@@ -120,6 +120,7 @@ public class Main extends Application {
         }
         stage.setScene(sceneJouer);
     }
+
     private Scene setScreenInfos(Scene originale, Stage stage, Image poisson) {
         var root = new VBox();
         var scene = new Scene(root, WIDTH, HEIGHT);
@@ -161,6 +162,7 @@ public class Main extends Application {
         //endregion
         return scene;
     }
+
     private Scene setScreenJouer(Scene originale, Stage stage, Partie partie) {
         var root = new Pane();
         var scene = new Scene(root, WIDTH, HEIGHT);
@@ -183,6 +185,7 @@ public class Main extends Application {
         return scene;
 
     }
+
     private void retourMenu(Scene originale, Stage stage) {
         Niveau.resetNbNiveau();
         stage.setScene(originale);

@@ -3,9 +3,6 @@ package ca.qc.bdeb.sim203.TPCharlotte.GameLogic;
 import ca.qc.bdeb.sim203.TPCharlotte.Main;
 import javafx.scene.image.Image;
 
-import java.util.ArrayList;
-import java.util.Random;
-
 public class Decor {
     private Image image;
     private double x;

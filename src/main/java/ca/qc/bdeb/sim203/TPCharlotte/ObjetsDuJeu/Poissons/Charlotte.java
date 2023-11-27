@@ -1,8 +1,8 @@
 package ca.qc.bdeb.sim203.TPCharlotte.ObjetsDuJeu.Poissons;
 
-import ca.qc.bdeb.sim203.TPCharlotte.*;
 import ca.qc.bdeb.sim203.TPCharlotte.GameLogic.Input;
 import ca.qc.bdeb.sim203.TPCharlotte.GameLogic.Niveau;
+import ca.qc.bdeb.sim203.TPCharlotte.Main;
 import ca.qc.bdeb.sim203.TPCharlotte.ObjetsDuJeu.Projectiles.BoiteDeSardine;
 import ca.qc.bdeb.sim203.TPCharlotte.ObjetsDuJeu.Projectiles.EtoileDeMer;
 import ca.qc.bdeb.sim203.TPCharlotte.ObjetsDuJeu.Projectiles.Hippocampes;
@@ -107,7 +107,7 @@ public class Charlotte extends Poisson {
                 choixProjectile = 1;
             } else if (Input.isPressed(KeyCode.W)) {
                 choixProjectile = 2;
-            } else if (Input.isPressed(KeyCode.E)){
+            } else if (Input.isPressed(KeyCode.E)) {
                 choixProjectile = 3;
             }
             if (Input.isPressed(KeyCode.R)) {

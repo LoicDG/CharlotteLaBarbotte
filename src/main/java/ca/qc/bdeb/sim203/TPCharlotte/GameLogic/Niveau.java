@@ -12,7 +12,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 public class Niveau {
     private Background bg;
@@ -26,14 +25,15 @@ public class Niveau {
     private boolean isOver = false;
     private Baril baril; //chaque niveau a 1 baril
     private ArrayList<Decor> decors = new ArrayList<>();
+
     public Niveau() {
         bg = new Background(new BackgroundFill(Color.hsb(Input.rnd.nextDouble(190, 271), 0.84,
                 1.0), null, null));
         nbNiveau++;
         numNiveau = nbNiveau;
         tempsCreationNiveau = System.currentTimeMillis();
-        double minRange = Main.TAILLE_NIVEAU/ 5;
-        double maxRange = (4*Main.TAILLE_NIVEAU)/5;
+        double minRange = Main.TAILLE_NIVEAU / 5;
+        double maxRange = (4 * Main.TAILLE_NIVEAU) / 5;
         double xBaril = minRange + Input.rnd.nextDouble() * (maxRange - minRange);
         baril = new Baril(xBaril, 0, tempsCreationNiveau);
         double espacement = Input.rnd.nextInt(50, 101);
@@ -44,6 +44,7 @@ public class Niveau {
             xDecors += espacement;
         }
     }
+
     public Baril getBaril() {
         return baril;
     }
