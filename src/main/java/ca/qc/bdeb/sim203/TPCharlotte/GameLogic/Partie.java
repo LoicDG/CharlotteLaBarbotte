@@ -76,8 +76,8 @@ public class Partie {
                         charlotte.isTouchee();
                         charlotte.setTempsTouchee(nowMS);
                     }
-                    if (charlotte.isEnCollision(currentLevel.getBaril()) && !currentLevel.getBaril().isEstOuvert()) {
-                        currentLevel.getBaril().setEstOuvert(true);
+                    if (charlotte.isEnCollision(currentLevel.getBaril()) && !currentLevel.getBaril().isOuvert()) {
+                        currentLevel.getBaril().setOuvert(true);
                         currentLevel.getBaril().setImageBaril(new Image("code/baril-ouvert.png"));
                         if (charlotte.getChoixProjectile() < 3) {
                             charlotte.setChoixProjectile(charlotte.getChoixProjectile() + 1);

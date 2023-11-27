@@ -7,73 +7,33 @@ import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 
-public class Baril implements CanCollide {
-    private double largeur;
-    private double hauteur;
-
-    public void setImageBaril(Image imageBaril) {
-        this.imageBaril = imageBaril;
-    }
-
-    public boolean isEstOuvert() {
-        return estOuvert;
-    }
-
-    public void setEstOuvert(boolean estOuvert) {
-        this.estOuvert = estOuvert;
-    }
-
-    private boolean estOuvert;
-
-    private Image imageBaril;
-    private double  x;
-    private double y;
-    private double w;
-    private double h;
+public class Baril extends ObjetDuJeu implements CanCollide {
+    private boolean ouvert;
     private long tempsDeCreation;
 
-    public Baril(double x, double y, long tempsDeCreation){
-        this.x = x;
-        this.y = y;
+    public Baril(double x, double y, long tempsDeCreation) {
+        super(x, y);
         this.tempsDeCreation = tempsDeCreation;
-        imageBaril = new Image("code/baril.png");
-        w = imageBaril.getWidth();
-        h = imageBaril.getHeight();
-        estOuvert = false;
-
+        image = new Image("code/baril.png");
+        w = image.getWidth();
+        h = image.getHeight();
+        ouvert = false;
     }
+
+    public void setImageBaril(Image imageBaril) {
+        this.image = imageBaril;
+    }
+
+    public boolean isOuvert() {
+        return ouvert;
+    }
+
+    public void setOuvert(boolean ouvert) {
+        this.ouvert = ouvert;
+    }
+
     public void updatePhysique() {
-        double t = System.currentTimeMillis()-tempsDeCreation;
-        y = ((590-166)/2)*Math.sin((2*Math.PI*t)/3000)+((590-166)/2);
-    }
-    public void draw(GraphicsContext context) {
-        context.drawImage(imageBaril, x, y, w, h);
-        drawHitBox(context);
-    }
-
-    protected void drawHitBox(GraphicsContext context) {
-        if (Input.isPressed(KeyCode.D)) {
-            context.setStroke(Color.WHITE);
-            context.strokeRect(x, y, w, h);
-        }
-    }
-    @Override
-    public double getX() {
-        return x;
-    }
-
-    @Override
-    public double getY() {
-        return y;
-    }
-
-    @Override
-    public double getW() {
-        return w;
-    }
-
-    @Override
-    public double getH() {
-        return h;
+        double t = System.currentTimeMillis() - tempsDeCreation;
+        y = ((590 - 166) / 2) * Math.sin((2 * Math.PI * t) / 3000) + ((590 - 166) / 2);
     }
 }
