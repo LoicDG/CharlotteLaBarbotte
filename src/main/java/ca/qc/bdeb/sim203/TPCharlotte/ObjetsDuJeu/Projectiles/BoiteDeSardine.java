@@ -14,11 +14,13 @@ public class BoiteDeSardine extends Projectiles {
 
     public BoiteDeSardine(double posX, double posY, ArrayList<Ennemis> listeEnnemis) {
         super(posX, posY);
-        w = 35;
-        h = 29;
+        image = new Image("code/sardines.png");
+        w = image.getWidth();
+        h = image.getHeight();
+        super.x -= w / 2;
+        super.y -= h / 2;
         vx = 300;
         vy = 0;
-        image = new Image("code/sardines.png");
         this.listeEnnemis = listeEnnemis;
     }
 

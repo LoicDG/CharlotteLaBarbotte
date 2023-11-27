@@ -5,7 +5,6 @@ import ca.qc.bdeb.sim203.TPCharlotte.ObjetsDuJeu.Poissons.Charlotte;
 import javafx.scene.canvas.GraphicsContext;
 
 public class Camera {
-
     private double x;
     private double width;
     private HealthBar healthBar;

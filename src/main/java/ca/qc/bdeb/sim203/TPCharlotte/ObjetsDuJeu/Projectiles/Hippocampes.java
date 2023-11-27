@@ -13,10 +13,12 @@ public class Hippocampes extends Projectiles{
         super(posX, posY);
         posYinitial = posY;
         tempsDeLaCreation = System.currentTimeMillis();
-        w = 20;
-        h = 36;
-        vx = 500;
         image = new Image("code/hippocampe.png");
+        w = image.getWidth();
+        h = image.getHeight();
+        super.x -= w / 2;
+        super.y -= h / 2;
+        vx = 500;
         amplitudeSinus = Input.rnd.nextDouble(30, 61);
         int signe = Input.rnd.nextInt(2);
         if (signe == 1){

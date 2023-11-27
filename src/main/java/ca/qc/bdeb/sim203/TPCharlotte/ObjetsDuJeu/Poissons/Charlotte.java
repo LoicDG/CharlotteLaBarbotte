@@ -118,15 +118,15 @@ public class Charlotte extends Poisson {
         if (Input.isPressed(KeyCode.SPACE) && tempsMaintenant - tempsDuDernierTir >= FREQUENCE_TIRS) {
             switch (choixProjectile) {
                 case 1 -> {
-                    projectilesTires.add(new EtoileDeMer(x, y));
+                    projectilesTires.add(new EtoileDeMer(x + w / 2, y + h / 2));
                 }
                 case 2 -> {
                     for (int i = 0; i < 3; i++) {
-                        projectilesTires.add(new Hippocampes(x, y));
+                        projectilesTires.add(new Hippocampes(x + w / 2, y + h / 2));
                     }
                 }
                 case 3 -> {
-                    projectilesTires.add(new BoiteDeSardine(x, y, niveauCourant.getPoissons()));
+                    projectilesTires.add(new BoiteDeSardine(x + w / 2, y + h / 2, niveauCourant.getPoissons()));
                 }
             }
             tempsDuDernierTir = tempsMaintenant;
