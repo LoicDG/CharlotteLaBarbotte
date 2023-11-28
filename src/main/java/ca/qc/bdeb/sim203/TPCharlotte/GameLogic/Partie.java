@@ -77,11 +77,11 @@ public class Partie {
                 if (charlotte.isEnCollision(currentLevel.getBaril()) && !currentLevel.getBaril().isOuvert()) {
                     currentLevel.getBaril().setOuvert(true);
                     currentLevel.getBaril().setImageBaril(new Image("code/baril-ouvert.png"));
-                    if (charlotte.getChoixProjectile() < 3) {
-                        charlotte.setChoixProjectile(charlotte.getChoixProjectile() + 1);
-                    } else {
-                        charlotte.setChoixProjectile(1);
-                    }
+                    int choixNouveauProjectile;
+                    do {
+                        choixNouveauProjectile = Input.rnd.nextInt(3)+1;
+                    } while (choixNouveauProjectile == charlotte.getChoixProjectile());
+                    charlotte.setChoixProjectile(choixNouveauProjectile);
                 }
             }
         }
