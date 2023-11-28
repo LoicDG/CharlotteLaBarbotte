@@ -135,11 +135,19 @@ public class Main extends Application {
 
         //Collaborateurs
         var collabos = new VBox();
-        var loic = new Text("Par Loïc Desrochers-Girard"); //TODO: arranger le style de "Par" et "et" si on veut
+        var par = new Text("Par ");
+        par.setFont(Font.font(20));
+        var loic = new Text("Loïc Desrochers-Girard");
         loic.setFont(Font.font(32));
-        var sebby = new Text("et Sebastian Crête");
+        var parLoic = new HBox(par,loic);
+        parLoic.setAlignment(Pos.CENTER);
+        var et = new Text("et ");
+        et.setFont(Font.font(20));
+        var sebby = new Text("Sebastian Crete");
         sebby.setFont(Font.font(32));
-        collabos.getChildren().addAll(loic, sebby);
+        var etSebby = new HBox(et,sebby);
+        etSebby.setAlignment(Pos.CENTER);
+        collabos.getChildren().addAll(parLoic, etSebby);
         collabos.setAlignment(Pos.CENTER);
 
         //Description du travail
