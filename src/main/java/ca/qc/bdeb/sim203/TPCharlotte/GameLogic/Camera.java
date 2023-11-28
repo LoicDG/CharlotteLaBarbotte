@@ -7,12 +7,12 @@ import javafx.scene.canvas.GraphicsContext;
 public class Camera {
     private double x;
     private double width;
-    private HealthBar healthBar;
+    private BarreDeVie barreDeVie;
 
 
-    public Camera(double width, HealthBar healthBar) {
+    public Camera(double width, BarreDeVie barreDeVie) {
         this.width = width;
-        this.healthBar = healthBar;
+        this.barreDeVie = barreDeVie;
     }
 
     public double getX() {
@@ -27,7 +27,7 @@ public class Camera {
         x = 0;
     }
 
-    public void follow(Charlotte charlotte) {
+    public void suivre(Charlotte charlotte) {
         double xCible;
         if (charlotte.getVx() > 0) {
             xCible = charlotte.getX() - width * 0.2;
@@ -37,10 +37,10 @@ public class Camera {
                 x = xCible;
             }
         }
-        healthBar.setX(x + 10);
+        barreDeVie.setX(x + 10);
     }
 
-    public void apply(GraphicsContext context) {
+    public void appliquer(GraphicsContext context) {
         context.translate(-x, 0);
     }
 }

@@ -21,8 +21,8 @@ public class Niveau {
     private ArrayList<Ennemis> poissons = new ArrayList<>();
     private long tempsCreationNiveau;
     private long tempsExec;
-    private double sinceDespawn = 0;
-    private boolean isOver = false;
+    private double tempsDepuisDisparition = 0;
+    private boolean fini = false;
     private Baril baril; //chaque niveau a 1 baril
     private ArrayList<Decor> decors = new ArrayList<>();
 
@@ -32,9 +32,9 @@ public class Niveau {
         nbNiveau++;
         numNiveau = nbNiveau;
         tempsCreationNiveau = System.currentTimeMillis();
-        double minRange = Main.TAILLE_NIVEAU / 5;
-        double maxRange = (4 * Main.TAILLE_NIVEAU) / 5;
-        double xBaril = minRange + Input.rnd.nextDouble() * (maxRange - minRange);
+        double distanceMinimum = Main.TAILLE_NIVEAU / 5;
+        double distanceMaximum = (4 * Main.TAILLE_NIVEAU) / 5;
+        double xBaril = distanceMinimum + Input.rnd.nextDouble() * (distanceMaximum - distanceMinimum);
         baril = new Baril(xBaril, 0, tempsCreationNiveau);
         double espacement = Input.rnd.nextInt(50, 101);
         double xDecors = espacement;
@@ -75,17 +75,17 @@ public class Niveau {
         return poissons;
     }
 
-    public void spawnEnnemis(Camera cam) {
+    public void faireApparaitreEnnemis(Camera cam) {
         int nbPoissons = Input.rnd.nextInt(1, 6);
-        if (sinceDespawn >= (0.75 + 1 / Math.sqrt(numNiveau))) {
+        if (tempsDepuisDisparition >= (0.75 + 1 / Math.sqrt(numNiveau))) {
             for (int i = 0; i < nbPoissons; i++) {
                 poissons.add(new Ennemis(cam.getX() + cam.getWidth(),
                         Input.rnd.nextDouble(Main.HEIGHT * 0.2, Main.HEIGHT * 0.81), numNiveau));
             }
             tempsExec = System.currentTimeMillis();
-            sinceDespawn = 0;
+            tempsDepuisDisparition = 0;
         } else {
-            sinceDespawn = (double) (System.currentTimeMillis() - tempsExec) / 1000;
+            tempsDepuisDisparition = (double) (System.currentTimeMillis() - tempsExec) / 1000;
         }
     }
 
@@ -98,8 +98,8 @@ public class Niveau {
         }
     }
 
-    public boolean isOver() {
-        return isOver;
+    public boolean isFini() {
+        return fini;
     }
 
     public void afficherNumNiveau(GraphicsContext context) {
@@ -111,7 +111,7 @@ public class Niveau {
 
     public void checkFini(Charlotte charlotte) {
         if (charlotte.getX() + charlotte.getW() >= Main.TAILLE_NIVEAU) {
-            isOver = true;
+            fini = true;
         }
     }
 }
