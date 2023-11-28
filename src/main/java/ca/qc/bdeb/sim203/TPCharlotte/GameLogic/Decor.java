@@ -9,6 +9,10 @@ public class Decor {
     private static final double y = Main.HEIGHT - 109;
     private static final double w = 80;
 
+    /**
+     * Constructeur de la classe Decor
+     * @param x La position horizontale d'un élément du décors
+     */
     public Decor(double x) {
         image = new Image("code/decor" + Input.rnd.nextInt(1, 7) + ".png");
         this.x = x;

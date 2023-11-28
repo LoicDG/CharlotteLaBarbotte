@@ -24,7 +24,7 @@ import javafx.stage.Stage;
 
 import java.util.Random;
 
-//arraylist des ennemis que charlotte a pas depasse et ajouter un nouveau parametre a charlotte
+
 public class Main extends Application {
     public static double HEIGHT = 520;
     public static double WIDTH = 900;

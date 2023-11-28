@@ -12,6 +12,11 @@ public class BarreDeVie {
     private Image projectileChoisi;
     private Image[] imagesProjectiles = new Image[3];
 
+    /**
+     * Constructeur de la classe BarreDeVie.
+     *
+     * @param charlotte Instance de la classe Charlotte associée à cette barre de vie.
+     */
     public BarreDeVie(Charlotte charlotte) {
         this.charlotte = charlotte;
         pvRestants = 150;
@@ -21,10 +26,15 @@ public class BarreDeVie {
         projectileChoisi = imagesProjectiles[0];
     }
 
+
     public void setX(double x) {
         this.x = x;
     }
 
+    /**
+     * Méthode qui met à jour l'affichage de la barre de vie en fonction des points de vie de Charlotte
+     * et du projectile choisi.
+     */
     public void update() {
         pvRestants = charlotte.getPv() * 37.5;
         int choix = charlotte.getChoixProjectile();
@@ -35,6 +45,12 @@ public class BarreDeVie {
         }
     }
 
+    /**
+     * Méthode qui dessine la barre de vie avec la quantité de points de vie restants
+     * et l'image du projectile choisi.
+     *
+     * @param context Contexte graphique dans lequel dessiner la barre de vie.
+     */
     public void draw(GraphicsContext context) {
         context.setFill(Color.WHITE);
         context.setStroke(Color.WHITE);
