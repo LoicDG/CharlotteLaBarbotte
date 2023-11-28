@@ -53,11 +53,11 @@ public abstract class ObjetDuJeu {
     public void draw(GraphicsContext context) {
         context.drawImage(image, x, y, w, h);
         if (Input.isPressed(KeyCode.D)) {
-            drawHitbox(context);
+            drawContour(context);
         }
     }
 
-    public void drawHitbox(GraphicsContext context) {
+    public void drawContour(GraphicsContext context) {
         context.setStroke(Color.WHITE);
         context.strokeRect(x, y, w, h);
     }

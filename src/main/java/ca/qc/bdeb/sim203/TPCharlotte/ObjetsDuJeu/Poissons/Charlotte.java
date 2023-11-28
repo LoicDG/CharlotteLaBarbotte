@@ -24,8 +24,8 @@ public class Charlotte extends Poisson {
     private boolean invincible = false;
     private long tempsTouchee = 0;
     private double tempsVisible = 0;
-    private long deathTime;
-    private boolean first = true;
+    private long tempsDeces;
+    private boolean premiereFois = true;
 
     public Charlotte(Image imagePoisson, double x, double y) {
         super(imagePoisson, x, y);
@@ -53,16 +53,16 @@ public class Charlotte extends Poisson {
         return pv;
     }
 
-    public boolean isAlive() {
-        if (pv == 0 && first) {
-            deathTime = System.currentTimeMillis();
-            first = false;
+    public boolean estVivante() {
+        if (pv == 0 && premiereFois) {
+            tempsDeces = System.currentTimeMillis();
+            premiereFois = false;
         }
         return pv > 0;
     }
 
-    public long getDeathTime() {
-        return deathTime;
+    public long getTempsDeces() {
+        return tempsDeces;
     }
 
     public boolean isInvincible() {
@@ -100,7 +100,7 @@ public class Charlotte extends Poisson {
         }
     }
 
-    public void addProjectiles(Niveau niveauCourant) {
+    public void creerProjectiles(Niveau niveauCourant) {
         //Mode débug
         if (Input.isPressed(KeyCode.D)) {
             if (Input.isPressed(KeyCode.Q)) {
@@ -140,27 +140,27 @@ public class Charlotte extends Poisson {
         }
     }
 
-    public void checkVelocity() {
+    public void verifierVitesse() {
         boolean left = Input.isPressed(KeyCode.LEFT);
         boolean right = Input.isPressed(KeyCode.RIGHT);
         boolean up = Input.isPressed(KeyCode.UP);
         boolean down = Input.isPressed(KeyCode.DOWN);
 
-        ax = adjustAcceleration(vx, right, left);
+        ax = verifierAcceleration(vx, right, left);
         if (ax == 0) vx = 0;
-        vx = adjustSpeed(vx);
+        vx = verifierVitesse(vx);
 
-        ay = adjustAcceleration(vy, down, up);
+        ay = verifierAcceleration(vy, down, up);
         if (ay == 0) vy = 0;
-        vy = adjustSpeed(vy);
+        vy = verifierVitesse(vy);
     }
 
-    public void checkLimits(double xCam) {
-        x = adjustPosition(x, Main.TAILLE_NIVEAU, w, xCam);
-        y = adjustPosition(y, Main.HEIGHT, h, 0);
+    public void verifierLimites(double xCam) {
+        x = verifierPosition(x, Main.TAILLE_NIVEAU, w, xCam);
+        y = verifierPosition(y, Main.HEIGHT, h, 0);
     }
 
-    private double adjustPosition(double pos, double tailleMax, double taillePoisson, double limites) {
+    private double verifierPosition(double pos, double tailleMax, double taillePoisson, double limites) {
         if (pos < limites) {
             pos = limites;
         } else if (pos > tailleMax - taillePoisson) {
@@ -169,13 +169,13 @@ public class Charlotte extends Poisson {
         return pos;
     }
 
-    private double adjustSpeed(double v) {
+    private double verifierVitesse(double v) {
         if (v > 300) v = 300;
         if (v < -300) v = -300;
         return v;
     }
 
-    private double adjustAcceleration(double v, boolean plus, boolean moins) {
+    private double verifierAcceleration(double v, boolean plus, boolean moins) {
         double deceleration = -500;
         double a;
         if (moins) {
@@ -192,7 +192,7 @@ public class Charlotte extends Poisson {
         return a;
     }
 
-    public void isTouchee() {
+    public void estTouchee() {
         invincible = true;
         tempsVisible = (double) System.currentTimeMillis() / 1000;
         pv -= 1;

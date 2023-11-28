@@ -40,7 +40,6 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) {
-
         stage.setTitle("Charlotte la Barbotte");
         stage.getIcons().add(new Image("code/charlotte.png"));
         stage.setResizable(false);
@@ -67,8 +66,7 @@ public class Main extends Application {
 
         stage.setScene(titre);
         //Scène 2, pour le menu informations
-        var rnd = new Random();
-        var ennemiImage = new Image("code/poisson" + rnd.nextInt(1, 6) + ".png");
+        var ennemiImage = new Image("code/poisson" + Input.rnd.nextInt(1, 6) + ".png");
         var sceneInfos = setScreenInfos(titre, stage, ennemiImage);
         //Scène 3, pour jouer
         var sceneJouer = setScreenJouer(titre, stage, partie);
@@ -102,7 +100,7 @@ public class Main extends Application {
             stage.setScene(sceneInfos);
         });
         jouer.setOnAction(event -> {
-            startGame(stage, sceneJouer);
+            commencerPartie(stage, sceneJouer);
             timer.start();
         });
         titre.setOnKeyPressed(event -> {
@@ -114,7 +112,7 @@ public class Main extends Application {
         stage.show();
     }
 
-    private void startGame(Stage stage, Scene sceneJouer) {
+    private void commencerPartie(Stage stage, Scene sceneJouer) {
         if (partie.isPartieFinie()) {
             partie = new Partie();
         }
@@ -166,7 +164,7 @@ public class Main extends Application {
     private Scene setScreenJouer(Scene originale, Stage stage, Partie partie) {
         var root = new Pane();
         var scene = new Scene(root, WIDTH, HEIGHT);
-        root.setBackground(partie.getCurrentLevel().getBg());
+        root.setBackground(partie.getNiveau().getBg());
         root.getChildren().add(canvas);
         scene.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ESCAPE) {

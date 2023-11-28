@@ -14,16 +14,16 @@ import java.util.ArrayList;
 
 public class Partie {
     private Charlotte charlotte;
-    private Niveau currentLevel;
-    private HealthBar healthBar;
+    private Niveau niveau;
+    private BarreDeVie barreDeVie;
     private boolean partieFinie = false;
     private Camera camera;
 
     public Partie() {
         charlotte = new Charlotte(new Image("code/charlotte.png"), 0, Main.HEIGHT / 2);
-        currentLevel = new Niveau();
-        healthBar = new HealthBar(charlotte);
-        camera = new Camera(Main.WIDTH, healthBar);
+        niveau = new Niveau();
+        barreDeVie = new BarreDeVie(charlotte);
+        camera = new Camera(Main.WIDTH, barreDeVie);
     }
 
     public boolean isPartieFinie() {
@@ -34,52 +34,52 @@ public class Partie {
         this.partieFinie = partieFinie;
     }
 
-    public Niveau getCurrentLevel() {
-        return currentLevel;
+    public Niveau getNiveau() {
+        return niveau;
     }
 
     public Background getBackground() {
-        return currentLevel.getBg();
+        return niveau.getBg();
     }
 
     public void update(double deltaTime) {
         long nowMS = System.currentTimeMillis();
-        charlotte.checkVelocity();
+        charlotte.verifierVitesse();
         charlotte.update(deltaTime);
-        charlotte.addProjectiles(currentLevel);
-        charlotte.checkLimits(camera.getX());
-        camera.follow(charlotte);
-        healthBar.update();
-        currentLevel.getBaril().updatePhysique();
-        currentLevel.spawnEnnemis(camera);
+        charlotte.creerProjectiles(niveau);
+        charlotte.verifierLimites(camera.getX());
+        camera.suivre(charlotte);
+        barreDeVie.update();
+        niveau.getBaril().updatePhysique();
+        niveau.faireApparaitreEnnemis(camera);
         double tempsTouchee = (double) (nowMS - charlotte.getTempsTouchee()) / 1000;
-        if (!currentLevel.getPoissons().isEmpty()) {
-            for (int i = 0; i < currentLevel.getPoissons().size(); i++) {
-                var poisson = currentLevel.getPoissons().get(i);
+        if (!niveau.getPoissons().isEmpty()) {
+            for (int i = 0; i < niveau.getPoissons().size(); i++) {
+                var poisson = niveau.getPoissons().get(i);
                 poisson.update(deltaTime);
                 for (int j = 0; j < charlotte.getProjectilesTires().size(); j++) {
                     if (poisson.isEnCollision(charlotte.getProjectilesTires().get(j))) {
-                        currentLevel.getPoissons().remove(poisson);
+                        niveau.getPoissons().remove(poisson);
                         if (i != 0) {
                             i--;
                         }
                         break;
                     }
                 }
-                if (currentLevel.getPoissons().isEmpty()) {
+                if (niveau.getPoissons().isEmpty()) {
                     break;
                 }
-                if (charlotte.isEnCollision(currentLevel.getPoissons().get(i)) && tempsTouchee > 2
+                if (charlotte.isEnCollision(niveau.getPoissons().get(i)) && tempsTouchee > 2
                         && !charlotte.isInvincible()) {
-                    charlotte.isTouchee();
+                    charlotte.estTouchee();
                     charlotte.setTempsTouchee(nowMS);
                 }
-                if (charlotte.isEnCollision(currentLevel.getBaril()) && !currentLevel.getBaril().isOuvert()) {
-                    currentLevel.getBaril().setOuvert(true);
-                    currentLevel.getBaril().setImageBaril(new Image("code/baril-ouvert.png"));
+                if (charlotte.isEnCollision(niveau.getBaril()) && !niveau.getBaril().isOuvert()) {
+                    niveau.getBaril().setOuvert(true);
+                    niveau.getBaril().setImageBaril(new Image("code/baril-ouvert.png"));
                     int choixNouveauProjectile;
                     do {
-                        choixNouveauProjectile = Input.rnd.nextInt(3)+1;
+                        choixNouveauProjectile = Input.rnd.nextInt(3) + 1;
                     } while (choixNouveauProjectile == charlotte.getChoixProjectile());
                     charlotte.setChoixProjectile(choixNouveauProjectile);
                 }
@@ -94,15 +94,15 @@ public class Partie {
                 projectile.updatePhysique(deltaTime);
             }
         }
-        currentLevel.isPlusLa(camera.getX());
-        if (!charlotte.isAlive()) {
-            if (System.currentTimeMillis() - charlotte.getDeathTime() > 4000) {
+        niveau.isPlusLa(camera.getX());
+        if (!charlotte.estVivante()) {
+            if (System.currentTimeMillis() - charlotte.getTempsDeces() > 4000) {
                 partieFinie = true;
                 return;
             }
         }
-        currentLevel.checkFini(charlotte);
-        if (currentLevel.isOver() || (Input.isPressed(KeyCode.D) && Input.isPressed(KeyCode.T))) {
+        niveau.checkFini(charlotte);
+        if (niveau.isFini() || (Input.isPressed(KeyCode.D) && Input.isPressed(KeyCode.T))) {
             nextLevel();
         }
 
@@ -110,11 +110,11 @@ public class Partie {
 
     public void draw(GraphicsContext context) {
         context.clearRect(0, 0, Main.WIDTH, Main.HEIGHT);
-        camera.apply(context);
-        currentLevel.afficherNumNiveau(context);
+        camera.appliquer(context);
+        niveau.afficherNumNiveau(context);
         charlotte.draw(context);
-        healthBar.draw(context);
-        for (var decor : currentLevel.getDecors()) {
+        barreDeVie.draw(context);
+        for (var decor : niveau.getDecors()) {
             if (decor.getX() + decor.getImage().getWidth() > camera.getX() && decor.getX() < camera.getX() +
                     camera.getWidth()) {
                 context.drawImage(decor.getImage(), decor.getX(), Decor.getY());
@@ -129,17 +129,17 @@ public class Partie {
             context.setFont(Font.font(-1));
             context.setFill(Color.WHITE);
             double distanceTexte = camera.getX() + 10;
-            context.fillText("NB poissons: " + currentLevel.getPoissons().size(), distanceTexte, 50);
+            context.fillText("NB poissons: " + niveau.getPoissons().size(), distanceTexte, 50);
             context.fillText("NB projectiles: " + charlotte.getProjectilesTires().size(), distanceTexte,
                     65);
             context.fillText("Position Charlotte: " + charlotte.getX() / Main.TAILLE_NIVEAU * 100 + "%",
                     distanceTexte, 80);
         }
-        currentLevel.getBaril().draw(context);
-        for (var p : currentLevel.getPoissons()) {
+        niveau.getBaril().draw(context);
+        for (var p : niveau.getPoissons()) {
             p.draw(context);
         }
-        if (!charlotte.isAlive() && System.currentTimeMillis() - charlotte.getDeathTime() < 4000) {
+        if (!charlotte.estVivante() && System.currentTimeMillis() - charlotte.getTempsDeces() < 4000) {
             context.setFill(Color.RED);
             context.setFont(Font.font("Comic Sans MS", 72));
             context.fillText("Fin de partie", camera.getX() + camera.getWidth() * 0.3, Main.HEIGHT / 2);
@@ -149,8 +149,8 @@ public class Partie {
 
     private void nextLevel() {
         charlotte.getProjectilesTires().clear();
-        currentLevel = new Niveau();
-        currentLevel.setTempsCreationNiveau(System.currentTimeMillis());
+        niveau = new Niveau();
+        niveau.setTempsCreationNiveau(System.currentTimeMillis());
         charlotte.setX(0);
         charlotte.setY(Main.HEIGHT / 2);
         camera.resetX();
