@@ -39,10 +39,20 @@ public abstract class ObjetDuJeu {
         return image;
     }
 
+    /**
+     * Update la position et la vitesse des objets
+     *
+     * @param deltaTime
+     */
     public void update(double deltaTime) {
         updatePhysique(deltaTime);
     }
 
+    /**
+     * Update la physique des objets
+     *
+     * @param deltaTime Le temps d'exécution entre 2 appels de la méthode handle du AnimationTimer
+     */
     public void updatePhysique(double deltaTime) {
         vx += ax * deltaTime;
         vy += ay * deltaTime;
@@ -50,6 +60,11 @@ public abstract class ObjetDuJeu {
         y += vy * deltaTime;
     }
 
+    /**
+     * Dessine les objets
+     *
+     * @param context Le graphicsContext du canvas, pour dessiner
+     */
     public void draw(GraphicsContext context) {
         context.drawImage(image, x, y, w, h);
         if (Input.isPressed(KeyCode.D)) {
@@ -57,6 +72,11 @@ public abstract class ObjetDuJeu {
         }
     }
 
+    /**
+     * Dessine le contour des objets
+     *
+     * @param context Le graphicsContext du canvas, pour dessiner
+     */
     public void drawContour(GraphicsContext context) {
         context.setStroke(Color.WHITE);
         context.strokeRect(x, y, w, h);

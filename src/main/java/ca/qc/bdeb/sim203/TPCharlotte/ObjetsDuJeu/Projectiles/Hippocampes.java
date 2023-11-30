@@ -12,6 +12,7 @@ public class Hippocampes extends Projectiles {
 
     /**
      * Constructeur de la classe Hippocampes.
+     *
      * @param posX Position horizontale initiale du projectile.
      * @param posY Position verticale initiale du projectile.
      */
@@ -31,9 +32,11 @@ public class Hippocampes extends Projectiles {
             amplitudeSinus = -amplitudeSinus;
         }
     }
+
     /**
      * Met à jour la physique de l'Hippocampes en fonction du temps écoulé depuis la dernière mise à jour
-       selon un mouvement sinusoïdal.
+     * selon un mouvement sinusoïdal.
+     *
      * @param deltaTime Temps écoulé depuis la dernière mise à jour.
      */
     @Override

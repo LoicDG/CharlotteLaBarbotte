@@ -11,7 +11,8 @@ public class Camera {
 
     /**
      * Constructeur de la classe Camera
-     * @param width Largeur de la vue de la Camera
+     *
+     * @param width      Largeur de la vue de la Camera
      * @param barreDeVie Barre de vie de Charlotte qui doit toujours être vue par la Camera
      */
     public Camera(double width, BarreDeVie barreDeVie) {
@@ -37,6 +38,7 @@ public class Camera {
 
     /**
      * Méthode qui fait en sorte que la Camera suive Charlotte
+     *
      * @param charlotte La Charlotte que la Camera doit suivre
      */
     public void suivre(Charlotte charlotte) {

@@ -5,6 +5,7 @@ import javafx.scene.image.Image;
 public class EtoileDeMer extends Projectiles {
     /**
      * Constructeur de la classe EtoileDeMer
+     *
      * @param posX Position horizontale initiale du projectile.
      * @param posY Position verticale initiale du projectile.
      */

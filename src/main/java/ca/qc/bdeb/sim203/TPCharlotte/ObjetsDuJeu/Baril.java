@@ -6,10 +6,12 @@ import javafx.scene.image.Image;
 public class Baril extends ObjetDuJeu implements CanCollide {
     private boolean ouvert;
     private long tempsDeCreation;
+
     /**
      * Constructeur de la classe Baril.
-     * @param x Position horizontale initiale du baril.
-     * @param y Position verticale initiale du baril.
+     *
+     * @param x               Position horizontale initiale du baril.
+     * @param y               Position verticale initiale du baril.
      * @param tempsDeCreation Temps de création du baril en millisecondes.
      */
     public Baril(double x, double y, long tempsDeCreation) {
@@ -27,6 +29,7 @@ public class Baril extends ObjetDuJeu implements CanCollide {
 
     /**
      * Vérifie si le baril est ouvert.
+     *
      * @return true si le baril est ouvert, sinon false.
      */
     public boolean isOuvert() {

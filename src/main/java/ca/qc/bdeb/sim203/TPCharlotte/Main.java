@@ -1,4 +1,10 @@
 package ca.qc.bdeb.sim203.TPCharlotte;
+/**
+ * Jeu de Charlotte La Barbotte
+ *
+ * @author Loic Desrochers-Girard et Sebastian Crete
+ * @since 29-11-2023
+ */
 
 import ca.qc.bdeb.sim203.TPCharlotte.GameLogic.Input;
 import ca.qc.bdeb.sim203.TPCharlotte.GameLogic.Niveau;
@@ -21,8 +27,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-
-import java.util.Random;
 
 
 public class Main extends Application {
@@ -116,9 +120,18 @@ public class Main extends Application {
         if (partie.isPartieFinie()) {
             partie = new Partie();
         }
+        partie.getNiveau().setTempsCreationNiveau(System.currentTimeMillis());
         stage.setScene(sceneJouer);
     }
 
+    /**
+     * Crée la scène des informations
+     *
+     * @param originale la scène d'accueil
+     * @param stage     le stage
+     * @param poisson   l'image du poisson de la scène
+     * @return la scène infos
+     */
     private Scene setScreenInfos(Scene originale, Stage stage, Image poisson) {
         var root = new VBox();
         var scene = new Scene(root, WIDTH, HEIGHT);
@@ -137,13 +150,13 @@ public class Main extends Application {
         par.setFont(Font.font(20));
         var loic = new Text("Loïc Desrochers-Girard");
         loic.setFont(Font.font(32));
-        var parLoic = new HBox(par,loic);
+        var parLoic = new HBox(par, loic);
         parLoic.setAlignment(Pos.CENTER);
         var et = new Text("et ");
         et.setFont(Font.font(20));
         var sebby = new Text("Sebastian Crete");
         sebby.setFont(Font.font(32));
-        var etSebby = new HBox(et,sebby);
+        var etSebby = new HBox(et, sebby);
         etSebby.setAlignment(Pos.CENTER);
         collabos.getChildren().addAll(parLoic, etSebby);
         collabos.setAlignment(Pos.CENTER);
@@ -169,6 +182,13 @@ public class Main extends Application {
         return scene;
     }
 
+    /**
+     * Crée la scène pour jouer
+     * @param originale la scène d,accueil
+     * @param stage le stage
+     * @param partie la partie en cours
+     * @return la scène pour jouer
+     */
     private Scene setScreenJouer(Scene originale, Stage stage, Partie partie) {
         var root = new Pane();
         var scene = new Scene(root, WIDTH, HEIGHT);

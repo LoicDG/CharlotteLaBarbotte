@@ -53,7 +53,13 @@ public class Charlotte extends Poisson {
         return pv;
     }
 
+    /**
+     * Vérifie si Charlotte a encore des points de vie, si elle n'en a plus défini le temps de mort
+     *
+     * @return True si elle est vivante, False si elle est morte
+     */
     public boolean estVivante() {
+        //première fois vise à éviter de reset le temps de mort à chaque collision après la mort
         if (pv == 0 && premiereFois) {
             tempsDeces = System.currentTimeMillis();
             premiereFois = false;
@@ -85,6 +91,11 @@ public class Charlotte extends Poisson {
         this.y = y;
     }
 
+    /**
+     * Update la positiom, la vitesse, l'image de Charlotte et son état (invincible ou non)
+     *
+     * @param deltaTime Le temps d'exécution entre 2 appels de la méthode handle du AnimationTimer
+     */
     public void update(double deltaTime) {
         super.update(deltaTime);
         if ((double) System.currentTimeMillis() / 1000 - tempsVisible >= 0.5 && invincible) {
@@ -100,6 +111,11 @@ public class Charlotte extends Poisson {
         }
     }
 
+    /**
+     * Crée un nouveau projectile lorsque espace est appuyé
+     *
+     * @param niveauCourant le niveau courant
+     */
     public void creerProjectiles(Niveau niveauCourant) {
         //Mode débug
         if (Input.isPressed(KeyCode.D)) {
@@ -133,6 +149,11 @@ public class Charlotte extends Poisson {
         }
     }
 
+    /**
+     * Dessine charlotte, et la dessine seulement à chaque 0,25 seconde si elle est invincible (clignotement)
+     *
+     * @param context Le GraphicsContext du canvas, pour dessiner
+     */
     @Override
     public void draw(GraphicsContext context) {
         if ((double) System.currentTimeMillis() / 1000 - tempsVisible <= 0.25 || !invincible) {
@@ -140,6 +161,9 @@ public class Charlotte extends Poisson {
         }
     }
 
+    /**
+     * Vérifie si la vitesse de Charlotte respecte les limites
+     */
     public void verifierVitesse() {
         boolean left = Input.isPressed(KeyCode.LEFT);
         boolean right = Input.isPressed(KeyCode.RIGHT);
@@ -155,11 +179,25 @@ public class Charlotte extends Poisson {
         vy = verifierVitesse(vy);
     }
 
+    /**
+     * Vérifie si charlotte est dans les bordures de l'écran
+     *
+     * @param xCam La position en x de la caméra
+     */
     public void verifierLimites(double xCam) {
         x = verifierPosition(x, Main.TAILLE_NIVEAU, w, xCam);
         y = verifierPosition(y, Main.HEIGHT, h, 0);
     }
 
+    /**
+     * Ajuste la position de charlotte si nécessaire
+     *
+     * @param pos           la position à vérifier
+     * @param tailleMax     la taille max à ne pas dépasser
+     * @param taillePoisson la taille de l'image
+     * @param limites       la taille min à ne pas dépasser
+     * @return la position ajustée
+     */
     private double verifierPosition(double pos, double tailleMax, double taillePoisson, double limites) {
         if (pos < limites) {
             pos = limites;
@@ -192,6 +230,9 @@ public class Charlotte extends Poisson {
         return a;
     }
 
+    /**
+     * Rends charlotte invincible pour 2 secondes et lui enlève une vie
+     */
     public void estTouchee() {
         invincible = true;
         tempsVisible = (double) System.currentTimeMillis() / 1000;

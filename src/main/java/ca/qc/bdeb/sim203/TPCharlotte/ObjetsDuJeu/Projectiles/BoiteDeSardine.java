@@ -14,10 +14,11 @@ public class BoiteDeSardine extends Projectiles {
 
     /**
      * Constructeur de la classe BoiteDeSardine
-     * @param posX Position horizontale initiale du projectile.
-     * @param posY Position verticale initiale du projectile.
+     *
+     * @param posX         Position horizontale initiale du projectile.
+     * @param posY         Position verticale initiale du projectile.
      * @param listeEnnemis Un ArrayList contenant des ennemis à calculer (ou pas) pour
-                            influencer le comportement d'une BoiteDeSardine
+     *                     influencer le comportement d'une BoiteDeSardine
      */
     public BoiteDeSardine(double posX, double posY, ArrayList<Ennemis> listeEnnemis) {
         super(posX, posY);
@@ -33,7 +34,8 @@ public class BoiteDeSardine extends Projectiles {
 
     /**
      * Met à jour la physique du projectile en fonction du temps écoulé depuis la dernière mise à jour
-       en applicant la Loi de Coulomb.
+     * en applicant la Loi de Coulomb.
+     *
      * @param deltaTime Temps écoulé depuis la dernière mise à jour.
      */
     @Override

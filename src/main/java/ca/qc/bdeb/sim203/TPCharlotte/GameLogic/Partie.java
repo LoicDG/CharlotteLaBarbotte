@@ -19,6 +19,10 @@ public class Partie {
     private boolean partieFinie = false;
     private Camera camera;
 
+    /**
+     * Constructeur de Partie, crée un personnage Charlotte, le premier niveau, une caméra et initialise
+     * la barre de vie
+     */
     public Partie() {
         charlotte = new Charlotte(new Image("code/charlotte.png"), 0, Main.HEIGHT / 2);
         niveau = new Niveau();
@@ -42,6 +46,11 @@ public class Partie {
         return niveau.getBg();
     }
 
+    /**
+     * Gère toutes les updates du jeu ainsi que la logique
+     *
+     * @param deltaTime Le temps d'exécution entre 2 appels de la méthode handle du AnimationTimer
+     */
     public void update(double deltaTime) {
         long nowMS = System.currentTimeMillis();
         charlotte.verifierVitesse();
@@ -108,6 +117,11 @@ public class Partie {
 
     }
 
+    /**
+     * Dessine tous les objets du jeu ainsi que les textes
+     *
+     * @param context Le GraphicsContext du canvas, sert à dessiner
+     */
     public void draw(GraphicsContext context) {
         context.clearRect(0, 0, Main.WIDTH, Main.HEIGHT);
         camera.appliquer(context);
@@ -147,10 +161,12 @@ public class Partie {
         context.setTransform(1, 0, 0, 1, 0, 0);
     }
 
-    private void nextLevel() {
+    /**
+     * Passe au niveau suivant, reset les projectiles et la position de charlotte ainsi que de la caméra
+     */
+    public void nextLevel() {
         charlotte.getProjectilesTires().clear();
         niveau = new Niveau();
-        niveau.setTempsCreationNiveau(System.currentTimeMillis());
         charlotte.setX(0);
         charlotte.setY(Main.HEIGHT / 2);
         camera.resetX();

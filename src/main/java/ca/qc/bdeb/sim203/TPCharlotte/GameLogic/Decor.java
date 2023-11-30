@@ -11,6 +11,7 @@ public class Decor {
 
     /**
      * Constructeur de la classe Decor
+     *
      * @param x La position horizontale d'un élément du décors
      */
     public Decor(double x) {
